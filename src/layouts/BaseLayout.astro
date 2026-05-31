@@ -1,0 +1,191 @@
+---
+// src/layouts/BaseLayout.astro
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const siteTitle = "OldScripter — Game Dev Blog";
+const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const siteDescription = description || "Game development insights, tutorials, and post-mortems from an indie developer";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={siteDescription} />
+    <meta name="author" content="OldScripter" />
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={siteDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={image || "https://oldscripter.github.io/og-image.png"} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={siteDescription} />
+    
+    <title>{fullTitle}</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <!-- Syntax Highlighting (Shiki будет использован через Astro) -->
+    
+    <style is:global>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0a0a0a;
+        color: #e4e4e7;
+        line-height: 1.6;
+      }
+      
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      
+      a:hover {
+        color: #6366f1;
+      }
+      
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 1rem;
+        }
+      }
+      
+      /* Code blocks */
+      pre {
+        background-color: #1a1a1a;
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+      }
+      
+      code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.875rem;
+      }
+      
+      :not(pre) > code {
+        background-color: #1a1a1a;
+        padding: 0.2rem 0.4rem;
+        border-radius: 6px;
+        color: #c084fc;
+      }
+      
+      /* Headings */
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.3;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+        margin-top: 0;
+      }
+      
+      h2 {
+        font-size: 1.75rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 2px solid #27272a;
+      }
+      
+      h3 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        margin-bottom: 1.25rem;
+      }
+      
+      ul, ol {
+        margin: 1rem 0;
+        padding-left: 1.5rem;
+      }
+      
+      li {
+        margin: 0.5rem 0;
+      }
+      
+      blockquote {
+        border-left: 4px solid #6366f1;
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        color: #a1a1aa;
+        font-style: italic;
+      }
+      
+      hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #27272a, transparent);
+        margin: 2rem 0;
+      }
+      
+      img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 1.5rem 0;
+      }
+      
+      /* Стили для навигации и футера будут добавлены в компоненты */
+    </style>
+  </head>
+  <body>
+    <nav class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 2rem;">
+        <a href="/" style="font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;">
+          🎮 oldscripter.dev
+        </a>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="/" style="font-size: 0.9rem;">Blog</a>
+          <a href="/about" style="font-size: 0.9rem;">About</a>
+          <a href="/archive" style="font-size: 0.9rem;">Archive</a>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="container">
+      <slot />
+    </main>
+    
+    <footer class="container" style="margin-top: 4rem; padding-bottom: 3rem; border-top: 1px solid #27272a; margin-top: 3rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+        <div style="font-size: 0.875rem; color: #71717a;">
+          © {new Date().getFullYear()} OldScripter. All rights reserved.
+        </div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="https://github.com/oldscripter" target="_blank" style="font-size: 0.875rem; color: #71717a;">GitHub</a>
+          <a href="/rss.xml" style="font-size: 0.875rem; color: #71717a;">RSS</a>
+          <a href="mailto:your-email@example.com" style="font-size: 0.875rem; color: #71717a;">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

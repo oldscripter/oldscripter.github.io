@@ -1,0 +1,17 @@
+---
+// src/layouts/MarkdownPostLayout.astro
+const { frontmatter } = Astro.props;
+---
+<html>
+  <head>
+    <title>{frontmatter.title}</title>
+  </head>
+  <body>
+    <article>
+      <h1>{frontmatter.title}</h1>
+      <p>Опубликовано: {frontmatter.pubDate?.toLocaleDateString()}</p>
+      <hr />
+      <slot />
+    </article>
+  </body>
+</html>

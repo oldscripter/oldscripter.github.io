@@ -1,0 +1,70 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Me — Game Developer">
+  <div style="max-width: 700px; margin: 2rem auto;">
+    
+    <!-- Фото + имя -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <img 
+        src="/images/photo.jpg" 
+        alt="Stanislav Talanov — Unreal Developer"
+        style="
+          width: 160px;
+          height: 160px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 3px solid #6366f1;
+          margin-bottom: 1rem;
+        "
+      />
+      <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Stanislav Talanov</h1>
+      <p style="color: #a1a1aa; font-size: 1rem;"> Senior C++ Developer | Unreal | Unity</p>
+    </div>
+
+    <!-- Краткое введение -->
+    <p>Hi! I'm a game developer with over 12 years of experience in the industry. I specialize in Unreal, Unity, C++, C# and game optimization.</p>
+	
+	<p>Beyond C++, I’ve built an interactive search agent (LLM + RAG) with chat clients. I’m passionate about the evolution of AI and stay current with the field. Looking different ways how to implement LLM in GameDev.</p>
+    
+    <p>Currently working on indie projects and sharing what I learn along the way. This blog is my notebook — expect deep dives into game mechanics, performance tips, and honest post-mortems.</p>
+
+    <!-- Резюме -->
+    <h2>💼 Experience</h2>
+    <ul>
+      <li><strong>Senior C++ Developer</strong> — Cyberprotect (2025–Present)</li>
+      <li><strong>Senior Unreal Game Programmer</strong> — Behaviour Interactive (2024–2026)</li>
+      <li><strong>Senior C++ Developer | Team Lead</strong> — MTS (2023–2025)</li>
+      <li><strong>Senior C++ Developer | Head Of Department</strong> — Siemens (2010–2022)</li>
+      <li><strong>Gameplay Programmer</strong> — Arkane Studios (2010–2011)</li>
+    </ul>
+
+    <h2>🛠️ Tech Stack</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+      {["Unreal", "Unity", "C++", "C#", "SDL", "Qt", "Vulkan", "OpenGL", "IIL2CPP", "llama.cpp"].map(tech => (
+        <span style="
+          background-color: #1a1a1a;
+          padding: 0.25rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.875rem;
+          color: #c084fc;
+        ">{tech}</span>
+      ))}
+    </div>
+
+    <h2>📫 Where to find me</h2>
+    <ul>
+      <li><strong>GitHub:</strong> <a href="https://github.com/oldscripter" style="color: #6366f1;">github.com/oldscripter</a></li>
+      <li><strong>Email:</strong> <a href="mailto:oldscripter@gmail.com" style="color: #6366f1;">oldscripter@gmail.com</a></li>
+      <li><strong>Telegram:</strong> <a href="https://t.me/Oldscripter" style="color: #6366f1;">@Oldscripter</a></li>
+    </ul>
+
+    <hr style="margin: 2rem 0;" />
+
+    <p style="color: #71717a; font-size: 0.875rem; text-align: center;">
+      Open for freelance and collaboration opportunities.
+    </p>
+  </div>
+</BaseLayout>

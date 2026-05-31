@@ -1,0 +1,132 @@
+---
+// src/layouts/BlogPostLayout.astro
+import BaseLayout from './BaseLayout.astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    pubDate: Date;
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+const formattedDate = frontmatter.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article>
+    <!-- Hero Section -->
+    <header style="margin-bottom: 3rem;">
+      <div style="margin-bottom: 1rem;">
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            {frontmatter.tags.map(tag => (
+              <span style="
+                font-size: 0.75rem;
+                font-weight: 500;
+                padding: 0.25rem 0.75rem;
+                background-color: #1a1a1a;
+                color: #a1a1aa;
+                border-radius: 9999px;
+                letter-spacing: -0.01em;
+              ">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+        <h1 style="
+          font-size: 3rem;
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          line-height: 1.2;
+          margin-bottom: 1rem;
+        ">
+          {frontmatter.title}
+        </h1>
+        <div style="
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          color: #71717a;
+          font-size: 0.875rem;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #27272a;
+        ">
+          <span>📅 {formattedDate}</span>
+          <span>•</span>
+          <span>⏱️ {Math.ceil(Astro.props.contentLength / 1000)} min read</span>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Content -->
+    <div style="
+      font-size: 1.125rem;
+      line-height: 1.8;
+    ">
+      <slot />
+    </div>
+    
+    <!-- Footer под постом -->
+	<!--
+    <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #27272a;">
+      <div style="
+        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+      ">
+        <p style="font-size: 1rem; color: #a1a1aa; margin-bottom: 1rem;">
+          Liked this post? Subscribe to my newsletter
+        </p>
+        <form action="https://your-beehiiv-or-ghost-form-url" method="post" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto;">
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Your email address" 
+            required
+            style="
+              flex: 1;
+              padding: 0.75rem 1rem;
+              background-color: #0a0a0a;
+              border: 1px solid #27272a;
+              border-radius: 8px;
+              color: #e4e4e7;
+              font-size: 0.875rem;
+            "
+          />
+          <button 
+            type="submit"
+            style="
+              padding: 0.75rem 1.5rem;
+              background-color: #6366f1;
+              border: none;
+              border-radius: 8px;
+              color: white;
+              font-weight: 500;
+              font-size: 0.875rem;
+              cursor: pointer;
+              transition: background-color 0.2s ease;
+            "
+            onMouseOver="this.style.backgroundColor='#4f46e5'"
+            onMouseOut="this.style.backgroundColor='#6366f1'"
+          >
+            Subscribe
+          </button>
+        </form>
+        <p style="font-size: 0.75rem; color: #52525b; margin-top: 1rem;">
+          No spam. Unsubscribe anytime.
+        </p>
+      </div>
+    </footer>
+	-->
+  </article>
+</BaseLayout>

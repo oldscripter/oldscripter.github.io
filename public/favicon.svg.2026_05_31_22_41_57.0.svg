@@ -6,6 +6,9 @@
    id="svg1"
    sodipodi:docname="favicon.svg"
    inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
+   inkscape:export-filename="favicon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -37,13 +40,6 @@
             path { fill: #FFF; }
         }
     </style>
-  <rect
-     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-linecap:square;stroke-linejoin:bevel;paint-order:stroke fill markers"
-     id="rect1"
-     width="128"
-     height="128"
-     x="0"
-     y="0" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:119.76px;font-family:Sylfaen;-inkscape-font-specification:Sylfaen;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:9.98002;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;paint-order:stroke fill markers"
