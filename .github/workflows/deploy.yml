@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Запускать при каждом пуше в ветку main
+  push:
+    branches: [ main ]
+  # Возможность запустить вручную из вкладки Actions на GitHub
+  workflow_dispatch:
+
+# Разрешить этому workflow клонировать репозиторий и создавать деплой
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v6
+      - name: Install, build, and upload your site
+        uses: withastro/action@v6
+        # Если ваш проект не в корне, раскомментируйте строку ниже и укажите путь
+        # with:
+          # path: . # Например, если проект в папке "docs", укажите path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
