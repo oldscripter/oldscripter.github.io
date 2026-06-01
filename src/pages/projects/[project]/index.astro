@@ -1,0 +1,52 @@
+---
+// src/pages/projects/[project]/index.astro
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('projects');
+  const projectNames = [...new Set(allPosts.map(p => p.data.projectName))];
+  
+  return projectNames.map((name) => ({
+    params: { project: name.toLowerCase().replace(/\s+/g, '-') },
+    props: { projectName: name, posts: allPosts.filter(p => p.data.projectName === name) },
+  }));
+}
+
+const { projectName, posts } = Astro.props;
+const mainPost = posts.find(p => p.id === 'index') || posts[0];
+---
+
+<BaseLayout title={`${projectName} — Project Overview`}>
+  <div style="max-width: 800px; margin: 0 auto;">
+    <h1 style="font-size: 2rem;">{projectName}</h1>
+    
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+      {mainPost?.data.githubUrl && (
+        <a href={mainPost.data.githubUrl} target="_blank" style="color: #6366f1;">GitHub →</a>
+      )}
+      {mainPost?.data.demoUrl && (
+        <a href={mainPost.data.demoUrl} target="_blank" style="color: #6366f1;">Live Demo →</a>
+      )}
+    </div>
+
+    <h2>📖 Articles in this series</h2>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      {posts.map(post => (
+        <a href={`/projects/${post.id}`} style="
+          display: block;
+          padding: 0.75rem;
+          background-color: #111;
+          border-radius: 8px;
+          border: 1px solid #27272a;
+          text-decoration: none;
+        ">
+          <strong>{post.data.title}</strong>
+          <span style="color: #71717a; font-size: 0.75rem; margin-left: 1rem;">
+            {post.data.pubDate.toLocaleDateString()}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

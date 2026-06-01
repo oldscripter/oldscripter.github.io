@@ -1,0 +1,76 @@
+---
+// src/pages/projects/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const projectsByName = {};
+
+// Группируем статьи по проектам
+for (const post of allProjects) {
+  const projectName = post.data.projectName;
+  if (!projectsByName[projectName]) {
+    projectsByName[projectName] = [];
+  }
+  projectsByName[projectName].push(post);
+}
+---
+
+<BaseLayout title="Projects — My Game Dev Portfolio">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Projects</h1>
+    <p style="color: #a1a1aa; margin-bottom: 2rem;">
+      Deep dives into my game development projects
+    </p>
+
+    {Object.entries(projectsByName).map(([projectName, posts]) => {
+      const mainPost = posts.find(p => p.id === 'index') || posts[0];
+      const techStack = mainPost?.data.techStack || [];
+      
+      return (
+        <div style="
+          margin-bottom: 2rem;
+          padding: 1.5rem;
+          background-color: #111;
+          border-radius: 16px;
+          border: 1px solid #27272a;
+        ">
+		
+			<img src="/images/projects/my-rts/cover.jpg" alt="{image url}" style="float: left; margin-right: 15px; margin-bottom: 0px; margin-top: 0px; max-height: 160px;">
+          <h2 style="margin-top: 0; margin-bottom: 0.5rem;">
+            <a href={`/projects/${projectName.toLowerCase().replace(/\s+/g, '-')}`} 
+               style="color: inherit; text-decoration: none;">
+              🎮 {projectName}
+            </a>
+          </h2>
+          
+          {techStack.length > 0 && (
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+              {techStack.map(tech => (
+                <span style="
+                  font-size: 0.7rem;
+                  padding: 0.2rem 0.6rem;
+                  background-color: #1a1a1a;
+                  border-radius: 9999px;
+                  color: #c084fc;
+                ">{tech}</span>
+              ))}
+            </div>
+          )}
+          
+          <p style="color: #a1a1aa; margin-bottom: 1rem;">
+            {mainPost?.data.description || "Development log and technical breakdown"}
+          </p>
+          
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            {posts.map(post => (
+              <a href={`/projects/${post.id}`} style="font-size: 0.875rem; color: #6366f1;">
+                📄 {post.data.title}
+              </a>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</BaseLayout>

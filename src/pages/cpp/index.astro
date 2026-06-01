@@ -1,0 +1,75 @@
+---
+// src/pages/cpp/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allLessons = await getCollection('cpp-lessons');
+const lessonsBySubcategory = {
+  beginner: allLessons.filter(l => l.data.subcategory === 'beginner'),
+  intermediate: allLessons.filter(l => l.data.subcategory === 'intermediate'),
+  advanced: allLessons.filter(l => l.data.subcategory === 'advanced'),
+  algorithms: allLessons.filter(l => l.data.subcategory === 'algorithms'),
+};
+
+const subcategoryNames = {
+  beginner: '📘 Beginner',
+  intermediate: '📙 Intermediate', 
+  advanced: '📕 Advanced',
+  algorithms: '🧮 Algorithms & Data Structures',
+};
+---
+
+<BaseLayout title="C++ Lessons — Tutorials by OldScripter">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">C++ Lessons</h1>
+    <p style="color: #a1a1aa; margin-bottom: 2rem;">
+      Structured tutorials from basics to advanced topics
+    </p>
+
+    {Object.entries(lessonsBySubcategory).map(([key, lessons]) => {
+      if (lessons.length === 0) return null;
+      return (
+        <section style="margin-bottom: 3rem;">
+          <h2 style="
+            font-size: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #27272a;
+            margin-bottom: 1.5rem;
+          ">
+            {subcategoryNames[key]}
+          </h2>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {lessons
+              .sort((a, b) => (a.data.lessonNumber || 999) - (b.data.lessonNumber || 999))
+              .map(lesson => (
+                <a href={`/cpp/${lesson.id}`} style="display: block; text-decoration: none;">
+                  <div style="
+                    padding: 1rem;
+                    background-color: #111;
+                    border-radius: 12px;
+                    border: 1px solid #27272a;
+                    transition: all 0.2s ease;
+                  ">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+                      <h3 style="margin: 0; font-size: 1.125rem;">
+                        {lesson.data.lessonNumber && `${lesson.data.lessonNumber}. `}
+                        {lesson.data.title}
+                      </h3>
+                      <span style="font-size: 0.75rem; color: #71717a;">
+                        {lesson.data.pubDate.toLocaleDateString()}
+                      </span>
+                    </div>
+                    {lesson.data.description && (
+                      <p style="margin: 0.5rem 0 0 0; color: #a1a1aa; font-size: 0.875rem;">
+                        {lesson.data.description}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>
