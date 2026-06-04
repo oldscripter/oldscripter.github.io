@@ -118,13 +118,3 @@ In one afternoon, you will have a working LLM on your laptop — written in C++.
 That is not just a fun side project. That is the beginning of becoming the kind of engineer who builds the future of on-device AI.
 
 **Go build something people cannot ignore.**
-
----
-
-### **About the Author**
-
-[Your Name] is a C++ engineer passionate about low-level optimization, LLM inference, and edge AI. Currently exploring the intersection of `llama.cpp` and real-world applications.
-
----
-
-Если захотите добавить или убрать какие-то разделы, или адаптировать под свой стиль — дайте знать, я помогу.
