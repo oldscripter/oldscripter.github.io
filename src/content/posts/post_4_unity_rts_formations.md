@@ -1,7 +1,7 @@
 ---
 title: "Building RTS Formations with Unity ECS"
 description: "Today I spent several hours implementing formation movement for my RTS project using Unity ECS."
-pubDate: 2026-06-03
+pubDate: 2026-05-30
 tags: ["Unity", "C#", "ECS", "RTS"]
 author: "Stanislav Talanov"
 image:

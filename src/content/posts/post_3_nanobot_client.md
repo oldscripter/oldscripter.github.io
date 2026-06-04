@@ -1,7 +1,7 @@
 ---
 title: "Nanobot: Your Own AI Agent, No Browser Needed"
 description: "Recently, I started exploring Nanobot. One idea really caught my attention: what if I wrote my own client for it?"
-pubDate: 2026-06-02
+pubDate: 2026-06-03
 tags: ["nanobot", "AI-assistant", "C++", "Qt", "Qml"]
 author: "Stanislav Talanov"
 image:
