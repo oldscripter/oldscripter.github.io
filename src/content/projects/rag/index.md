@@ -14,7 +14,7 @@ image:
 
 # RAG Assistant
 
-**Local LLM + RAG search over 1,000+ pages of documentation — fully offline, zero data leakage. Approved for deployment in a secure OS environment.**
+**Local LLM + RAG search over 1,000+ pages of documentation - fully offline, zero data leakage. Approved for deployment in a secure OS environment.**
 ---
 
 ## TL
@@ -34,8 +34,8 @@ image:
 
 At the customer-company side Engineers needed to search through thousands of pages of internal documentation (technical requirements, API specs, regulations) and get answers in natural language. But:
 
-- ❌ **No cloud** — sensitive data can't leave the secure perimeter
-- ❌ **No internet** — many workstations are air-gapped
-- ❌ **Manual search sucks** — Ctrl+F across 1,000+ pages takes 15+ minutes
+- ❌ **No cloud** - sensitive data can't leave the secure perimeter
+- ❌ **No internet** - many workstations are air-gapped
+- ❌ **Manual search sucks** - Ctrl+F across 1,000+ pages takes 15+ minutes
 
 **We needed a fully offline RAG assistant.**

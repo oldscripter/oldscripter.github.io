@@ -16,7 +16,7 @@ image:
 
 ## Introduction
 
-At previous work we had a problem: enable developers and engineers to search through internal documentation (1,000+ pages of technical requirements, regulations, API specs) and get answers in natural language. Everything had to work **offline** — no external LLM APIs (OpenAI, YandexGPT, etc.) because the documentation contains sensitive data.
+At previous work we had a problem: enable developers and engineers to search through internal documentation (1,000+ pages of technical requirements, regulations, API specs) and get answers in natural language. Everything had to work **offline** - no external LLM APIs (OpenAI, YandexGPT, etc.) because the documentation contains sensitive data.
 
 That's how we built a local RAG assistant using **llama.cpp + sentence-transformers + Mistral 7B GGUF**.
 
@@ -36,7 +36,7 @@ Alternatives (Llama 2 7B, Gemma 7B) performed worse on Russian-language prompts.
 
 - Broad LLM architecture support (Mistral, Llama, Gemma, etc.)
 - Built-in GGUF quantization (no quality loss)
-- **Metal** (macOS) and **Vulkan** (Linux) backends — 2–3x speedup on GPUs
+- **Metal** (macOS) and **Vulkan** (Linux) backends - 2–3x speedup on GPUs
 - Easy to integrate into C++/Qt/Qml (the company uses a Qt-based custom OS)
 
 Alternatives fell short: CoreML locks you into Apple; TensorFlow Lite struggles with LLMs.
@@ -46,18 +46,18 @@ Alternatives fell short: CoreML locks you into Apple; TensorFlow Lite struggles 
 ```
 ┌─────────────────────────────────────────────────────────────┐
                        Qt/Qml Frontend
-└─────────────────────────────┬───────────────────────────────┘
-                              │
-                              ▼
+└─────────────────────────────────────────────────────────────┘
+                             │
+                             ▼
 ┌─────────────────────────────────────────────────────────────┐
                   C++ Wrapper (llama.cpp bridge)
 ├─────────────────────────────────────────────────────────────┤
   - Prompt caching
   - KV-cache
   - Context management (n_ctx, batch size)
-└──────────────┬──────────────────────────────┬───────────────┘
-               │                              │
-               ▼                              ▼
+└─────────────────────────────────────────────────────────────┘
+             │                              │
+             ▼                              ▼
 ┌──────────────────────────┐   ┌──────────────────────────────┐
     llama.cpp (Vulkan)       Sentence-Transformers (ONNX)
     Mistral 7B GGUF          Embeddings → Chroma (in-mem)
@@ -69,7 +69,7 @@ Alternatives fell short: CoreML locks you into Apple; TensorFlow Lite struggles 
 1. Built `llama.cpp` with `GGML_USE_METAL` and `GGML_USE_VULKAN` flags
 2. Wrote a C++ wrapper to call inference from Qt
 3. Ran a local embedding service with `sentence-transformers` (in a separate thread so it wouldn't block the UI)
-4. Vector store — Chroma (in-memory), for simplicity and speed
+4. Vector store - Chroma (in-memory), for simplicity and speed
 
 **The challenge:** embeddings (384‑dimensional vectors) for 1,000+ pages of documentation required ~500 MB of RAM. We kept them in Chroma uncompressed to preserve search accuracy.
 
@@ -77,7 +77,7 @@ Alternatives fell short: CoreML locks you into Apple; TensorFlow Lite struggles 
 
 ### 1. Prompt Caching
 
-Sending the full system prompt (instructions + retrieved document context) to the LLM every time is expensive. We built a cache based on the hash of the previous query. If the user asks a follow‑up ("how do I do the same thing on Windows?") — we reuse the cached KV‑cache.
+Sending the full system prompt (instructions + retrieved document context) to the LLM every time is expensive. We built a cache based on the hash of the previous query. If the user asks a follow‑up ("how do I do the same thing on Windows?") - we reuse the cached KV‑cache.
 
 ### 2. KV‑Cache
 

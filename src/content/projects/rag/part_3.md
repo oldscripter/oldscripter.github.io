@@ -22,7 +22,7 @@ image:
 | Average time to find info in docs | 15 minutes (manual Ctrl+F) | 45 seconds (with answer generation) |
 | Questions resolved without escalation | 40% | 78% |
 | Engineer satisfaction (survey) | 2.8/5 | 4.6/5 |
-| Time to first token | — | 0.6–1.8 s (depending on GPU) |
+| Time to first token | - | 0.6–1.8 s (depending on GPU) |
 
 **Most important outcome:** The assistant found a bug in a technical spec that had gone unnoticed for 3 years. Estimated savings: ~200 person‑hours per quarter.
 
@@ -31,14 +31,14 @@ image:
 CPU parameters (8 cores, AVX2):
 
 - `n_threads = 8` (maximum utilization)
-- `batch_size = 512` (empirically tuned — 256 and 1024 were worse)
+- `batch_size = 512` (empirically tuned - 256 and 1024 were worse)
 
 For GPU (Metal/Vulkan): disable CPU threads, set `n_gpu_layers = 33`.
 
 **The formula we derived:**  
 `tokens_per_second = (flops_model * gpu_memory_bandwidth) / (params * quantization_size * 2)`
 
-For Mistral 7B Q4_K_M (4.2 GB) on M1 Pro (200 GB/s) → ~22 tokens/sec — matched our measurements.
+For Mistral 7B Q4_K_M (4.2 GB) on M1 Pro (200 GB/s) → ~22 tokens/sec - matched our measurements.
 
 ## Hidden Traps Not Documented in llama.cpp
 
@@ -62,8 +62,8 @@ The official library is Python‑only. We exported the model to ONNX and ran it 
 
 The security team's main fears:
 
-1. **Data leak via the model** — we proved `llama.cpp` makes no network calls (blocked sockets with seccomp on Linux and sandbox on macOS)
-2. **Malicious model** — we sign GGUF files with our own signature, verify checksums
-3. **Vector database poisoning** — documents are added only after manual review, auto‑update disabled
+1. **Data leak via the model** - we proved `llama.cpp` makes no network calls (blocked sockets with seccomp on Linux and sandbox on macOS)
+2. **Malicious model** - we sign GGUF files with our own signature, verify checksums
+3. **Vector database poisoning** - documents are added only after manual review, auto‑update disabled
 
-**Result:** after 3 months of pilot operation (10 engineers) with zero incidents — the assistant was approved for deployment on all workstations (500+ users).
+**Result:** after 3 months of pilot operation (10 engineers) with zero incidents - the assistant was approved for deployment on all workstations (500+ users).

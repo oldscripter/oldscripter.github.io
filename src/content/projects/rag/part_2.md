@@ -105,7 +105,7 @@ Connections {
 | Metal (M1 Pro) | 0.6 s | 6.8 s | 22 |
 | Vulkan (RTX 3060) | 0.5 s | 6.2 s | 24 |
 
-**Conclusion:** GPU gives 2.7–3x acceleration. In production, we ship engineers a GPU auto-detection script — if Metal/Vulkan are available, use them; otherwise fall back to CPU.
+**Conclusion:** GPU gives 2.7–3x acceleration. In production, we ship engineers a GPU auto-detection script - if Metal/Vulkan are available, use them; otherwise fall back to CPU.
 
 ## RAG Integration: How Embeddings End Up in the Prompt
 
@@ -134,4 +134,4 @@ Security requirements:
 
 - Stripped HTTP requests from `llama.cpp` (there was code for downloading models)
 - Packaged everything into a container (Docker-like) with a read‑only filesystem for the model
-- Built audit logging — all queries written to a protected log (separate from system logs)
+- Built audit logging - all queries written to a protected log (separate from system logs)
