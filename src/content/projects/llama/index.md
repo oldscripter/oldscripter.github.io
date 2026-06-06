@@ -1,5 +1,5 @@
 ---
-title: LLM Inference Engine with llama.cpp"
+title: "LLM Inference Engine with llama.cpp"
 description: "A deep dive into GGML, CUDA optimization, and cross-platform C++ inference"
 pubDate: 2026-05-14
 projectName: "LLM Inference Engine"
