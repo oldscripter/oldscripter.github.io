@@ -23,10 +23,10 @@ const mainPost = posts.find(p => p.id === 'index') || posts[0];
     
     <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
      {mainPost?.data.githubUrl && (
-        <a href={mainPost.data.githubUrl} target="_blank" style="color: #6366f1;">GitHub →</a>
+        <a href={mainPost.data.githubUrl} target="_blank" style="color: #6366f1;"></a>
       )}
       {mainPost?.data.demoUrl && (
-        <a href={mainPost.data.demoUrl} target="_blank" style="color: #6366f1;">Live Demo →</a>
+        <a href={mainPost.data.demoUrl} target="_blank" style="color: #6366f1;"></a>
       )}
     </div>
 	
