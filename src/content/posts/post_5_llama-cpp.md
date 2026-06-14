@@ -9,7 +9,7 @@ image:
   alt: "C++ code and game development concept"
 ---
 
-## **Title:** `llama.cpp` and the C++ Renaissance: Why Every Young C++ Engineer Should Learn It
+## Llama.cpp and the C++ Renaissance: Why Every Young C++ Engineer Should Learn It
 
 ### **Subtitle:** How running Large Language Models on your CPU is reviving low-level programming and creating a new generation of systems engineers.
 
