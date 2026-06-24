@@ -27,7 +27,7 @@ const cppLessonsCollection = defineCollection({
   schema: z.object({
     ...baseSchema,
     lessonNumber: z.number().optional(),      // номер урока
-    subcategory: z.enum(['beginner', 'intermediate', 'advanced', 'algorithms']), // подраздел
+    subcategory: z.enum(['algorithms', 'standards', 'beginner', 'intermediate', 'advanced']), // подраздел
     readingTime: z.number().optional(),
   }),
 });

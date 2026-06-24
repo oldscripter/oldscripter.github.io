@@ -46,10 +46,11 @@ const siteDescription = description || "Development insights, tutorials, and pos
       }
       
       body {
-        font-family: 'Inter', sans-serif;
-        background-color: #0a0a0a;
-        color: #e4e4e7;
+        font-family: 'Source Code Pro', sans-serif;
+        background-color: #101010;
+        color: #bababaff;
         line-height: 1.6;
+        font-weight: 200;
       }
       
       a {
@@ -76,33 +77,47 @@ const siteDescription = description || "Development insights, tutorials, and pos
       
       /* Code blocks */
       pre {
-        background-color: #1a1a1a;
+        background-color: #0d1117;
         border-radius: 12px;
         padding: 1rem;
         overflow-x: auto;
         margin: 1.5rem 0;
         font-size: 0.875rem;
+        border: 1px solid #30363d;  /* добавил рамку для чёткости */
       }
-      
+
+      details pre,
+      details .highlight pre {
+        background-color: #0d1117 !important;
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-size: 0.875rem;
+        border: 1px solid #30363d !important;
+      }
+
       code {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.875rem;
       }
-      
+
       :not(pre) > code {
-        background-color: #1a1a1a;
+        background-color: #0d1117;
         padding: 0.2rem 0.4rem;
         border-radius: 6px;
         color: #c084fc;
+        border: 1px solid #30363d;  /* тонкая рамка */
       }
       
       /* Headings */
       h1, h2, h3, h4, h5, h6 {
-        font-weight: 600;
+        font-weight: 200;
         line-height: 1.3;
         margin-top: 2rem;
         margin-bottom: 1rem;
         letter-spacing: -0.02em;
+        font-family: 'JetBrains Mono', monospace;
       }
       
       h1 {
@@ -152,6 +167,73 @@ const siteDescription = description || "Development insights, tutorials, and pos
         max-width: 100%;
         border-radius: 12px;
         margin: 1.5rem 0;
+      }
+
+      details {
+        color: #f6c527ff;
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+        background-color: #111;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #3f3f46;
+        
+      }
+
+      thead {
+        background-color: #1a1a1a;
+      }
+
+      th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        border-bottom: 2px solid #3f3f46;
+        border-right: 1px solid #3f3f46;
+        min-width: 150px; /* минимальная ширина для заголовков */
+        word-wrap: break-word; /* перенос длинных слов */
+      }
+
+      th:last-child {
+        border-right: none;
+      }
+
+      td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #3f3f46;
+        border-right: 1px solid #3f3f46;
+        min-width: 150px; /* минимальная ширина для ячеек */
+        word-wrap: break-word; /* перенос длинных слов */
+      }
+
+      td:last-child {
+        border-right: none;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* Чередование строк для читаемости */
+      tbody tr:nth-child(even) {
+        background-color: #161616;
+      }
+
+      tbody tr:hover {
+        background-color: #1e1e1e;
+      }
+
+      /* Для адаптивности */
+      .table-wrapper {
+        overflow-x: auto;
+        border-radius: 8px;
       }
       
       /* Стили для навигации и футера будут добавлены в компоненты */
