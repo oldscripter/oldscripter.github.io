@@ -233,7 +233,8 @@ int orangesRotting(vector<vector<int>>& grid)
     <summary>Код решения</summary>
 
 ```cpp
-int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) 
+{
     unordered_set<string> dict(wordList.begin(), wordList.end());
     if (!dict.count(endWord)) return 0;
     
@@ -241,21 +242,26 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
     q.push(beginWord);
     int level = 1;
     
-    while (!q.empty()) {
+    while (!q.empty()) 
+    {
         int size = q.size();
-        for (int k = 0; k < size; k++) {
+        for (int k = 0; k < size; k++) 
+        {
             string word = q.front();
             q.pop();
             
             if (word == endWord) return level;
             
             // Перебираем все позиции
-            for (int i = 0; i < word.size(); i++) {
+            for (int i = 0; i < word.size(); i++) 
+            {
                 char orig = word[i];
-                for (char c = 'a'; c <= 'z'; c++) {
+                for (char c = 'a'; c <= 'z'; c++) 
+                {
                     if (c == orig) continue;
                     word[i] = c;
-                    if (dict.count(word)) {
+                    if (dict.count(word)) 
+                    {
                         dict.erase(word);  // Удаляем, чтобы не возвращаться
                         q.push(word);
                     }
