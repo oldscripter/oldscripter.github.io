@@ -31,7 +31,7 @@ const mainPost = posts.find(p => p.id === 'index') || posts[0];
     </div>
 	
 
-    <h2>📖 Articles in this series</h2>
+    <h2>Статьи по проекту</h2>
     <div style="display: flex; flex-direction: column; gap: 0.75rem;">
       {posts.map(post => (
         <a href={`/projects/${post.id}`} style="
