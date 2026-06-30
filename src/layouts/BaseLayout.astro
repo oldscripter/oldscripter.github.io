@@ -1,17 +1,27 @@
 ---
 // src/layouts/BaseLayout.astro
 import { GoogleAnalytics } from '@digi4care/astro-google-analytics';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 
 export interface Props {
   title: string;
   description?: string;
   image?: string;
+  lang?: 'en' | 'ru';
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, lang } = Astro.props;
 const siteTitle = "OldScripter — Blog";
 const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 const siteDescription = description || "Development insights, tutorials, and post-mortems from an indie developer";
+
+// 🆕 Функция для получения локализованной ссылки
+const getLocalizedPath = (path: string) => {
+  if (lang === 'ru' && !path.startsWith('/ru')) {
+    return `/ru${path}`;
+  }
+  return path;
+};
 ---
 
 <!doctype html>
@@ -64,6 +74,16 @@ const siteDescription = description || "Development insights, tutorials, and pos
       
       a:hover {
         color: #6366f1;
+      }
+
+      a img {
+        border-radius: 40px;
+        border: 2px solid #404040ff;
+        transition: border 0.5s ease;
+      }
+
+      a img:hover {
+        border: 2px solid #6366f1
       }
       
       .container {
@@ -119,7 +139,7 @@ const siteDescription = description || "Development insights, tutorials, and pos
         font-weight: 200;
         line-height: 1.3;
         margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         letter-spacing: -0.02em;
         font-family: 'JetBrains Mono', monospace;
       }
@@ -247,14 +267,17 @@ const siteDescription = description || "Development insights, tutorials, and pos
   <body>
     <nav class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; gap: 2rem;">
-        <a href="/" style="font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;">
-          🎮 oldscripter.dev
+        <a href="https://github.com/oldscripter" style="font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;">
+          <img src="/lds.png" alt="lds github link" align="left" style="max-width: 80px;">
         </a>
         <div style="display: flex; gap: 1.5rem;">
-          <a href="/" style="font-size: 0.9rem;">Blog</a>
-		  <a href="/cpp" style="font-size: 0.9rem;">C++</a>
-		  <a href="/projects" style="font-size: 0.9rem;">Projects</a>
-          <a href="/about" style="font-size: 0.9rem;">About</a>
+          <a href={getLocalizedPath('/')} style="font-size: 0.9rem;">{lang === 'ru' ? 'Блог' : 'Blog'}</a>
+		      <a href={getLocalizedPath('/cpp')} style="font-size: 0.9rem;">C++</a>
+		      <a href={getLocalizedPath('/projects')} style="font-size: 0.9rem;">{lang === 'ru' ? 'Проекты' : 'Projects'}</a>
+          <a href={getLocalizedPath('/about')} style="font-size: 0.9rem;">{lang === 'ru' ? 'Обо мне' : 'About'}</a>
+        </div>
+        <div>
+          <LanguageSwitcher />
         </div>
       </div>
     </nav>

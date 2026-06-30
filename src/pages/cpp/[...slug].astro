@@ -1,20 +1,49 @@
 ---
 // src/pages/cpp/[...slug].astro
 import { getCollection, render } from 'astro:content';
+import { getRelatedContent } from '../../utils/content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
   const lessons = await getCollection('cpp-lessons');
-  return lessons.map((lesson) => ({
-    params: { slug: lesson.id },
-    props: { lesson },
-  }));
+  
+  // ✅ Фильтруем только английские уроки
+  const enLessons = lessons.filter(lesson => lesson.id.startsWith('en/'));
+  
+  return enLessons.map(lesson => {
+    // ✅ Правильно извлекаем slug
+    const slug = lesson.id.replace(/^en\//, '').replace(/\.md$/, '');
+    
+    return {
+      params: { slug: slug },
+      props: { lesson },
+    };
+  });
 }
 
 const { lesson } = Astro.props;
 const { Content } = await render(lesson);
+const contentLength = lesson.body?.length || 0;
+
+// Получаем slug для ссылок
+const slug = lesson.id.replace(/^en\//, '').replace(/\.md$/, '');
+// Находим русскую версию
+const ruLesson = await getRelatedContent('cpp-lessons', lesson, 'ru');
 ---
 
-<BlogPostLayout frontmatter={lesson.data} contentLength={lesson.body?.length || 0}>
-  <Content />
+<BlogPostLayout frontmatter={lesson.data} contentLength={contentLength} lang="en">
+  <article>
+    <Content />
+  </article>
+  
+  {ruLesson && (
+    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
+      <p style="color: #71717a; font-size: 0.9rem;">
+        📖 Read this lesson in 
+        <a href={`/ru/cpp/${slug}`} style="color: #6366f1; font-weight: 600;">
+          Russian
+        </a>
+      </p>
+    </div>
+  )}
 </BlogPostLayout>

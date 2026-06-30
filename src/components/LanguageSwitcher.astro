@@ -1,0 +1,196 @@
+---
+// src/components/LanguageSwitcher.astro
+
+const currentPath = Astro.url.pathname;
+const isRussian = currentPath.startsWith('/ru/') || currentPath === '/ru';
+
+// Функция для получения URL на другом языке
+const getLocalizedUrl = (targetLang: 'en' | 'ru') => {
+  if (currentPath === '/404' || currentPath === '/404.html') {
+    return targetLang === 'ru' ? '/ru/404' : '/404';
+  }
+
+  // Обработка страниц постов
+  if (currentPath.includes('/posts/')) {
+    if (targetLang === 'ru' && !isRussian) {
+      return `/ru${currentPath}`;
+    } else if (targetLang === 'en' && isRussian) {
+      return currentPath.replace(/^\/ru/, '');
+    }
+    return currentPath;
+  }
+
+  // Обработка страниц C++ уроков
+  if (currentPath.includes('/cpp/')) {
+    if (targetLang === 'ru' && !isRussian) {
+      return `/ru${currentPath}`;
+    } else if (targetLang === 'en' && isRussian) {
+      return currentPath.replace(/^\/ru/, '');
+    }
+    return currentPath;
+  }
+
+  // Обработка страницы списка проектов
+  if (currentPath === '/projects/project' || currentPath === '/projects/project/') {
+    return targetLang === 'ru' ? '/ru/projects/project' : '/projects/project';
+  }
+
+  // Стандартная логика для остальных страниц
+  if (targetLang === 'en') {
+    if (isRussian) {
+      const newPath = currentPath.replace(/^\/ru/, '') || '/';
+      return newPath;
+    }
+    return currentPath;
+  } else {
+    if (!isRussian) {
+      return `/ru${currentPath}`;
+    }
+    return currentPath;
+  }
+};
+
+// Определяем, на какой язык переключаемся
+const targetLang = isRussian ? 'en' : 'ru';
+const targetUrl = getLocalizedUrl(targetLang);
+
+// Текст и флаг для текущего языка
+const currentLabel = isRussian ? 'RU' : 'EN';
+const nextLabel = isRussian ? 'EN' : 'RU';
+---
+
+<a 
+  href={targetUrl} 
+  class="language-switcher"
+  aria-label={`Switch to ${nextLabel}`}
+  title={`Switch to ${nextLabel}`}
+>
+  <span class="lang-current">
+    <span class="lang-label">{currentLabel}</span>
+  </span>
+</a>
+
+<style>
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #e4e4e7;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  font-family: inherit;
+  user-select: none;
+}
+
+.language-switcher:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.language-switcher:active {
+  transform: scale(0.96);
+}
+
+.flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.lang-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.lang-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 1;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+  font-size: 0.7rem;
+  margin: 0 0.1rem;
+}
+
+.lang-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.language-switcher:hover .lang-next {
+  opacity: 0.8;
+}
+
+/* Тёмная тема (по умолчанию) */
+@media (prefers-color-scheme: dark) {
+  .language-switcher {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #e4e4e7;
+  }
+  
+  .language-switcher:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .lang-divider {
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Светлая тема */
+@media (prefers-color-scheme: light) {
+  .language-switcher {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #18181b;
+  }
+  
+  .language-switcher:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+  
+  .lang-divider {
+    color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 640px) {
+  .language-switcher {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    gap: 0.3rem;
+  }
+  
+  .flag {
+    font-size: 0.85rem;
+  }
+  
+  .lang-label {
+    font-size: 0.7rem;
+  }
+  
+  .lang-divider {
+    font-size: 0.6rem;
+  }
+}
+</style>

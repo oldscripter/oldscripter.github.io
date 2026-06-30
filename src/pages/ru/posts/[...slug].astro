@@ -1,0 +1,56 @@
+---
+// src/pages/ru/posts/[...slug].astro
+import { getCollection, render } from 'astro:content';
+import { getRelatedContent } from '../../../utils/content';
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  
+  // 🔍 Отладка
+  console.log('=== РУССКИЕ ПОСТЫ ===');
+  console.log('Все ID постов:', posts.map(p => p.id));
+  
+  // ✅ Фильтруем РУССКИЕ посты по ID (начинаются с 'ru/')
+  const ruPosts = posts.filter(post => post.id.startsWith('ru/'));
+  
+  console.log('Найдено русских постов:', ruPosts.length);
+  console.log('ID русских постов:', ruPosts.map(p => p.id));
+  
+  return ruPosts.map(post => {
+    // ✅ Правильно извлекаем slug: убираем 'ru/' и '.md'
+    const slug = post.id.replace(/^ru\//, '').replace(/\.md$/, '');
+    console.log(`✅ Создан путь: /ru/posts/${slug}`);
+    
+    return {
+      params: { slug: slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const contentLength = post.body?.length || 0;
+
+// Получаем slug для ссылок
+const slug = post.id.replace(/^ru\//, '').replace(/\.md$/, '');
+const enPost = await getRelatedContent('posts', post, 'en');
+---
+
+<BlogPostLayout frontmatter={post.data} contentLength={contentLength} lang="ru">
+  <article>
+    <Content />
+  </article>
+  
+  {enPost && (
+    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
+      <p style="color: #71717a; font-size: 0.9rem;">
+        📖 Читать этот пост на 
+        <a href={`/posts/${slug}`} style="color: #6366f1; font-weight: 600;">
+          Английском
+        </a>
+      </p>
+    </div>
+  )}
+</BlogPostLayout>

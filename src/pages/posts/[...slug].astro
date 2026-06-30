@@ -1,22 +1,47 @@
 ---
 // src/pages/posts/[...slug].astro
 import { getCollection, render } from 'astro:content';
+import { getRelatedContent } from '../../utils/content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  
+  // ✅ Фильтруем АНГЛИЙСКИЕ посты по ID (начинаются с 'en/')
+  const enPosts = posts.filter(post => post.id.startsWith('en/'));
+  
+  return enPosts.map(post => {
+    // ✅ Правильно извлекаем slug: убираем 'en/' и '.md'
+    const slug = post.id.replace(/^en\//, '').replace(/\.md$/, '');
+    
+    return {
+      params: { slug: slug },
+      props: { post },
+    };
+  });
 }
 
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
-// Получаем длину текста для подсчёта времени чтения
+const { Content } = await render(post);
 const contentLength = post.body?.length || 0;
+
+const slug = post.id.replace(/^en\//, '').replace(/\.md$/, '');
+const ruPost = await getRelatedContent('posts', post, 'ru');
 ---
 
-<BlogPostLayout frontmatter={post.data} contentLength={contentLength}>
-  <Content />
+<BlogPostLayout frontmatter={post.data} contentLength={contentLength} lang="en">
+  <article>
+    <Content />
+  </article>
+  
+  {ruPost && (
+    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
+      <p style="color: #71717a; font-size: 0.9rem;">
+        📖 Read this post in 
+        <a href={`/ru/posts/${slug}`} style="color: #6366f1; font-weight: 600;">
+          Russian
+        </a>
+      </p>
+    </div>
+  )}
 </BlogPostLayout>

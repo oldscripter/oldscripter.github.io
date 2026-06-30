@@ -1,0 +1,129 @@
+---
+// src/pages/ru/projects/[project]/index.astro
+// ✅ Правильный путь: 4 уровня вверх (../../../../layouts/BaseLayout.astro)
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getLocalizedContent } from '../../../../utils/content';
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection('projects');
+  
+  const ruProjects = await getLocalizedContent('projects', 'ru');
+  const projectNames = new Set<string>();
+  for (const project of ruProjects) {
+    projectNames.add(project.data.projectName);
+  }
+  
+  return Array.from(projectNames).map(name => {
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
+    return {
+      params: { project: slug },
+      props: { projectName: name, lang: 'ru' },
+    };
+  });
+}
+
+const { projectName, lang = 'ru' } = Astro.props;
+
+const allProjects = await getLocalizedContent('projects', 'ru');
+const projectPosts = allProjects.filter(p => p.data.projectName === projectName);
+
+const mainPost = projectPosts.find(p => {
+  const slug = p.id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+  return slug === 'index';
+}) || projectPosts[0];
+
+const otherPosts = projectPosts.filter(p => {
+  const slug = p.id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+  return slug !== 'index';
+});
+
+const techStack = mainPost?.data.techStack || [];
+const imageUrl = mainPost?.data.image?.url || mainPost?.data.image || null;
+---
+
+<BaseLayout title={`Проект: ${projectName}`} lang="ru">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+      <a href="/ru/projects" style="color: #6366f1; text-decoration: none;">
+        ← Назад к проектам
+      </a>
+    </div>
+
+    <div style="
+      padding: 1.5rem;
+      background-color: #111;
+      border-radius: 16px;
+      border: 1px solid #27272a;
+      overflow: auto;
+    ">
+      {imageUrl && (
+        <img 
+          src={imageUrl} 
+          alt={projectName}
+          style="
+            float: left;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+          "
+        />
+      )}
+      
+      <h1 style="margin-top: 0; margin-bottom: 0.5rem;">
+        {projectName}
+      </h1>
+      
+      {techStack.length > 0 && (
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+          {techStack.map(tech => (
+            <span style="
+              font-size: 0.7rem;
+              padding: 0.2rem 0.6rem;
+              background-color: #1a1a1a;
+              border-radius: 9999px;
+              color: #c084fc;
+            ">{tech}</span>
+          ))}
+        </div>
+      )}
+      
+      <p style="color: #a1a1aa; margin-bottom: 1rem;">
+        {mainPost?.data.description || 'О проекте'}
+      </p>
+      
+      {otherPosts.length > 0 ? (
+        <>
+          <h2 style="font-size: 1.2rem; margin-top: 2rem; border-bottom: 1px solid #27272a; padding-bottom: 0.5rem;">
+            Статьи по проекту
+          </h2>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+            {otherPosts.map(post => {
+              const slug = post.id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+              return (
+                <a href={`/ru/projects/${slug}`} 
+                  style="
+                    display: block;
+                    padding: 0.5rem 1rem;
+                    background-color: #1a1a1a;
+                    border-radius: 8px;
+                    color: #e4e4e7;
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+                  "
+                  onMouseOver="this.style.background='#2a2a2a'"
+                  onMouseOut="this.style.background='#1a1a1a'"
+                >
+                  📄 {post.data.title}
+                </a>
+              );
+            })}
+          </div>
+        </>
+      ) : null}
+    </div>
+  </div>
+</BaseLayout>

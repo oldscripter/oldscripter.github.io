@@ -1,9 +1,16 @@
 ---
 // src/pages/cpp/index.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getLocalizedContent } from '../../utils/content';
 
-const allLessons = await getCollection('cpp-lessons');
+// 🆕 Получаем только английские уроки
+const allLessons = await getLocalizedContent('cpp-lessons', 'en');
+
+// 🆕 Функция для получения чистого slug
+function getSlugFromId(id: string) {
+  return id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+}
+
 const lessonsBySubcategory = {
   standards: allLessons.filter(l => l.data.subcategory === 'standards'),
   algorithms: allLessons.filter(l => l.data.subcategory === 'algorithms'),
@@ -13,28 +20,33 @@ const lessonsBySubcategory = {
 };
 
 const subcategoryNames = {
-  algorithms: '✨ Алгоритмы',
-  standards: '⚖️ Стандарты',
-  beginner: '📘 Beginner',
-  intermediate: '📙 Intermediate', 
-  advanced: '📕 Advanced',
+  algorithms: 'Algorithms',
+  standards: 'Standards',
+  beginner: 'Beginner',
+  intermediate: 'Intermediate', 
+  advanced: 'Advanced',
 };
 
-// Убираем defaultOpen — все категории закрыты
+const subcategoryIcons = {
+  algorithms: '/images/cpp/algo.webp',
+  standards: '/images/cpp/standards.webp',
+  beginner: '/images/cpp/level_1.webp',
+  intermediate: '/images/cpp/level_2.webp',
+  advanced: '/images/cpp/level_3.webp',
+};
 ---
 
-<BaseLayout title="C++ materials — by OldScripter">
+<BaseLayout title="C++ materials — by OldScripter" lang="en">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">C++</h1>
-    <p style="color: #a1a1aa; margin-bottom: 2rem;">
-      Материалы для изучения и подготовки к собесам
+    <h1>C++</h1>
+    <p style="font-size: 1.25rem; color: #a1a1aa;">
+      Learning materials and interview preparation
     </p>
 
     {Object.entries(lessonsBySubcategory).map(([key, lessons]) => {
       if (lessons.length === 0) return null;
       return (
-        <section style="margin-bottom: 1.5rem;" data-category={key}>
-          <!-- Заголовок-кнопка -->
+        <section style="margin-top: 2.5rem; margin-bottom: 1.5rem;" data-category={key}>
           <button 
             class="category-toggle"
             data-target={key}
@@ -56,13 +68,15 @@ const subcategoryNames = {
             onmouseover="this.style.background='#1a1a1a'"
             onmouseout="this.style.background='transparent'"
           >
-            <span>{subcategoryNames[key]}</span>
-            <span class="arrow" style="transition: transform 0.3s ease; transform: rotate(0deg);">
+          <div style="align-items: center; display: flex; gap: 1rem;">
+            <img src={subcategoryIcons[key]} style="max-width: 50px;"/>
+            <span style = "font-family: 'JetBrains Mono', monospace ;">{subcategoryNames[key]}</span>
+          </div>
+          <span class="arrow" style="transition: transform 0.3s ease; transform: rotate(0deg);">
               ▼
             </span>
           </button>
 
-          <!-- Контент категории — всегда закрыт по умолчанию -->
           <div 
             class="category-content" 
             data-category={key}
@@ -77,26 +91,29 @@ const subcategoryNames = {
             <div style="display: flex; flex-direction: column; gap: 0rem; padding-top: 1rem;">
               {lessons
                 .sort((a, b) => (a.data.lessonNumber || 999) - (b.data.lessonNumber || 999))
-                .map(lesson => (
-                  <a href={`/cpp/${lesson.id}`} style="display: block; text-decoration: none;">
-                    <div style="
-                      padding: 0.5rem;
-                      background-color: #111;
-                      transition: all 0.2s ease;
-                      margin-left: 3em;
-                    ">
-                      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
-                        <h3 style="margin: 0; font-size: 1.125rem;">
-                          <!-- {lesson.data.lessonNumber && `${lesson.data.lessonNumber}. `} -->
-                          {lesson.data.title}
-                        </h3>
-                        <span style="font-size: 0.75rem; color: #71717a;">
-                          {lesson.data.description}
-                        </span>
+                .map(lesson => {
+                  // ✅ Правильно извлекаем slug
+                  const slug = getSlugFromId(lesson.id);
+                  return (
+                    <a href={`/cpp/${slug}`} style="display: block; text-decoration: none;">
+                      <div style="
+                        padding: 0.5rem;
+                        background-color: #111;
+                        transition: all 0.2s ease;
+                        margin-left: 3em;
+                      ">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+                          <h3 style="margin: 0; font-size: 1.125rem;">
+                            {lesson.data.title}
+                          </h3>
+                          <span style="font-size: 0.75rem; color: #71717a;">
+                            {lesson.data.description}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </a>
-                ))}
+                    </a>
+                  );
+                })}
             </div>
           </div>
         </section>
@@ -104,7 +121,6 @@ const subcategoryNames = {
     })}
   </div>
 
-  <!-- JavaScript для управления аккордеоном -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const buttons = document.querySelectorAll('.category-toggle');
@@ -117,20 +133,17 @@ const subcategoryNames = {
           
           if (!content) return;
           
-          // Проверяем, открыт ли сейчас контент
           const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '0';
           
           if (isOpen) {
-            // Закрываем
             content.style.maxHeight = '0';
             content.style.opacity = '0';
             content.style.marginTop = '0';
             arrow.style.transform = 'rotate(0deg)';
           } else {
-            // Открываем
             content.style.maxHeight = '10000px';
             content.style.opacity = '1';
-            content.style.marginTop = '1.5rem';
+            content.style.marginTop = '1.0rem';
             arrow.style.transform = 'rotate(180deg)';
           }
         });

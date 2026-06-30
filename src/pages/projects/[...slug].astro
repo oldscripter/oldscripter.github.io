@@ -1,20 +1,49 @@
 ---
 // src/pages/projects/[...slug].astro
 import { getCollection, render } from 'astro:content';
+import { getRelatedContent } from '../../utils/content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+  
+  // ✅ Фильтруем только английские проекты
+  const enProjects = projects.filter(p => p.id.startsWith('en/'));
+  
+  return enProjects.map(project => {
+    // ✅ Правильно извлекаем slug
+    const slug = project.id.replace(/^en\//, '').replace(/\.md$/, '');
+    
+    return {
+      params: { slug: slug },
+      props: { project },
+    };
+  });
 }
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const contentLength = project.body?.length || 0;
+
+// Получаем slug для ссылок
+const slug = project.id.replace(/^en\//, '').replace(/\.md$/, '');
+// Находим русскую версию
+const ruProject = await getRelatedContent('projects', project, 'ru');
 ---
 
-<BlogPostLayout frontmatter={project.data} contentLength={project.body?.length || 0}>
-  <Content />
+<BlogPostLayout frontmatter={project.data} contentLength={contentLength} lang="en">
+  <article>
+    <Content />
+  </article>
+  
+  {ruProject && (
+    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
+      <p style="color: #71717a; font-size: 0.9rem;">
+        📖 Read this article in 
+        <a href={`/ru/projects/${slug}`} style="color: #6366f1; font-weight: 600;">
+          Russian
+        </a>
+      </p>
+    </div>
+  )}
 </BlogPostLayout>

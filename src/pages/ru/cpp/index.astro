@@ -1,0 +1,142 @@
+---
+// src/pages/ru/cpp/index.astro
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getLocalizedContent } from '../../../utils/content';
+
+// 🆕 Получаем только русские уроки
+const allLessons = await getLocalizedContent('cpp-lessons', 'ru');
+
+// 🆕 Функция для получения чистого slug
+function getSlugFromId(id: string) {
+  return id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+}
+
+const lessonsBySubcategory = {
+  standards: allLessons.filter(l => l.data.subcategory === 'standards'),
+  algorithms: allLessons.filter(l => l.data.subcategory === 'algorithms'),
+  beginner: allLessons.filter(l => l.data.subcategory === 'beginner'),
+  intermediate: allLessons.filter(l => l.data.subcategory === 'intermediate'),
+  advanced: allLessons.filter(l => l.data.subcategory === 'advanced'),
+};
+
+const subcategoryNames = {
+  algorithms: '✨ Алгоритмы',
+  standards: '⚖️ Стандарты',
+  beginner: '📘 Начальный',
+  intermediate: '📙 Средний', 
+  advanced: '📕 Продвинутый',
+};
+---
+
+<BaseLayout title="C++ материалы — от OldScripter" lang="ru">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">C++</h1>
+    <p style="color: #a1a1aa; margin-bottom: 2rem;">
+      Материалы для изучения и подготовки к собесам
+    </p>
+
+    {Object.entries(lessonsBySubcategory).map(([key, lessons]) => {
+      if (lessons.length === 0) return null;
+      return (
+        <section style="margin-bottom: 1.5rem;" data-category={key}>
+          <button 
+            class="category-toggle"
+            data-target={key}
+            style="
+              width: 100%;
+              text-align: left;
+              font-size: 1.5rem;
+              padding: 0.75rem 1rem;
+              background: transparent;
+              border: none;
+              border-bottom: 2px solid #27272a;
+              cursor: pointer;
+              color: #e4e4e7;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              transition: background 0.2s ease;
+            "
+            onmouseover="this.style.background='#1a1a1a'"
+            onmouseout="this.style.background='transparent'"
+          >
+            <span>{subcategoryNames[key]}</span>
+            <span class="arrow" style="transition: transform 0.3s ease; transform: rotate(0deg);">
+              ▼
+            </span>
+          </button>
+
+          <div 
+            class="category-content" 
+            data-category={key}
+            style="
+              overflow: hidden;
+              max-height: 0;
+              opacity: 0;
+              transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+              margin-top: 0;
+            "
+          >
+            <div style="display: flex; flex-direction: column; gap: 0rem; padding-top: 1rem;">
+              {lessons
+                .sort((a, b) => (a.data.lessonNumber || 999) - (b.data.lessonNumber || 999))
+                .map(lesson => {
+                  // ✅ Правильно извлекаем slug
+                  const slug = getSlugFromId(lesson.id);
+                  return (
+                    <a href={`/ru/cpp/${slug}`} style="display: block; text-decoration: none;">
+                      <div style="
+                        padding: 0.5rem;
+                        background-color: #111;
+                        transition: all 0.2s ease;
+                        margin-left: 3em;
+                      ">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+                          <h3 style="margin: 0; font-size: 1.125rem;">
+                            {lesson.data.title}
+                          </h3>
+                          <span style="font-size: 0.75rem; color: #71717a;">
+                            {lesson.data.description}
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+            </div>
+          </div>
+        </section>
+      );
+    })}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.category-toggle');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.target;
+          const content = document.querySelector(`.category-content[data-category="${target}"]`);
+          const arrow = button.querySelector('.arrow');
+          
+          if (!content) return;
+          
+          const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '0';
+          
+          if (isOpen) {
+            content.style.maxHeight = '0';
+            content.style.opacity = '0';
+            content.style.marginTop = '0';
+            arrow.style.transform = 'rotate(0deg)';
+          } else {
+            content.style.maxHeight = '10000px';
+            content.style.opacity = '1';
+            content.style.marginTop = '1.5rem';
+            arrow.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+    });
+  </script>
+</BaseLayout>

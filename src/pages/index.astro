@@ -1,65 +1,64 @@
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getLocalizedContent } from '../utils/content';
 
-const allPosts = await getCollection('posts');
+const allPosts = await getLocalizedContent('posts', 'en');
 // Сортируем по дате: новые сверху
 const sortedPosts = allPosts.sort((a, b) => 
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+// 🆕 Функция для получения чистого slug из ID
+function getSlugFromId(id: string) {
+  return id.replace(/^(en|ru)\//, '').replace(/\.md$/, '');
+}
 ---
 
-<BaseLayout title="Home">
-  <section style="margin-top: 2rem; margin-bottom: 4rem;">
+<BaseLayout title="Home" lang="en">
+  <section>
     <div style="margin-bottom: 3rem;">
-      <h1 style="font-size: 3rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem;">
-        Dev Notes
+      <h1>
+        Blog
       </h1>
       <p style="font-size: 1.25rem; color: #a1a1aa;">
-        Insights, tutorials, and post-mortems from a C++ developer
+        Articles about development and beyond
       </p>
     </div>
     
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      {sortedPosts.map(post => (
-        <article style="
-          border-bottom: 1px solid #27272a;
-          padding-bottom: 2rem;
-        ">
-          <a href={`/posts/${post.id}`} style="display: block;">
-            <h2 style="
-              font-size: 1.5rem;
-              font-weight: 600;
-              margin-bottom: 0.5rem;
-              margin-top: 0;
-              transition: color 0.2s ease;
-            " 
-            onMouseOver="this.style.color='#6366f1'"
-            onMouseOut="this.style.color='inherit'"
-            >
-              {post.data.title}
-            </h2>
-          </a>
-          <div style="
-            display: flex;
-            gap: 1rem;
-            font-size: 0.875rem;
-            color: #71717a;
-            margin-bottom: 0.75rem;
-          ">
-            <span>📅 {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-            {post.data.tags && post.data.tags.slice(0, 3).map(tag => (
-              <span>🔖 {tag}</span>
-            ))}
-          </div>
-          {post.data.description && (
-            <p style="color: #a1a1aa;">
-              {post.data.description}
-            </p>
-          )}
-        </article>
-      ))}
+    <div>
+      {sortedPosts.map(post => {
+        const slug = getSlugFromId(post.id);
+        return (
+          <article>
+            <a href={`/posts/${slug}`} style="display: block;">
+              <h2
+              onMouseOver="this.style.color='#6366f1'"
+              onMouseOut="this.style.color='inherit'"
+              >
+                {post.data.title}
+              </h2>
+            </a>
+            <div style="
+              display: flex;
+              gap: 1rem;
+              font-size: 0.875rem;
+              color: #606060ff;
+              margin-bottom: 0.75rem;
+            ">
+              <span>📅 {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              {post.data.tags && post.data.tags.slice(0, 3).map(tag => (
+                <span>🔖 {tag}</span>
+              ))}
+            </div>
+            {post.data.description && (
+              <p style="color: #646464ff;">
+                {post.data.description}
+              </p>
+            )}
+          </article>
+        );
+      })}
     </div>
   </section>
 </BaseLayout>
