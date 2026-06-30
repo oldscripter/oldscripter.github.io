@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.4.2"
+    "@digi4care/astro-google-analytics": "^2.0.1",
+    "astro": "^6.4.8"
   }
 }

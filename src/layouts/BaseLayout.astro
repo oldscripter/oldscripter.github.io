@@ -1,5 +1,7 @@
 ---
 // src/layouts/BaseLayout.astro
+import { GoogleAnalytics } from '@digi4care/astro-google-analytics';
+
 export interface Props {
   title: string;
   description?: string;
@@ -19,6 +21,7 @@ const siteDescription = description || "Development insights, tutorials, and pos
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={siteDescription} />
     <meta name="author" content="OldScripter" />
+    <GoogleAnalytics id="G-0J0WNNQR8Q" />
     
     <!-- Open Graph / Social -->
     <meta property="og:title" content={fullTitle} />

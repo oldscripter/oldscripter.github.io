@@ -19,9 +19,6 @@ for (const post of allProjects) {
 <BaseLayout title="Projects — My Dev Portfolio">
   <div style="max-width: 800px; margin: 0 auto;">
     <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Projects</h1>
-    <p style="color: #a1a1aa; margin-bottom: 2rem;">
-      Deep dives into my development projects (not all of them are here, it's a new chapter)
-    </p>
 
     {Object.entries(projectsByName).map(([projectName, posts]) => {
       const mainPost = posts.find(p => p.id === 'index') || posts[0];
