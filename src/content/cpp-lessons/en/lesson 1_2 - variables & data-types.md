@@ -4,7 +4,7 @@ description: "Store numbers, text, and true/false values — the building blocks
 pubDate: 2026-05-31
 tags: ["C++", "beginner", "variables", "data-types"]
 lang: "en"
-lessonNumber: 2
+lessonNumber: 102
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

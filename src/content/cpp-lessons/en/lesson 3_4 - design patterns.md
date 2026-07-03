@@ -4,7 +4,7 @@ description: "Singleton, Factory, Observer, Component — proven patterns for ga
 pubDate: 2026-05-21
 tags: ["C++", "advanced", "design-patterns", "architecture", "game-engine"]
 lang: "en"
-lessonNumber: 21
+lessonNumber: 304
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---

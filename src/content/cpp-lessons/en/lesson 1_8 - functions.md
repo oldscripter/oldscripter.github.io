@@ -4,7 +4,7 @@ description: "Organize code, avoid repetition, and build complex systems with fu
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "functions", "reusability", "modularity"]
 lang: "en"
-lessonNumber: 8
+lessonNumber: 108
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
@@ -737,5 +737,3 @@ Next lesson: **Structs and Enums** — create custom data types to organize rela
 - `void levelUp(int& health, int& strength)`
 - `bool saveCharacter(const std::string& name, int health, int strength)` — to file
 - `bool loadCharacter(std::string& name, int& health, int& strength)` — from file
-
-This combines functions, references, and file I/O (we'll cover file I/O in a future lesson if you need it)!

@@ -4,7 +4,7 @@ description: "Install a compiler, set up your environment, and write your first 
 pubDate: 2026-05-29
 tags: ["C++", "beginner", "setup", "hello-world"]
 lang: "en"
-lessonNumber: 1
+lessonNumber: 101
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

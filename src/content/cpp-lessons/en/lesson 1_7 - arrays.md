@@ -4,7 +4,7 @@ description: "Store collections of data — inventories, high scores, enemy wave
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "arrays", "vectors", "collections"]
 lang: "en"
-lessonNumber: 7
+lessonNumber: 107
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

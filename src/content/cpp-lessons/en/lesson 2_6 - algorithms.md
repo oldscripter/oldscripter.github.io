@@ -4,7 +4,7 @@ description: "Master the algorithm header — write faster, cleaner code with st
 pubDate: 2026-05-16
 tags: ["C++", "intermediate", "STL", "algorithms", "functional-programming"]
 lang: "en"
-lessonNumber: 16
+lessonNumber: 206
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

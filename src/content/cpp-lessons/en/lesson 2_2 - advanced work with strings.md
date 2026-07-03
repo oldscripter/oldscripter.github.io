@@ -4,7 +4,7 @@ description: "Master string operations for chat systems, dialogue trees, text pa
 pubDate: 2026-05-12
 tags: ["C++", "intermediate", "strings", "text-processing", "parsing"]
 lang: "en"
-lessonNumber: 12
+lessonNumber: 202
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

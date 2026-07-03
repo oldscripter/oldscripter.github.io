@@ -3,8 +3,8 @@ title: "Networking with Sockets — Building Multiplayer Games"
 description: "Connect players across the world with TCP and UDP sockets — from chat rooms to real-time multiplayer"
 pubDate: 2026-05-20
 tags: ["C++", "advanced", "networking", "sockets", "multiplayer"]
-lang: "ru"
-lessonNumber: 20
+lang: "en"
+lessonNumber: 303
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---

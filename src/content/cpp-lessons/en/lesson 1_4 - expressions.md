@@ -4,7 +4,7 @@ description: "Master arithmetic, comparison, and logical operators to build game
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "operators", "expressions", "game-logic"]
 lang: "en"
-lessonNumber: 4
+lessonNumber: 104
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

@@ -4,7 +4,7 @@ description: "Write faster games with multiple threads — async loading, parall
 pubDate: 2026-05-19
 tags: ["C++", "advanced", "multithreading", "concurrency", "thread-safety"]
 lang: "en"
-lessonNumber: 19
+lessonNumber: 302
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---

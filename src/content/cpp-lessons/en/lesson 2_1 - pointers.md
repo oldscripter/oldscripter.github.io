@@ -3,8 +3,8 @@ title: "Pointers and Dynamic Memory"
 description: "Manage memory directly, create flexible data structures, and understand how games really work"
 pubDate: 2026-06-01
 tags: ["C++", "intermediate", "pointers", "dynamic-memory", "memory-management"]
-lang: "ru"
-lessonNumber: 11
+lang: "en"
+lessonNumber: 201
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

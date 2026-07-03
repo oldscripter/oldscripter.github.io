@@ -1,6 +1,6 @@
 ---
 title: "BFS"
-description: "Поиск в ширину"
+description: "Breadth-First Search"
 pubDate: 2026-06-27
 tags: ["C++", "algorithms", "bfs"]
 lang: "en"
@@ -8,12 +8,12 @@ lessonNumber: 2
 subcategory: "algorithms"
 author: "Stanislav Talanov"
 ---
-<span style="color: #089c00ff;">Breadth-First Search</span> | <span style="color: #7da8e1ff;">Поиск в ширину</span> - это алгоритм обхода графов, который исследует вершины `слоями`: сначала стартовую, затем всех её соседей, потом соседей соседей и т.д.
+<span style="color: #089c00ff;">Breadth-First Search</span> — is a graph traversal algorithm that explores vertices in `layers`: first the starting vertex, then all its neighbors, then the neighbors' neighbors, and so on.
 
-Представьте волну на воде от брошенного камня — так BFS расходится равномерно во все стороны.
+Imagine a wave on water from a thrown stone — that's how BFS spreads evenly in all directions.
 
 <details>
-    <summary>Код типовой реализации BFS</summary>
+    <summary>Typical BFS implementation code</summary>
 
 ``` c++
     // BFS implementation
@@ -50,7 +50,7 @@ author: "Stanislav Talanov"
     }
 
     int main() {
-        // Граф: 0-1, 0-2, 1-3, 2-3
+        // Graph: 0-1, 0-2, 1-3, 2-3
         vector<vector<int>> graph = 
         {
             {1, 2},
@@ -58,52 +58,52 @@ author: "Stanislav Talanov"
             {0, 3},
             {1, 2}
         };
-        bfs(0, graph); // Вывод: 0 1 2 3
+        bfs(0, graph); // Output: 0 1 2 3
         return 0;
     }
 ```
 
 </details>
 
-## Детали
+## Details
 
-### Ключевые свойства
-- Использует очередь (`FIFO`): первые вошли — первые вышли.
-- Находит кратчайший путь в невзвешенных графах (минимальное число рёбер).
-- Сложность: `O(V + E)` (`V` — вершины, `E` — рёбра).
+### Key properties
+- Uses a queue (`FIFO`): first in — first out.
+- Finds the shortest path in unweighted graphs (minimum number of edges).
+- Complexity: `O(V + E)` (`V` — vertices, `E` — edges).
 
-### Как работает (по шагам)
-1. Поместить стартовую вершину в очередь и отметить её.
-2. Пока очередь не пуста:
-   - Извлечь вершину `v`.
-   - Обработать `v`.
-   - Добавить в очередь всех непосещённых соседей вершины `v` и отметить их.
+### How it works (step by step)
+1. Place the starting vertex in the queue and mark it.
+2. While the queue is not empty:
+   - Extract vertex `v`.
+   - Process `v`.
+   - Add all unvisited neighbors of vertex `v` to the queue and mark them.
 
-### Где применяется
-- <span style="color: #7da8e1ff;">Социальные сети</span>: поиск друзей на расстоянии N рукопожатий.
-- <span style="color: #7da8e1ff;">Навигация</span>: кратчайший маршрут в лабиринте или на карте (без учёта пробок).
-- <span style="color: #7da8e1ff;">Web-краулеры</span>: обход ссылок на сайтах (страница за страницей).
-- <span style="color: #7da8e1ff;">Игры</span>: поиск пути в стратегиях или вычисление минимального числа ходов.
+### Applications
+- <span style="color: #7da8e1ff;">Social networks</span>: finding friends at N handshakes distance.
+- <span style="color: #7da8e1ff;">Navigation</span>: shortest route in a maze or on a map (without traffic jams).
+- <span style="color: #7da8e1ff;">Web crawlers</span>: traversing links on websites (page by page).
+- <span style="color: #7da8e1ff;">Games</span>: pathfinding in strategies or calculating the minimum number of moves.
 
-### Отличие от DFS (поиск в глубину)
-- <span style="color: #089c00ff;">BFS</span> использует `очередь` и ищет `вширь`, <span style="color: #089c00ff;">гарантирует</span> кратчайший путь.
-- <span style="color: #089c00ff;">DFS</span> использует `стек`, уходит `вглубь` и <span style="color: #ff3f3fff;">не гарантирует</span> кратчайший путь.
+### Difference from DFS (Depth-First Search)
+- <span style="color: #089c00ff;">BFS</span> uses a `queue` and searches `in breadth`, <span style="color: #089c00ff;">guarantees</span> the shortest path.
+- <span style="color: #089c00ff;">DFS</span> uses a `stack`, goes `in depth` and <span style="color: #ff3f3fff;">does not guarantee</span> the shortest path.
 
 <br>
 
-## Пример задач с leetcode
+## Example LeetCode Problems
 
-Разберём 3 типовые задачи с LeetCode — от простой к средней. Для каждой я привел ключевую идею, код и краткое пояснение.
+Let's solve 3 classic LeetCode problems — from easy to medium. For each, I've provided the key idea, code, and a brief explanation.
 
 ### 1. LeetCode 733 — Flood Fill (Easy)
 
-<span style="color: #1fb3f3ff;">[🔗 ссылка на leetcode](https://leetcode.com/problems/flood-fill/description/)</span><br>
-<span style="color: #f31fdaff;">Условие:</span><br>Дана матрица `image`, стартовая клетка `(sr, sc)` и новый цвет `newColor`. Заменить цвет связной области (4-связность) на новый.
+<span style="color: #1fb3f3ff;">[🔗 link to leetcode](https://leetcode.com/problems/flood-fill/description/)</span><br>
+<span style="color: #f31fdaff;">Problem:</span><br>Given a matrix `image`, a starting cell `(sr, sc)`, and a new color `newColor`. Replace the color of the connected area (4-directional) with the new color.
 
-<span style="color: #089c00ff;">Решение:</span><br>BFS от старта, меняем цвет у всех достижимых пикселей с исходным цветом.
+<span style="color: #089c00ff;">Solution:</span><br>BFS from the start, change the color of all reachable pixels with the original color.
 
 <details>
-    <summary>Код решения</summary>
+    <summary>Solution code</summary>
 
 ```cpp
 vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) 
@@ -145,20 +145,20 @@ vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int ne
 ```
 </details><br>
 
-<span style="color: #ea6500ff;">Сложность: </span>`O(N×M)` в среднем и худшем случае (очередь).
+<span style="color: #ea6500ff;">Complexity: </span>`O(N×M)` in both average and worst case (queue).
 
 ---
 
 ### 2. LeetCode 994 — Rotting Oranges (Medium)
 
-<span style="color: #1fb3f3ff;">[🔗 ссылка на leetcode](https://leetcode.com/problems/rotting-oranges/description/)</span><br>
+<span style="color: #1fb3f3ff;">[🔗 link to leetcode](https://leetcode.com/problems/rotting-oranges/description/)</span><br>
 
-<span style="color: #f31fdaff;">Условие:</span><br>В сетке `0` — пусто, `1` — свежий апельсин, `2` — гнилой. Каждую минуту гниль заражает соседние (4 стороны) свежие. За сколько минут все сгниют? Если невозможно — вернуть `-1`.
+<span style="color: #f31fdaff;">Problem:</span><br>In a grid, `0` is empty, `1` is a fresh orange, `2` is a rotten orange. Every minute, rot spreads to adjacent (4-directional) fresh oranges. How many minutes until all oranges rot? If impossible — return `-1`.
 
-<span style="color: #089c00ff;">Решение:</span><br>Многоисточниковый BFS. Кладём `все гнилые` в очередь, считаем уровни (минуты).
+<span style="color: #089c00ff;">Solution:</span><br>Multi-source BFS. Put `all rotten` oranges in the queue, count levels (minutes).
 
 <details>
-    <summary>Код решения</summary>
+    <summary>Solution code</summary>
 
 ```cpp
 int orangesRotting(vector<vector<int>>& grid) 
@@ -167,7 +167,7 @@ int orangesRotting(vector<vector<int>>& grid)
     queue<pair<int, int>> q;
     int fresh = 0;
     
-    // Собираем все гнилые и считаем свежие
+    // Collect all rotten and count fresh
     for (int i = 0; i < n; i++) 
     {
         for (int j = 0; j < m; j++) 
@@ -217,21 +217,21 @@ int orangesRotting(vector<vector<int>>& grid)
 ```
 </details><br>
 
-<span style="color: #ea6500ff;">Сложность: </span> `O(N×M)` в среднем и худшем случае (очередь).<br>
-<span style="color: #04cef7ff;">Ключевая фишка: </span>Обрабатываем очередь `покадрово` — `int size = q.size()` в цикле считает минуты.
+<span style="color: #ea6500ff;">Complexity: </span> `O(N×M)` in both average and worst case (queue).<br>
+<span style="color: #04cef7ff;">Key trick: </span>Process the queue `frame by frame` — `int size = q.size()` in the loop counts minutes.
 
 ---
 
-### 3. LeetCode 127 — Word Ladder (Hard в рейтинге, но Medium по идее)
+### 3. LeetCode 127 — Word Ladder (Hard in rating, but Medium in concept)
 
-<span style="color: #1fb3f3ff;">[🔗 ссылка на leetcode](https://leetcode.com/problems/word-ladder/description/)</span><br>
+<span style="color: #1fb3f3ff;">[🔗 link to leetcode](https://leetcode.com/problems/word-ladder/description/)</span><br>
 
-<span style="color: #f31fdaff;">Условие:</span><br>Даны `beginWord`, `endWord` и словарь `wordList`. За одну операцию можно менять **одну букву** в слове. Найти длину кратчайшей трансформации (включая beginWord).
+<span style="color: #f31fdaff;">Problem:</span><br>Given `beginWord`, `endWord`, and a dictionary `wordList`. In one operation, you can change **one letter** in a word. Find the length of the shortest transformation sequence (including beginWord).
 
-<span style="color: #089c00ff;">Решение:</span><br>BFS по графу слов (рёбра — различие в 1 букву). Вместо построения всех рёбер явно — генерируем все возможные маски (заменяем каждую букву на `*`) и ищем соседей через хеш-таблицу.
+<span style="color: #089c00ff;">Solution:</span><br>BFS on the graph of words (edges represent a difference of 1 letter). Instead of explicitly building all edges — generate all possible masks (replace each letter with `*`) and find neighbors through a hash table.
 
 <details>
-    <summary>Код решения</summary>
+    <summary>Solution code</summary>
 
 ```cpp
 int ladderLength(string beginWord, string endWord, vector<string>& wordList) 
@@ -253,7 +253,7 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList)
             
             if (word == endWord) return level;
             
-            // Перебираем все позиции
+            // Iterate over all positions
             for (int i = 0; i < word.size(); i++) 
             {
                 char orig = word[i];
@@ -263,7 +263,7 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList)
                     word[i] = c;
                     if (dict.count(word)) 
                     {
-                        dict.erase(word);  // Удаляем, чтобы не возвращаться
+                        dict.erase(word);  // Remove to avoid returning
                         q.push(word);
                     }
                 }
@@ -277,14 +277,13 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList)
 ```
 </details><br>
 
-<span style="color: #ea6500ff;">Сложность: </span> `O(M² × N)`, где `M` - длина слова, `N` - количество слов. Не очень хороший результат, но для коротких слов (`≤10`) - отлично.
+<span style="color: #ea6500ff;">Complexity: </span> `O(M² × N)`, where `M` is the word length, `N` is the number of words. Not the best result, but for short words (`≤10`) — excellent.
 
 ---
 
-## Полезные приёмы для использования BFS на задачах Leetcode
+## Useful techniques for using BFS on LeetCode problems
 
-- <span style="color: #0d8c2aff;">Посещённые</span> - часто используют `vector<vector<bool>>` для сеток или `unordered_set` для строк.
-- <span style="color: #0d8c2aff;">Уровни</span> - если нужно количество шагов/минут, используйте цикл `for (int size = q.size(); size > 0; size--)`.
-- <span style="color: #0d8c2aff;">Не забывайте про многоисточниковый BFS</span> - кладите все стартовые вершины сразу (как в Rotting Oranges).
-- <span style="color: #0d8c2aff;">Неявный граф</span> - не стройте все рёбра явно, генерируйте соседей на лету (Word Ladder, Open the Lock). Это ускоряет результат и позволяет получить лучшие результаты по времени.
-
+- <span style="color: #0d8c2aff;">Visited</span> — often use `vector<vector<bool>>` for grids or `unordered_set` for strings.
+- <span style="color: #0d8c2aff;">Levels</span> — if you need the number of steps/minutes, use the loop `for (int size = q.size(); size > 0; size--)`.
+- <span style="color: #0d8c2aff;">Don't forget about multi-source BFS</span> — put all starting vertices at once (as in Rotting Oranges).
+- <span style="color: #0d8c2aff;">Implicit graph</span> — don't explicitly build all edges, generate neighbors on the fly (Word Ladder, Open the Lock). This speeds up the result and allows for better time performance.

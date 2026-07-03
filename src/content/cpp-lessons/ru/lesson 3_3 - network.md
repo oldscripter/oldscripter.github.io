@@ -1,61 +1,61 @@
 ---
-title: "Networking with Sockets — Building Multiplayer Games"
-description: "Connect players across the world with TCP and UDP sockets — from chat rooms to real-time multiplayer"
+title: "Сети с сокетами — создание многопользовательских игр"
+description: "Соединяйте игроков по всему миру с помощью TCP и UDP сокетов — от чат-комнат до многопользовательских игр в реальном времени"
 pubDate: 2026-05-20
 tags: ["C++", "advanced", "networking", "sockets", "multiplayer"]
-lang: "en"
-lessonNumber: 20
+lang: "ru"
+lessonNumber: 303
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 20: Networking with Sockets — Building Multiplayer Games
+# Урок 20: Сети с сокетами — создание многопользовательских игр
 
-Welcome back! Single-player games are great, but **multiplayer** is where the real magic happens. This lesson teaches you how to connect players over the network.
+Добро пожаловать обратно! Одиночные игры — это здорово, но **многопользовательские** — это то место, где происходит настоящая магия. Этот урок научит вас соединять игроков по сети.
 
-## What You'll Learn
+## Что вы изучите
 
-- TCP vs UDP — which protocol for which game type?
-- Berkeley sockets API (cross-platform)
-- Creating a simple chat server and client
-- Game state synchronization
-- Handling multiple clients with threads
-- Basic packet serialization
+- TCP vs UDP — какой протокол для какого типа игры?
+- API сокетов Беркли (кросс-платформенный)
+- Создание простого сервера и клиента чата
+- Синхронизация состояния игры
+- Обработка нескольких клиентов с помощью потоков
+- Базовая сериализация пакетов
 
 ---
 
-## Part 1: TCP vs UDP — Choosing the Right Protocol
+## Часть 1: TCP vs UDP — выбор правильного протокола
 
-| Feature | TCP | UDP |
+| Характеристика | TCP | UDP |
 |---------|-----|-----|
-| **Reliability** | Guaranteed delivery | Best effort only |
-| **Ordering** | Preserves order | May reorder packets |
-| **Connection** | Connection-oriented | Connectionless |
-| **Speed** | Slower (overhead) | Faster (minimal overhead) |
-| **Use cases** | Chat, login, file transfer | Real-time games, VoIP, streaming |
+| **Надёжность** | Гарантированная доставка | Только "best effort" |
+| **Упорядочивание** | Сохраняет порядок | Может переупорядочивать пакеты |
+| **Соединение** | Ориентирован на соединение | Без соединения |
+| **Скорость** | Медленнее (накладные расходы) | Быстрее (минимальные накладные расходы) |
+| **Сценарии использования** | Чат, вход в систему, передача файлов | Игры в реальном времени, VoIP, стриминг |
 
-**Game examples:**
-- **TCP** — Matchmaking, chat, account login, trading
-- **UDP** — Player positions, shooting, real-time movement
+**Игровые примеры:**
+- **TCP** — Поиск матчей, чат, вход в аккаунт, торговля
+- **UDP** — Позиции игроков, стрельба, движение в реальном времени
 
 ```cpp
-// TCP: Reliable but slower
-// Wait for confirmation, retransmit lost packets
-// Good for: "I picked up the sword" (must happen)
+// TCP: Надёжный, но медленнее
+// Ожидание подтверждения, повторная передача потерянных пакетов
+// Хорошо для: "Я подобрал меч" (должно произойти)
 
-// UDP: Fast but may drop packets
-// Fire and forget
-// Good for: "Player at position (x, y)" (next packet will correct)
+// UDP: Быстрый, но может терять пакеты
+// Отправил и забыл
+// Хорошо для: "Игрок в позиции (x, y)" (следующий пакет скорректирует)
 ```
 
 ---
 
-## Part 2: Socket Programming Basics (Cross-Platform)
+## Часть 2: Основы программирования сокетов (Кросс-платформенный)
 
-Windows needs WSAStartup; Linux/macOS don't. Here's a cross-platform approach:
+Для Windows требуется WSAStartup; для Linux/macOS — нет. Вот кросс-платформенный подход:
 
 ```cpp
-// Platform detection
+// Определение платформы
 #ifdef _WIN32
     #include <winsock2.h>
     #include <ws2tcpip.h>
@@ -76,7 +76,7 @@ Windows needs WSAStartup; Linux/macOS don't. Here's a cross-platform approach:
 #include <thread>
 #include <vector>
 
-// Socket initialization wrapper
+// Обёртка для инициализации сокетов
 class SocketInit {
 public:
     SocketInit() {
@@ -96,7 +96,7 @@ public:
 
 ---
 
-## Part 3: Simple TCP Chat Server
+## Часть 3: Простой TCP-сервер чата
 
 ```cpp
 // server.cpp
@@ -130,28 +130,28 @@ private:
     
 public:
     ChatServer(int port) : running(true) {
-        // Create socket
+        // Создание сокета
         serverSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (serverSocket == INVALID_SOCKET) {
-            throw std::runtime_error("Failed to create socket");
+            throw std::runtime_error("Не удалось создать сокет");
         }
         
-        // Bind to port
+        // Привязка к порту
         sockaddr_in serverAddr;
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_addr.s_addr = INADDR_ANY;
         serverAddr.sin_port = htons(port);
         
         if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-            throw std::runtime_error("Failed to bind socket");
+            throw std::runtime_error("Не удалось привязать сокет");
         }
         
-        // Listen for connections
+        // Ожидание подключений
         if (listen(serverSocket, 5) == SOCKET_ERROR) {
-            throw std::runtime_error("Failed to listen");
+            throw std::runtime_error("Не удалось начать прослушивание");
         }
         
-        std::cout << "Chat server started on port " << port << std::endl;
+        std::cout << "Сервер чата запущен на порту " << port << std::endl;
     }
     
     void start() {
@@ -161,10 +161,10 @@ public:
             SOCKET clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientSize);
             
             if (clientSocket != INVALID_SOCKET) {
-                std::cout << "New client connected!" << std::endl;
+                std::cout << "Новый клиент подключён!" << std::endl;
                 clients.push_back(clientSocket);
                 
-                // Start thread for this client
+                // Запуск потока для этого клиента
                 clientThreads.emplace_back(&ChatServer::handleClient, this, clientSocket);
             }
         }
@@ -177,7 +177,7 @@ public:
             int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
             
             if (bytesReceived <= 0) {
-                // Client disconnected
+                // Клиент отключился
                 removeClient(clientSocket);
                 break;
             }
@@ -185,9 +185,9 @@ public:
             buffer[bytesReceived] = '\0';
             std::string message(buffer);
             
-            std::cout << "Received: " << message << std::endl;
+            std::cout << "Получено: " << message << std::endl;
             
-            // Broadcast to all other clients
+            // Рассылка всем остальным клиентам
             broadcastMessage(message, clientSocket);
         }
     }
@@ -205,7 +205,7 @@ public:
         if (it != clients.end()) {
             closesocket(clientSocket);
             clients.erase(it);
-            std::cout << "Client disconnected. Total clients: " << clients.size() << std::endl;
+            std::cout << "Клиент отключился. Всего клиентов: " << clients.size() << std::endl;
         }
     }
     
@@ -228,7 +228,7 @@ int main() {
         ChatServer server(5555);
         server.start();
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Ошибка: " << e.what() << std::endl;
     }
     
     return 0;
@@ -237,7 +237,7 @@ int main() {
 
 ---
 
-## Part 4: Simple TCP Chat Client
+## Часть 4: Простой TCP-клиент чата
 
 ```cpp
 // client.cpp
@@ -270,27 +270,27 @@ public:
     ChatClient(const std::string& serverIP, int port, const std::string& name) 
         : connected(false), username(name) {
         
-        // Create socket
+        // Создание сокета
         sock = socket(AF_INET, SOCK_STREAM, 0);
         if (sock == INVALID_SOCKET) {
-            throw std::runtime_error("Failed to create socket");
+            throw std::runtime_error("Не удалось создать сокет");
         }
         
-        // Connect to server
+        // Подключение к серверу
         sockaddr_in serverAddr;
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(port);
         inet_pton(AF_INET, serverIP.c_str(), &serverAddr.sin_addr);
         
         if (connect(sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-            throw std::runtime_error("Failed to connect to server");
+            throw std::runtime_error("Не удалось подключиться к серверу");
         }
         
         connected = true;
-        std::cout << "Connected to server as " << username << std::endl;
+        std::cout << "Подключено к серверу как " << username << std::endl;
         
-        // Send join message
-        sendMessage(username + " joined the chat!");
+        // Отправка сообщения о входе
+        sendMessage(username + " присоединился к чату!");
     }
     
     void sendMessage(const std::string& msg) {
@@ -306,7 +306,7 @@ public:
             int bytesReceived = recv(sock, buffer, sizeof(buffer) - 1, 0);
             
             if (bytesReceived <= 0) {
-                std::cout << "Disconnected from server" << std::endl;
+                std::cout << "Отключено от сервера" << std::endl;
                 connected = false;
                 break;
             }
@@ -318,7 +318,7 @@ public:
     
     ~ChatClient() {
         if (connected) {
-            sendMessage(username + " left the chat");
+            sendMessage(username + " покинул чат");
         }
         closesocket(sock);
     }
@@ -328,16 +328,16 @@ int main() {
     SocketInit init;
     
     std::string username;
-    std::cout << "Enter your username: ";
+    std::cout << "Введите ваше имя: ";
     std::getline(std::cin, username);
     
     try {
         ChatClient client("127.0.0.1", 5555, username);
         
-        // Start receive thread
+        // Запуск потока приёма
         std::thread receiver(&ChatClient::receiveLoop, &client);
         
-        // Main thread handles sending
+        // Основной поток обрабатывает отправку
         std::string input;
         while (true) {
             std::getline(std::cin, input);
@@ -345,9 +345,9 @@ int main() {
             client.sendMessage(input);
         }
         
-        receiver.detach();  // Let receiver thread exit naturally
+        receiver.detach();  // Разрешаем потоку приёма завершиться естественно
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Ошибка: " << e.what() << std::endl;
     }
     
     return 0;
@@ -356,9 +356,9 @@ int main() {
 
 ---
 
-## Part 5: UDP for Real-Time Game Data
+## Часть 5: UDP для игровых данных в реальном времени
 
-UDP is perfect for player positions, shooting, and fast-paced game state.
+UDP идеален для позиций игроков, стрельбы и быстрого игрового состояния.
 
 ```cpp
 // udp_game_server.cpp
@@ -385,7 +385,7 @@ public:
     UDPServer(int port) : running(true) {
         sock = socket(AF_INET, SOCK_DGRAM, 0);
         if (sock == INVALID_SOCKET) {
-            throw std::runtime_error("Failed to create UDP socket");
+            throw std::runtime_error("Не удалось создать UDP сокет");
         }
         
         serverAddr.sin_family = AF_INET;
@@ -393,10 +393,10 @@ public:
         serverAddr.sin_port = htons(port);
         
         if (bind(sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-            throw std::runtime_error("Failed to bind UDP socket");
+            throw std::runtime_error("Не удалось привязать UDP сокет");
         }
         
-        std::cout << "UDP Game Server started on port " << port << std::endl;
+        std::cout << "UDP игровой сервер запущен на порту " << port << std::endl;
     }
     
     void run() {
@@ -412,7 +412,7 @@ public:
                 buffer[bytesReceived] = '\0';
                 std::string data(buffer);
                 
-                // Parse simple protocol: "UPDATE:player_id,x,y,health"
+                // Простой протокол: "UPDATE:player_id,x,y,health"
                 if (data.substr(0, 7) == "UPDATE:") {
                     parsePlayerUpdate(data.substr(7), clientAddr);
                 }
@@ -421,7 +421,7 @@ public:
     }
     
     void parsePlayerUpdate(const std::string& data, sockaddr_in& clientAddr) {
-        // Format: player_id,x,y,health
+        // Формат: player_id,x,y,health
         size_t comma1 = data.find(',');
         size_t comma2 = data.find(',', comma1 + 1);
         size_t comma3 = data.find(',', comma2 + 1);
@@ -432,14 +432,14 @@ public:
             float y = std::stof(data.substr(comma2 + 1, comma3 - comma2 - 1));
             float health = std::stof(data.substr(comma3 + 1));
             
-            // Update player state
+            // Обновление состояния игрока
             auto& player = players[playerId];
             player.x = x;
             player.y = y;
             player.health = health;
             player.lastUpdate = std::chrono::steady_clock::now();
             
-            // Broadcast to all other players
+            // Рассылка всем остальным игрокам
             broadcastPlayerStates(playerId);
         }
     }
@@ -447,7 +447,7 @@ public:
     void broadcastPlayerStates(const std::string& excludeId) {
         for (const auto& [id, state] : players) {
             if (id != excludeId) {
-                // Send to each client (clients stored separately in real implementation)
+                // Отправка каждому клиенту (клиенты хранятся отдельно в реальной реализации)
             }
         }
     }
@@ -461,15 +461,15 @@ public:
 
 ---
 
-## Part 6: Packet Serialization for Game Data
+## Часть 6: Сериализация пакетов для игровых данных
 
-Send complex data structures over the network.
+Отправка сложных структур данных по сети.
 
 ```cpp
 #include <vector>
 #include <cstring>
 
-#pragma pack(push, 1)  // No padding between fields
+#pragma pack(push, 1)  // Без выравнивания между полями
 struct PlayerPacket {
     uint32_t packetId;
     uint32_t playerId;
@@ -497,7 +497,7 @@ public:
     }
 };
 
-// Example usage
+// Пример использования
 void sendPlayerUpdate(SOCKET sock, sockaddr_in& addr, uint32_t playerId, 
                       float x, float y, float z, float health) {
     PlayerPacket packet;
@@ -518,7 +518,7 @@ void sendPlayerUpdate(SOCKET sock, sockaddr_in& addr, uint32_t playerId,
 
 ---
 
-## Part 7: Simple Multiplayer Game Example
+## Часть 7: Пример простой многопользовательской игры
 
 ```cpp
 #include <iostream>
@@ -532,23 +532,23 @@ struct GameState {
     int nextPlayerId;
     
     void update(float dt) {
-        // Update player positions
+        // Обновление позиций игроков
         for (auto& [id, player] : players) {
             player.x += player.vx * dt;
             player.y += player.vy * dt;
             
-            // Boundary checks
+            // Проверка границ
             player.x = std::clamp(player.x, 0.0f, 800.0f);
             player.y = std::clamp(player.y, 0.0f, 600.0f);
         }
         
-        // Update projectiles
+        // Обновление снарядов
         for (auto& p : projectiles) {
             p.x += p.vx * dt;
             p.y += p.vy * dt;
         }
         
-        // Remove expired projectiles
+        // Удаление снарядов за пределами
         projectiles.erase(
             std::remove_if(projectiles.begin(), projectiles.end(),
                 [](const Projectile& p) {
@@ -600,22 +600,22 @@ public:
             float dt = std::chrono::duration<float>(currentTime - lastTime).count();
             lastTime = currentTime;
             
-            // Cap dt to prevent physics explosions
+            // Ограничение dt для предотвращения взрывов физики
             dt = std::min(dt, 0.033f);
             
             state.update(dt);
             
-            // Broadcast state to all clients (simplified)
+            // Рассылка состояния всем клиентам (упрощённо)
             broadcastGameState();
             
-            // 60 FPS target
+            // Целевые 60 FPS
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
         }
     }
     
     void broadcastGameState() {
-        // Serialize and send game state to all connected clients
-        // Implementation depends on network protocol (UDP recommended)
+        // Сериализация и отправка состояния игры всем подключённым клиентам
+        // Реализация зависит от сетевого протокола (рекомендуется UDP)
     }
     
     ~GameServer() {
@@ -627,26 +627,26 @@ public:
 
 ---
 
-## Common Networking Mistakes
+## Частые ошибки в сетевом программировании
 
-### 1. Blocking on Recv
+### 1. Блокировка на Recv
 
 ```cpp
-// ❌ Blocks indefinitely
+// ❌ Блокировка на неопределённое время
 recv(sock, buffer, size, 0);
 
-// ✅ Use non-blocking or timeout
+// ✅ Используйте неблокирующий режим или таймаут
 setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 recv(sock, buffer, size, 0);
 ```
 
-### 2. Assuming Data is Complete
+### 2. Предположение о полноте данных
 
 ```cpp
-// ❌ May get partial message
+// ❌ Может получить часть сообщения
 int bytes = recv(sock, buffer, 1024, 0);
 
-// ✅ Keep reading until full message received
+// ✅ Продолжайте чтение, пока не получено полное сообщение
 int total = 0;
 while (total < expectedSize) {
     int bytes = recv(sock, buffer + total, expectedSize - total, 0);
@@ -655,35 +655,35 @@ while (total < expectedSize) {
 }
 ```
 
-### 3. Endianness Issues
+### 3. Проблемы с порядком байтов
 
 ```cpp
-// ❌ Different byte order on different platforms
+// ❌ Разный порядок байтов на разных платформах
 int port = 5555;
-send(sock, &port, sizeof(port), 0);  // May be big-endian or little-endian
+send(sock, &port, sizeof(port), 0);  // Может быть big-endian или little-endian
 
-// ✅ Use htons/htonl for network byte order
+// ✅ Используйте htons/htonl для сетевого порядка байтов
 int portNetwork = htons(5555);
 send(sock, &portNetwork, sizeof(portNetwork), 0);
 
-// ✅ On receive:
+// ✅ При получении:
 int portNetwork;
 recv(sock, &portNetwork, sizeof(portNetwork), 0);
 int portHost = ntohs(portNetwork);
 ```
 
-### 4. Not Handling Disconnects
+### 4. Игнорирование отключений
 
 ```cpp
-// ❌ Never check if client disconnected
+// ❌ Никогда не проверяет, отключился ли клиент
 while (true) {
-    send(sock, data, size, 0);  // May send to dead connection
+    send(sock, data, size, 0);  // Может отправлять мёртвому соединению
 }
 
-// ✅ Check return values
+// ✅ Проверяйте возвращаемые значения
 int result = send(sock, data, size, 0);
 if (result == SOCKET_ERROR) {
-    // Client disconnected
+    // Клиент отключился
     removeClient(sock);
     break;
 }
@@ -691,30 +691,30 @@ if (result == SOCKET_ERROR) {
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Socket creation
+// Создание сокета
 SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);  // TCP
 SOCKET sock = socket(AF_INET, SOCK_DGRAM, 0);   // UDP
 
-// TCP Server
+// TCP сервер
 bind(sock, (sockaddr*)&addr, sizeof(addr));
 listen(sock, 5);
 SOCKET client = accept(sock, (sockaddr*)&clientAddr, &clientLen);
 
-// TCP Client
+// TCP клиент
 connect(sock, (sockaddr*)&serverAddr, sizeof(serverAddr));
 
-// Send/Receive (TCP)
+// Отправка/Получение (TCP)
 send(sock, data, size, 0);
 recv(sock, buffer, size, 0);
 
-// Send/Receive (UDP)
+// Отправка/Получение (UDP)
 sendto(sock, data, size, 0, (sockaddr*)&addr, sizeof(addr));
 recvfrom(sock, buffer, size, 0, (sockaddr*)&addr, &addrLen);
 
-// Helper functions
+// Вспомогательные функции
 inet_pton(AF_INET, "192.168.1.1", &addr.sin_addr);
 inet_ntop(AF_INET, &addr.sin_addr, ipStr, sizeof(ipStr));
 htons(port)      // Host to network short
@@ -722,52 +722,52 @@ ntohs(port)      // Network to host short
 htonl(value)     // Host to network long
 ntohl(value)     // Network to host long
 
-// Cleanup
+// Очистка
 closesocket(sock);   // Windows
 close(sock);         // Linux/macOS
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Modify the chat server to support private messages (/msg username text).
+**Упражнение 1 (Лёгкое):** Модифицируйте сервер чата для поддержки личных сообщений (/msg имя текст).
 
-**Exercise 2 (Medium):** Create a UDP echo server that returns any received packet to the sender.
+**Упражнение 2 (Среднее):** Создайте UDP эхо-сервер, возвращающий любой полученный пакет отправителю.
 
-**Exercise 3 (Medium):** Build a simple "Who's Online" system. Clients send heartbeat packets every 5 seconds; server tracks active clients.
+**Упражнение 3 (Среднее):** Создайте простую систему "Кто онлайн". Клиенты отправляют heartbeat-пакеты каждые 5 секунд; сервер отслеживает активных клиентов.
 
-**Exercise 4 (Hard):** Implement a basic matchmaking server. Players send "looking for game" messages; server groups them into lobbies.
+**Упражнение 4 (Сложное):** Реализуйте базовый сервер подбора матчей. Игроки отправляют сообщения "ищу игру"; сервер объединяет их в группы.
 
-**Exercise 5 (Hard):** Create a file transfer program using TCP. Support sending large files with progress indicators.
+**Упражнение 5 (Сложное):** Создайте программу для передачи файлов с использованием TCP. Поддерживайте отправку больших файлов с индикаторами прогресса.
 
-**Exercise 6 (Challenge):** Build a complete multiplayer pong game. One server, two clients. Synchronize ball and paddle positions using UDP.
-
----
-
-## Summary
-
-You now know:
-
-✅ TCP vs UDP differences and when to use each  
-✅ Berkeley sockets API (cross-platform)  
-✅ Simple chat server and client  
-✅ UDP for real-time game data  
-✅ Packet serialization for complex data  
-✅ Basic multiplayer game architecture  
-
-## What's Next?
-
-Next lesson: **Game Design Patterns** — Singleton, Factory, Observer, and more patterns used in real game engines!
+**Упражнение 6 (Вызов):** Создайте полноценную многопользовательскую игру Pong. Один сервер, два клиента. Синхронизируйте позиции мяча и ракеток с помощью UDP.
 
 ---
 
-## Resources
+## Резюме
 
-- [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)
-- [Winsock documentation (Microsoft)](https://docs.microsoft.com/en-us/windows/win32/winsock/)
-- [POSIX sockets (Linux)](https://man7.org/linux/man-pages/man7/socket.7.html)
+Теперь вы знаете:
+
+✅ Различия TCP и UDP и когда какой использовать  
+✅ API сокетов Беркли (кросс-платформенный)  
+✅ Простой сервер и клиент чата  
+✅ UDP для игровых данных в реальном времени  
+✅ Сериализацию пакетов для сложных данных  
+✅ Базовую архитектуру многопользовательской игры  
+
+## Что дальше?
+
+Следующий урок: **Паттерны проектирования игр** — Singleton, Factory, Observer и другие паттерны, используемые в реальных игровых движках!
 
 ---
 
-**Practice Task:** Build a small multiplayer game (like Snake or Pong) using UDP. Implement client-side prediction and server reconciliation to handle lag. Test with multiple clients!
+## Ресурсы
+
+- [Руководство Бижа по сетевому программированию](https://beej.us/guide/bgnet/)
+- [Документация Winsock (Microsoft)](https://docs.microsoft.com/en-us/windows/win32/winsock/)
+- [POSIX сокеты (Linux)](https://man7.org/linux/man-pages/man7/socket.7.html)
+
+---
+
+**Практическое задание:** Создайте небольшую многопользовательскую игру (например, «Змейка» или «Понг») с использованием протокола UDP. Реализуйте прогнозирование на стороне клиента и согласование с сервером для обработки задержек. Протестируйте с несколькими клиентами!

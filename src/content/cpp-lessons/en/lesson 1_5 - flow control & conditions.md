@@ -4,7 +4,7 @@ description: "Make decisions in your code — branching paths, multiple outcomes
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "control-flow", "if-else", "switch"]
 lang: "en"
-lessonNumber: 5
+lessonNumber: 105
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

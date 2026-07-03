@@ -1,6 +1,6 @@
 ---
-title: "Functions — Reusable Code Blocks"
-description: "Organize code, avoid repetition, and build complex systems with functions"
+title: "Функции — переиспользуемые блоки кода"
+description: "Организуйте код, избегайте повторений и создавайте сложные системы с помощью функций"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "functions", "reusability", "modularity"]
 lang: "ru"
@@ -9,47 +9,47 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 8: Functions - Reusable Code Blocks
+# Урок 8: Функции — переиспользуемые блоки кода
 
-Welcome back! So far, we've written all our code in `main()`. But as programs grow, this becomes unmanageable. **Functions** let us break code into reusable, testable, and readable pieces.
+Добро пожаловать обратно! До сих пор мы писали весь код в `main()`. Но по мере роста программ это становится неуправляемым. **Функции** позволяют нам разбивать код на переиспользуемые, тестируемые и читаемые части.
 
-## What You'll Learn
+## Что вы изучите
 
-- What functions are and why we need them
-- Function declaration, definition, and calling
-- Parameters and arguments (pass by value vs reference)
-- Return values
-- Function overloading
-- Default parameters
-- Scope and lifetime of variables
+- Что такое функции и зачем они нужны
+- Объявление, определение и вызов функций
+- Параметры и аргументы (передача по значению vs по ссылке)
+- Возвращаемые значения
+- Перегрузка функций
+- Параметры по умолчанию
+- Область видимости и время жизни переменных
 
 ---
 
-## Part 1: Why Functions?
+## Часть 1: Зачем нужны функции?
 
-Imagine calculating damage in an RPG. Without functions, you'd copy-paste the same code everywhere:
+Представьте, что вы рассчитываете урон в RPG. Без функций вам придётся копировать один и тот же код повсюду:
 
 ```cpp
-// ❌ WITHOUT functions — terrible!
+// ❌ БЕЗ функций — ужасно!
 int main() {
-    // First battle
+    // Первый бой
     int damage1 = 15 + rand() % 10;
-    int final1 = damage1 * 2;  // Critical check
+    int final1 = damage1 * 2;  // Проверка крита
     enemyHealth -= final1;
     
-    // Later, another battle — same code again!
+    // Позже, другой бой — тот же код снова!
     int damage2 = 15 + rand() % 10;
     int final2 = damage2 * 2;
     anotherEnemyHealth -= final2;
     
-    // And again... and again...
+    // И снова... и снова...
 }
 ```
 
-**With functions:**
+**С функциями:**
 
 ```cpp
-// ✅ WITH functions — clean!
+// ✅ С функциями — чисто!
 int calculateDamage(int baseDamage) {
     int damage = baseDamage + rand() % 10;
     bool isCritical = (rand() % 100) < 20;
@@ -59,13 +59,13 @@ int calculateDamage(int baseDamage) {
 int main() {
     enemyHealth -= calculateDamage(15);
     anotherEnemyHealth -= calculateDamage(15);
-    bossHealth -= calculateDamage(25);  // Different base, same logic!
+    bossHealth -= calculateDamage(25);  // Другая база, та же логика!
 }
 ```
 
 ---
 
-## Part 2: Function Anatomy
+## Часть 2: Анатомия функции
 
 ```cpp
 // return_type function_name(parameter_list) {
@@ -78,39 +78,39 @@ int add(int a, int b) {
 }
 ```
 
-### Breaking It Down
+### Разбор по частям
 
-| Part | Example | Purpose |
-|------|---------|---------|
-| Return type | `int` | Type of value returned (use `void` for nothing) |
-| Function name | `add` | How you call the function |
-| Parameters | `(int a, int b)` | Input values (can be zero or more) |
-| Body | `{ return a + b; }` | Code that runs when called |
-| Return | `return` | Sends value back to caller |
+| Часть | Пример | Назначение |
+|------|---------|------------|
+| Тип возврата | `int` | Тип возвращаемого значения (используйте `void`, если ничего не возвращается) |
+| Имя функции | `add` | Как вы вызываете функцию |
+| Параметры | `(int a, int b)` | Входные значения (может быть ноль или больше) |
+| Тело | `{ return a + b; }` | Код, который выполняется при вызове |
+| Возврат | `return` | Отправляет значение обратно вызывающему коду |
 
 ---
 
-## Part 3: Your First Functions
+## Часть 3: Ваши первые функции
 
 ```cpp
 #include <iostream>
 
-// Simple function — no parameters, no return
+// Простая функция — без параметров, без возврата
 void sayHello() {
-    std::cout << "Hello, adventurer!" << std::endl;
+    std::cout << "Привет, искатель приключений!" << std::endl;
 }
 
-// Function with parameter, no return
+// Функция с параметром, без возврата
 void greetPlayer(std::string name) {
-    std::cout << "Welcome, " << name << "!" << std::endl;
+    std::cout << "Добро пожаловать, " << name << "!" << std::endl;
 }
 
-// Function with parameters and return
+// Функция с параметрами и возвратом
 int add(int x, int y) {
     return x + y;
 }
 
-// Function that returns a value to use
+// Функция, возвращающая значение для использования
 int calculateExperience(int level, int enemyDifficulty) {
     int baseXP = 50;
     int xp = baseXP + (level * 10) + (enemyDifficulty * 20);
@@ -119,81 +119,81 @@ int calculateExperience(int level, int enemyDifficulty) {
 
 int main() {
     sayHello();
-    greetPlayer("Stanislav");
+    greetPlayer("Станислав");
     
     int result = add(5, 3);
     std::cout << "5 + 3 = " << result << std::endl;
     
     int xp = calculateExperience(5, 3);
-    std::cout << "You gained " << xp << " XP!" << std::endl;
+    std::cout << "Вы получили " << xp << " XP!" << std::endl;
     
-    // You can also use the function directly
+    // Можно использовать функцию напрямую
     std::cout << "10 + 20 = " << add(10, 20) << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Hello, adventurer!
-Welcome, Stanislav!
+Привет, искатель приключений!
+Добро пожаловать, Станислав!
 5 + 3 = 8
-You gained 160 XP!
+Вы получили 160 XP!
 10 + 20 = 30
 ```
 
 ---
 
-## Part 4: Pass by Value vs Pass by Reference
+## Часть 4: Передача по значению vs по ссылке
 
-### Pass by Value (Default) — Makes a Copy
+### Передача по значению (по умолчанию) — создаётся копия
 
 ```cpp
 void modifyValue(int x) {
-    x = 100;  // Modifies the COPY, not the original
+    x = 100;  // Изменяет КОПИЮ, не оригинал
 }
 
 int main() {
     int health = 50;
     modifyValue(health);
-    std::cout << health;  // Still 50 — unchanged!
+    std::cout << health;  // Всё ещё 50 — без изменений!
 }
 ```
 
-### Pass by Reference (`&`) — Modifies Original
+### Передача по ссылке (`&`) — изменение оригинала
 
 ```cpp
 void heal(int& health, int amount) {
-    health += amount;  // Modifies the ACTUAL variable
+    health += amount;  // Изменяет ФАКТИЧЕСКУЮ переменную
 }
 
 int main() {
     int playerHealth = 50;
     heal(playerHealth, 30);
-    std::cout << playerHealth;  // 80 — changed!
+    std::cout << playerHealth;  // 80 — изменилось!
 }
 ```
 
-### Real Game Example
+### Реальный игровой пример
 
 ```cpp
 #include <iostream>
 #include <string>
 
-// Pass by value — we just need the value, don't need to modify
+// Передача по значению — нам нужно только значение, изменять не нужно
 void displayStats(std::string name, int health, int mana) {
     std::cout << name << " — HP: " << health << " | MP: " << mana << std::endl;
 }
 
-// Pass by reference — we want to MODIFY the original
+// Передача по ссылке — мы хотим ИЗМЕНИТЬ оригинал
 void takeDamage(int& health, int damage) {
     health -= damage;
     if (health < 0) health = 0;
-    std::cout << "Took " << damage << " damage! Health: " << health << std::endl;
+    std::cout << "Получено " << damage << " урона! Здоровье: " << health << std::endl;
 }
 
-// Pass by reference — avoid copying large objects (const for read-only)
+// Передача по ссылке — избегаем копирования больших объектов (const для чтения)
 void printInventory(const std::vector<std::string>& items) {
     for (const auto& item : items) {
         std::cout << "- " << item << std::endl;
@@ -201,7 +201,7 @@ void printInventory(const std::vector<std::string>& items) {
 }
 
 int main() {
-    std::string playerName = "Kaelen";
+    std::string playerName = "Каэлен";
     int health = 100;
     int mana = 50;
     
@@ -215,20 +215,20 @@ int main() {
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Kaelen — HP: 100 | MP: 50
-Took 35 damage! Health: 65
-Kaelen — HP: 65 | MP: 50
-Took 80 damage! Health: 0
-Kaelen — HP: 0 | MP: 50
+Каэлен — HP: 100 | MP: 50
+Получено 35 урона! Здоровье: 65
+Каэлен — HP: 65 | MP: 50
+Получено 80 урона! Здоровье: 0
+Каэлен — HP: 0 | MP: 50
 ```
 
 ---
 
-## Part 5: Return Values — Multiple Ways
+## Часть 5: Возвращаемые значения — несколько способов
 
-### Single Return (Most Common)
+### Один возврат (наиболее распространённый)
 
 ```cpp
 int square(int x) {
@@ -236,22 +236,22 @@ int square(int x) {
 }
 ```
 
-### Early Return (Guard Clauses)
+### Ранний возврат (охранные условия)
 
 ```cpp
 int divide(int a, int b) {
     if (b == 0) {
-        std::cerr << "Error: Division by zero!" << std::endl;
-        return 0;  // Early return on error
+        std::cerr << "Ошибка: Деление на ноль!" << std::endl;
+        return 0;  // Ранний возврат при ошибке
     }
-    return a / b;  // Normal return
+    return a / b;  // Нормальный возврат
 }
 ```
 
-### Returning Multiple Values (Using References)
+### Возврат нескольких значений (через ссылки)
 
 ```cpp
-// Calculate both sum and product
+// Вычисление суммы и произведения
 void calculate(int a, int b, int& sum, int& product) {
     sum = a + b;
     product = a * b;
@@ -260,27 +260,27 @@ void calculate(int a, int b, int& sum, int& product) {
 int main() {
     int s, p;
     calculate(5, 3, s, p);
-    std::cout << "Sum: " << s << ", Product: " << p << std::endl;
+    std::cout << "Сумма: " << s << ", Произведение: " << p << std::endl;
     return 0;
 }
 ```
 
 ---
 
-## Part 6: Function Declaration vs Definition
+## Часть 6: Объявление vs определение функции
 
-**Declaration** (prototype) — tells compiler "this function exists"
-**Definition** (implementation) — the actual code
+**Объявление** (прототип) — сообщает компилятору "эта функция существует"
+**Определение** (реализация) — фактический код
 
 ```cpp
 #include <iostream>
 
-// Declarations (usually in header files)
+// Объявления (обычно в заголовочных файлах)
 int add(int a, int b);
 void printMessage(const std::string& msg);
 float calculateDamage(float base, float multiplier);
 
-// Definitions (usually in .cpp files)
+// Определения (обычно в .cpp файлах)
 int add(int a, int b) {
     return a + b;
 }
@@ -295,24 +295,24 @@ float calculateDamage(float base, float multiplier) {
 
 int main() {
     std::cout << add(5, 3) << std::endl;
-    printMessage("Hello!");
+    printMessage("Привет!");
     std::cout << calculateDamage(15.0f, 2.0f) << std::endl;
     return 0;
 }
 ```
 
-**Why declare separately?** You can put declarations at the top, and definitions anywhere (even in different files). This is how large projects are organized.
+**Зачем объявлять отдельно?** Можно поместить объявления в начало, а определения куда угодно (даже в разные файлы). Так организованы большие проекты.
 
 ---
 
-## Part 7: Function Overloading
+## Часть 7: Перегрузка функций
 
-Multiple functions with the **same name** but different parameters.
+Несколько функций с **одинаковым именем**, но разными параметрами.
 
 ```cpp
 #include <iostream>
 
-// Different parameter types
+// Разные типы параметров
 int add(int a, int b) {
     return a + b;
 }
@@ -321,33 +321,33 @@ float add(float a, float b) {
     return a + b;
 }
 
-// Different number of parameters
+// Разное количество параметров
 int add(int a, int b, int c) {
     return a + b + c;
 }
 
 int main() {
-    std::cout << add(5, 3) << std::endl;           // Calls int version
-    std::cout << add(5.5f, 3.2f) << std::endl;     // Calls float version
-    std::cout << add(1, 2, 3) << std::endl;        // Calls 3-parameter version
+    std::cout << add(5, 3) << std::endl;           // Вызов int версии
+    std::cout << add(5.5f, 3.2f) << std::endl;     // Вызов float версии
+    std::cout << add(1, 2, 3) << std::endl;        // Вызов 3-параметрической версии
     return 0;
 }
 ```
 
-**Game Example: Damage Calculation**
+**Игровой пример: Расчёт урона**
 
 ```cpp
-// Standard damage
+// Стандартный урон
 int calculateDamage(int baseDamage) {
     return baseDamage + rand() % 10;
 }
 
-// Damage with elemental modifier
+// Урон с элементом
 int calculateDamage(int baseDamage, float elementalBonus) {
     return static_cast<int>((baseDamage + rand() % 10) * elementalBonus);
 }
 
-// Damage with critical chance
+// Урон с шансом крита
 int calculateDamage(int baseDamage, int criticalChance, int criticalMultiplier) {
     int damage = baseDamage + rand() % 10;
     if ((rand() % 100) < criticalChance) {
@@ -359,89 +359,89 @@ int calculateDamage(int baseDamage, int criticalChance, int criticalMultiplier) 
 
 ---
 
-## Part 8: Default Parameters
+## Часть 8: Параметры по умолчанию
 
-Give parameters default values.
+Задайте параметрам значения по умолчанию.
 
 ```cpp
 #include <iostream>
 
-void heal(int& health, int amount = 20) {  // Default healing = 20
+void heal(int& health, int amount = 20) {  // Лечение по умолчанию = 20
     health += amount;
 }
 
 void logMessage(const std::string& message, int importance = 1) {
-    std::cout << "[Level " << importance << "] " << message << std::endl;
+    std::cout << "[Уровень " << importance << "] " << message << std::endl;
 }
 
 int main() {
     int hp = 50;
     
-    heal(hp);           // Uses default 20 → hp becomes 70
-    heal(hp, 50);       // Uses 50 → hp becomes 120
+    heal(hp);           // Использует значение по умолчанию 20 → hp становится 70
+    heal(hp, 50);       // Использует 50 → hp становится 120
     
-    logMessage("Player joined");           // Level 1
-    logMessage("Critical error!", 5);      // Level 5
+    logMessage("Игрок присоединился");           // Уровень 1
+    logMessage("Критическая ошибка!", 5);      // Уровень 5
     
     return 0;
 }
 ```
 
-**⚠️ Rules for default parameters:**
-1. Must be from right to left (can't skip)
+**⚠️ Правила для параметров по умолчанию:**
+1. Должны идти справа налево (нельзя пропускать)
 2. ```cpp
-   // ✅ Correct
+   // ✅ Правильно
    void func(int a, int b = 10, int c = 20);
    
-   // ❌ Wrong
-   void func(int a = 10, int b, int c = 20);  // Can't have non-default after default
+   // ❌ Неправильно
+   void func(int a = 10, int b, int c = 20);  // Нельзя ставить параметр без умолчания после параметра с умолчанием
    ```
 
 ---
 
-## Part 9: Scope and Lifetime
+## Часть 9: Область видимости и время жизни
 
-Where variables "live" matters!
+Где "живут" переменные — имеет значение!
 
 ```cpp
 #include <iostream>
 
-int globalScore = 1000;  // Global — lives entire program
+int globalScore = 1000;  // Глобальная — живёт всю программу
 
 void myFunction() {
-    int localVar = 42;    // Local — dies when function ends
-    static int staticVar = 0;  // Static — keeps value between calls
+    int localVar = 42;    // Локальная — умирает, когда функция завершается
+    static int staticVar = 0;  // Статическая — сохраняет значение между вызовами
     staticVar++;
     
-    std::cout << "Static: " << staticVar << std::endl;
-    std::cout << "Global in function: " << globalScore << std::endl;
+    std::cout << "Статическая: " << staticVar << std::endl;
+    std::cout << "Глобальная в функции: " << globalScore << std::endl;
 }
 
 int main() {
-    int localMain = 10;   // Local to main
+    int localMain = 10;   // Локальная для main
     
-    myFunction();  // Static: 1
-    myFunction();  // Static: 2
-    myFunction();  // Static: 3
+    myFunction();  // Статическая: 1
+    myFunction();  // Статическая: 2
+    myFunction();  // Статическая: 3
     
-    // std::cout << localVar;  // ERROR! localVar doesn't exist here
+    // std::cout << localVar;  // ОШИБКА! localVar здесь не существует
     
     return 0;
 }
 ```
 
-### Variable Scope Summary
+### Сводка по области видимости переменных
 
-| Type | Scope | Lifetime | When to Use |
+| Тип | Область видимости | Время жизни | Когда использовать |
 |------|-------|----------|-------------|
-| Local | Inside function only | Function call | Default — most variables |
-| Static local | Inside function only | Entire program | Count calls, preserve state |
-| Global | Everywhere | Entire program | Rarely — config, constants |
-| Parameter | Inside function | Function call | Input values |
+| Локальная | Внутри функции | Вызов функции | По умолчанию — большинство переменных |
+| Статическая локальная | Внутри функции | Вся программа | Счётчик вызовов, сохранение состояния |
+| Глобальная | Везде | Вся программа | Редко — конфигурация, константы |
+| Параметр | Внутри функции | Вызов функции | Входные значения |
 
 ---
 
-## Complete Example: RPG Combat System with Functions
+## Полный пример: RPG боевая система с функциями
 
 ```cpp
 #include <iostream>
@@ -449,11 +449,11 @@ int main() {
 #include <ctime>
 #include <string>
 
-// Constants
+// Константы
 const int MAX_HEALTH = 100;
 const int CRITICAL_CHANCE = 20;  // 20%
 
-// Function declarations
+// Объявления функций
 int calculateDamage(int baseDamage, int strength);
 int calculateDamage(int baseDamage, int strength, float elementalBonus);
 void applyDamage(int& health, int damage);
@@ -465,26 +465,26 @@ void displayBattleStatus(const std::string& playerName, int playerHealth,
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     
-    // Player stats
-    std::string playerName = "Kaelen";
+    // Характеристики игрока
+    std::string playerName = "Каэлен";
     int playerHealth = MAX_HEALTH;
     int playerStrength = 15;
     
-    // Enemy stats
-    std::string enemyName = "Dragon";
+    // Характеристики врага
+    std::string enemyName = "Дракон";
     int enemyHealth = 150;
     int enemyStrength = 20;
     
-    std::cout << "=== EPIC BATTLE ===" << std::endl;
-    std::cout << playerName << " vs " << enemyName << "!\n" << std::endl;
+    std::cout << "=== ЭПИЧЕСКИЙ БОЙ ===" << std::endl;
+    std::cout << playerName << " против " << enemyName << "!\n" << std::endl;
     
     int turn = 0;
     while (playerHealth > 0 && enemyHealth > 0) {
         turn++;
-        std::cout << "\n--- Turn " << turn << " ---" << std::endl;
+        std::cout << "\n--- Ход " << turn << " ---" << std::endl;
         displayBattleStatus(playerName, playerHealth, enemyName, enemyHealth);
         
-        // Player turn
+        // Ход игрока
         int playerDamage = calculateDamage(15, playerStrength);
         bool playerCrit = isCriticalHit();
         if (playerCrit) playerDamage *= 2;
@@ -493,23 +493,23 @@ int main() {
         applyDamage(enemyHealth, playerDamage);
         
         if (enemyHealth <= 0) {
-            std::cout << "\n✦ VICTORY! " << enemyName << " is defeated! ✦" << std::endl;
+            std::cout << "\n✦ ПОБЕДА! " << enemyName << " повержен! ✦" << std::endl;
             break;
         }
         
-        // Enemy turn
+        // Ход врага
         int enemyDamage = calculateDamage(12, enemyStrength);
         bool enemyCrit = isCriticalHit();
         if (enemyCrit) enemyDamage *= 2;
         
-        std::cout << enemyName << " attacks for " << enemyDamage << " damage";
-        if (enemyCrit) std::cout << " (CRITICAL!)";
+        std::cout << enemyName << " атакует на " << enemyDamage << " урона";
+        if (enemyCrit) std::cout << " (КРИТ!)";
         std::cout << "!" << std::endl;
         
         applyDamage(playerHealth, enemyDamage);
         
         if (playerHealth <= 0) {
-            std::cout << "\n✗ DEFEAT! " << playerName << " has fallen... ✗" << std::endl;
+            std::cout << "\n✗ ПОРАЖЕНИЕ! " << playerName << " пал... ✗" << std::endl;
             break;
         }
     }
@@ -517,7 +517,7 @@ int main() {
     return 0;
 }
 
-// Function definitions
+// Определения функций
 int calculateDamage(int baseDamage, int strength) {
     int randomBonus = rand() % 15;
     return baseDamage + (strength / 3) + randomBonus;
@@ -538,9 +538,9 @@ bool isCriticalHit() {
 
 std::string getCombatMessage(int damage, bool isCritical) {
     if (isCritical) {
-        return "⚡ CRITICAL HIT! ⚡ You deal " + std::to_string(damage) + " damage! ";
+        return "⚡ КРИТИЧЕСКИЙ УДАР! ⚡ Вы наносите " + std::to_string(damage) + " урона! ";
     }
-    return "You hit for " + std::to_string(damage) + " damage! ";
+    return "Вы наносите " + std::to_string(damage) + " урона! ";
 }
 
 void displayBattleStatus(const std::string& playerName, int playerHealth, 
@@ -552,72 +552,72 @@ void displayBattleStatus(const std::string& playerName, int playerHealth,
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Forgetting to Return a Value
+### 1. Забытый возврат значения
 
 ```cpp
-// ❌ Undefined behavior!
+// ❌ Неопределённое поведение!
 int add(int a, int b) {
-    a + b;  // Missing return!
+    a + b;  // Пропущен return!
 }
 
-// ✅ Correct
+// ✅ Правильно
 int add(int a, int b) {
     return a + b;
 }
 ```
 
-### 2. Returning a Reference to a Local Variable
+### 2. Возврат ссылки на локальную переменную
 
 ```cpp
-// ❌ DANGEROUS! Local variable dies after function ends
+// ❌ ОПАСНО! Локальная переменная умирает после завершения функции
 int& getValue() {
     int x = 42;
-    return x;  // x is destroyed!
+    return x;  // x уничтожается!
 }
 
-// ✅ Return by value
+// ✅ Возврат по значению
 int getValue() {
     int x = 42;
     return x;
 }
 ```
 
-### 3. Mismatched Parameter Types
+### 3. Несоответствие типов параметров
 
 ```cpp
 void setHealth(float health) { }
 
 int main() {
-    setHealth(100);  // int converted to float — okay but be aware
-    setHealth(100.5f);  // Correct
+    setHealth(100);  // int преобразуется в float — нормально, но будьте внимательны
+    setHealth(100.5f);  // Правильно
 }
 ```
 
-### 4. Unused Parameters
+### 4. Неиспользуемые параметры
 
 ```cpp
-// ❌ Warning: unused parameter
+// ❌ Предупреждение: неиспользуемый параметр
 void logMessage(std::string message, int level) {
-    std::cout << message << std::endl;  // 'level' never used
+    std::cout << message << std::endl;  // 'level' не используется
 }
 
-// ✅ Omit parameter name
+// ✅ Опустите имя параметра
 void logMessage(std::string message, int /*level*/) {
     std::cout << message << std::endl;
 }
 ```
 
-### 5. Confusing Pass by Value vs Reference
+### 5. Путаница между передачей по значению и по ссылке
 
 ```cpp
-// This won't change the original
+// Это не изменит оригинал
 void addHealth(int health, int amount) {
     health += amount;
 }
 
-// This will
+// Это изменит
 void addHealth(int& health, int amount) {
     health += amount;
 }
@@ -625,42 +625,42 @@ void addHealth(int& health, int amount) {
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Basic function
+// Базовая функция
 returnType functionName(parameters) {
-    // code
+    // код
     return value;
 }
 
-// Void function (no return)
+// Функция void (без возврата)
 void functionName(parameters) {
-    // code
-    // no return needed (or just 'return;')
+    // код
+    // return не нужен (или просто 'return;')
 }
 
-// Pass by value (copy)
+// Передача по значению (копия)
 void func(Type param) { param = newValue; }
 
-// Pass by reference (modify original)
+// Передача по ссылке (изменение оригинала)
 void func(Type& param) { param = newValue; }
 
-// Const reference (read-only, no copy)
-void func(const Type& param) { /* read only */ }
+// Константная ссылка (только чтение, без копирования)
+void func(const Type& param) { /* только чтение */ }
 
-// Function declaration (prototype)
+// Объявление функции (прототип)
 returnType functionName(parameters);
 
-// Default parameters
+// Параметры по умолчанию
 void func(int a, int b = 10, int c = 20);
 
-// Function overloading — same name, different parameters
+// Перегрузка функций — одинаковое имя, разные параметры
 void display(int x);
 void display(float x);
 void display(int x, int y);
 
-// Static local variable (keeps value)
+// Статическая локальная переменная (сохраняет значение)
 void counter() {
     static int count = 0;
     count++;
@@ -669,73 +669,71 @@ void counter() {
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Write a function `bool isEven(int n)` that returns `true` if a number is even. Test it in `main()` with several values.
+**Упражнение 1 (Лёгкое):** Напишите функцию `bool isEven(int n)`, которая возвращает `true`, если число чётное. Проверьте её в `main()` с несколькими значениями.
 
-**Exercise 2 (Easy):** Write functions for:
-- `int max(int a, int b)` — returns larger number
-- `int min(int a, int b)` — returns smaller number
-- `int clamp(int value, int low, int high)` — restricts value to range
+**Упражнение 2 (Лёгкое):** Напишите функции:
+- `int max(int a, int b)` — возвращает большее число
+- `int min(int a, int b)` — возвращает меньшее число
+- `int clamp(int value, int low, int high)` — ограничивает значение диапазоном
 
-**Exercise 3 (Medium):** Create a "Temperature Converter" with functions:
+**Упражнение 3 (Среднее):** Создайте "Конвертер температур" с функциями:
 - `float celsiusToFahrenheit(float c)`
 - `float fahrenheitToCelsius(float f)`
 - `float celsiusToKelvin(float c)`
-Menu system to choose conversion
+Система меню для выбора конвертации
 
-**Exercise 4 (Medium):** Write a "Geometry Calculator" with functions:
+**Упражнение 4 (Среднее):** Напишите "Калькулятор геометрии" с функциями:
 - `float circleArea(float radius)`
 - `float rectangleArea(float length, float width)`
 - `float triangleArea(float base, float height)`
-Menu to choose shape and calculate area
+Меню для выбора фигуры и расчёта площади
 
-**Exercise 5 (Hard):** Create a "Bank Account" system with functions:
+**Упражнение 5 (Сложное):** Создайте систему "Банковский счёт" с функциями:
 - `void deposit(float& balance, float amount)`
 - `bool withdraw(float& balance, float amount)`
 - `void displayBalance(float balance)`
-- `void applyInterest(float& balance, float rate)` (rate as percentage, e.g., 5.0 for 5%)
-Main program loop with menu
+- `void applyInterest(float& balance, float rate)` (rate в процентах, например 5.0 для 5%)
+Главный цикл программы с меню
 
-**Exercise 6 (Challenge):** Build a "Dice Game" with functions:
-- `int rollDice(int sides)` — returns random 1 to sides
-- `int rollMultiple(int count, int sides)` — sum of multiple dice
-- `bool checkSuccess(int roll, int target)` — returns true if roll >= target
-- `void displayRollHistory(const std::vector<int>& rolls)` — shows all rolls
-Create a simple game where player tries to beat a target score
-
----
-
-## Summary
-
-You now know:
-
-✅ Why functions make code reusable and readable  
-✅ Function declaration vs definition  
-✅ Parameters — pass by value vs reference  
-✅ Return values and early returns  
-✅ Function overloading (same name, different parameters)  
-✅ Default parameters  
-✅ Scope and lifetime of variables  
-
-## What's Next?
-
-Next lesson: **Structs and Enums** — create custom data types to organize related information (characters, items, game states)!
+**Упражнение 6 (Вызов):** Постройте "Игру в кости" с функциями:
+- `int rollDice(int sides)` — возвращает случайное число от 1 до sides
+- `int rollMultiple(int count, int sides)` — сумма нескольких костей
+- `bool checkSuccess(int roll, int target)` — возвращает true, если roll >= target
+- `void displayRollHistory(const std::vector<int>& rolls)` — показывает все броски
+Создайте простую игру, где игрок пытается превзойти целевой результат
 
 ---
 
-## Resources
+## Резюме
 
-- [C++ Functions (cppreference)](https://en.cppreference.com/w/cpp/language/functions)
-- [Pass by value vs reference](https://www.learncpp.com/cpp-tutorial/pass-by-value-vs-pass-by-reference/)
+Теперь вы знаете:
+
+✅ Почему функции делают код переиспользуемым и читаемым  
+✅ Объявление vs определение функций  
+✅ Параметры — передача по значению vs по ссылке  
+✅ Возвращаемые значения и ранние возвраты  
+✅ Перегрузка функций (одинаковое имя, разные параметры)  
+✅ Параметры по умолчанию  
+✅ Область видимости и время жизни переменных  
+
+## Что дальше?
+
+Следующий урок: **Структуры и перечисления** — создавайте собственные типы данных для организации связанной информации (персонажи, предметы, состояния игры)!
 
 ---
 
-**Practice Task:** Create a "Character Creator" system. Write functions for:
+## Ресурсы
+
+- [Функции C++ (cppreference)](https://en.cppreference.com/w/cpp/language/functions)
+- [Передача по значению vs по ссылке](https://www.learncpp.com/cpp-tutorial/pass-by-value-vs-pass-by-reference/)
+
+---
+
+**Практическое задание:** Создайте систему "Создание персонажа". Напишите функции для:
 - `void createCharacter(std::string& name, int& health, int& strength)`
 - `void displayCharacter(const std::string& name, int health, int strength)`
 - `void levelUp(int& health, int& strength)`
-- `bool saveCharacter(const std::string& name, int health, int strength)` — to file
-- `bool loadCharacter(std::string& name, int& health, int& strength)` — from file
-
-This combines functions, references, and file I/O (we'll cover file I/O in a future lesson if you need it)!
+- `bool saveCharacter(const std::string& name, int health, int strength)` — в файл
+- `bool loadCharacter(std::string& name, int& health, int& strength)` — из файла

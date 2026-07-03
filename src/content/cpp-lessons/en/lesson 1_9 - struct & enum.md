@@ -4,7 +4,7 @@ description: "Organize related data and represent game states with custom types"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "structs", "enums", "custom-types"]
 lang: "en"
-lessonNumber: 9
+lessonNumber: 109
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

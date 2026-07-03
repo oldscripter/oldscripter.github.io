@@ -1,6 +1,6 @@
 ---
-title: "Structs and Enums — Creating Custom Types"
-description: "Organize related data and represent game states with custom types"
+title: "Структуры и перечисления — создание собственных типов"
+description: "Организуйте связанные данные и создавайте пользовательские типы"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "structs", "enums", "custom-types"]
 lang: "ru"
@@ -9,27 +9,27 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 9: Structs and Enums — Creating Custom Types
+# Урок 9: Структуры и перечисления — создание собственных типов
 
-Welcome back! So far, we've used basic types like `int`, `float`, and `string`. But real games need to represent complex things — players, enemies, weapons, spells. **Structs** group related data, and **enums** create named constants. Let's build them!
+Добро пожаловать обратно! До сих пор мы использовали базовые типы, такие как `int`, `float` и `string`. Но настоящим играм нужно представлять сложные вещи — игроков, врагов, оружие, заклинания. **Структуры** группируют связанные данные, а **перечисления** создают именованные константы. Давайте создадим их!
 
-## What You'll Learn
+## Что вы изучите
 
-- **Structs** — create custom data types that group multiple values
-- **Enums** — named constants for states, types, and options
-- **Enum classes** — type-safe enums (C++11 and later)
-- Putting it all together — RPG character system
-- Best practices and common patterns
+- **Структуры** — создание пользовательских типов данных, которые группируют несколько значений
+- **Перечисления** — именованные константы для состояний, типов и опций
+- **Классы перечислений** — типобезопасные перечисления (C++11 и новее)
+- Собираем всё вместе — RPG система персонажей
+- Лучшие практики и распространённые паттерны
 
 ---
 
-## Part 1: Why Structs?
+## Часть 1: Зачем нужны структуры?
 
-Without structs, tracking a player means multiple separate variables:
+Без структур отслеживание игрока означает множество отдельных переменных:
 
 ```cpp
-// ❌ Without structs — messy!
-std::string playerName = "Kaelen";
+// ❌ Без структур — беспорядок!
+std::string playerName = "Каэлен";
 int playerHealth = 100;
 int playerMana = 50;
 float playerX = 10.0f;
@@ -37,16 +37,16 @@ float playerY = 20.0f;
 int playerLevel = 5;
 std::vector<std::string> playerInventory;
 
-// Every time you pass to a function — many parameters
+// При каждом вызове функции — множество параметров
 void displayPlayer(std::string name, int health, int mana, float x, float y, int level) {
     // ...
 }
 ```
 
-**With structs — clean!**
+**Со структурами — чисто!**
 
 ```cpp
-// ✅ With structs — organized!
+// ✅ Со структурами — организованно!
 struct Player {
     std::string name;
     int health;
@@ -58,23 +58,23 @@ struct Player {
 };
 
 Player player;
-player.name = "Kaelen";
+player.name = "Каэлен";
 player.health = 100;
 
 void displayPlayer(const Player& p) {
-    // One parameter for everything!
+    // Один параметр для всего!
 }
 ```
 
 ---
 
-## Part 2: Basic Structs
+## Часть 2: Базовые структуры
 
 ```cpp
 #include <iostream>
 #include <string>
 
-// Define a struct (usually outside main, often in header)
+// Определение структуры (обычно вне main, часто в заголовочном файле)
 struct Enemy {
     std::string name;
     int health;
@@ -84,41 +84,41 @@ struct Enemy {
 };
 
 int main() {
-    // Create an Enemy instance
+    // Создание экземпляра Enemy
     Enemy goblin;
-    goblin.name = "Goblin Archer";
+    goblin.name = "Гоблин-лучник";
     goblin.health = 30;
     goblin.damage = 8;
     goblin.x = 15.0f;
     goblin.y = 25.0f;
     
-    // Access members with dot operator
-    std::cout << "Enemy: " << goblin.name << std::endl;
-    std::cout << "Health: " << goblin.health << std::endl;
-    std::cout << "Damage: " << goblin.damage << std::endl;
-    std::cout << "Position: (" << goblin.x << ", " << goblin.y << ")" << std::endl;
+    // Доступ к членам с помощью оператора точки
+    std::cout << "Враг: " << goblin.name << std::endl;
+    std::cout << "Здоровье: " << goblin.health << std::endl;
+    std::cout << "Урон: " << goblin.damage << std::endl;
+    std::cout << "Позиция: (" << goblin.x << ", " << goblin.y << ")" << std::endl;
     
-    // Modify members
+    // Изменение членов
     goblin.health -= 15;
-    std::cout << "\nAfter hit! Health: " << goblin.health << std::endl;
+    std::cout << "\nПосле удара! Здоровье: " << goblin.health << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Enemy: Goblin Archer
-Health: 30
-Damage: 8
-Position: (15, 25)
+Враг: Гоблин-лучник
+Здоровье: 30
+Урон: 8
+Позиция: (15, 25)
 
-After hit! Health: 15
+После удара! Здоровье: 15
 ```
 
 ---
 
-## Part 3: Initializing Structs
+## Часть 3: Инициализация структур
 
 ```cpp
 #include <iostream>
@@ -141,35 +141,35 @@ struct Character {
 };
 
 int main() {
-    // Method 1: Member-by-member (most common)
+    // Метод 1: Поэлементно (наиболее распространённый)
     Weapon sword;
-    sword.name = "Longsword";
+    sword.name = "Длинный меч";
     sword.damage = 25;
     sword.weight = 3.5f;
     sword.isMagic = false;
     
-    // Method 2: Aggregate initialization (C++11)
-    Weapon bow = {"Elven Bow", 18, 2.0f, true};
+    // Метод 2: Агрегатная инициализация (C++11)
+    Weapon bow = {"Эльфийский лук", 18, 2.0f, true};
     
-    // Method 3: Designated initializers (C++20, more readable)
+    // Метод 3: Именованные инициализаторы (C++20, более читаемо)
     Weapon axe = {
-        .name = "Dwarven Axe",
+        .name = "Дварфийский топор",
         .damage = 30,
         .weight = 6.0f,
         .isMagic = true
     };
     
-    // Complex struct
+    // Сложная структура
     Character hero = {
-        .name = "Aragorn",
+        .name = "Арагорн",
         .health = 120,
         .mana = 0,
         .equipped = sword,
-        .inventory = {"Health Potion", "Mana Potion", "Key"}
+        .inventory = {"Зелье здоровья", "Зелье маны", "Ключ"}
     };
     
-    std::cout << hero.name << " wields " << hero.equipped.name 
-              << " (damage: " << hero.equipped.damage << ")" << std::endl;
+    std::cout << hero.name << " владеет " << hero.equipped.name 
+              << " (урон: " << hero.equipped.damage << ")" << std::endl;
     
     return 0;
 }
@@ -177,7 +177,7 @@ int main() {
 
 ---
 
-## Part 4: Structs with Functions
+## Часть 4: Структуры с функциями
 
 ```cpp
 #include <iostream>
@@ -190,31 +190,31 @@ struct Player {
     int strength;
 };
 
-// Pass by reference to modify
+// Передача по ссылке для изменения
 void heal(Player& player, int amount) {
     player.health += amount;
     if (player.health > player.maxHealth) {
         player.health = player.maxHealth;
     }
-    std::cout << player.name << " healed to " << player.health << " HP!" << std::endl;
+    std::cout << player.name << " вылечен до " << player.health << " HP!" << std::endl;
 }
 
-// Pass by value (copy) — doesn't modify original
+// Передача по значению (копия) — не изменяет оригинал
 void displayPlayer(Player p) {
-    std::cout << "Name: " << p.name << std::endl;
-    std::cout << "Health: " << p.health << "/" << p.maxHealth << std::endl;
+    std::cout << "Имя: " << p.name << std::endl;
+    std::cout << "Здоровье: " << p.health << "/" << p.maxHealth << std::endl;
 }
 
-// Pass by const reference (read-only, no copy)
+// Передача по константной ссылке (только чтение, без копирования)
 int calculateDamage(const Player& attacker, int baseDamage) {
     return baseDamage + (attacker.strength / 5);
 }
 
 int main() {
-    Player hero = {"Kaelen", 75, 100, 18};
+    Player hero = {"Каэлен", 75, 100, 18};
     
     displayPlayer(hero);
-    std::cout << "Damage: " << calculateDamage(hero, 15) << std::endl;
+    std::cout << "Урон: " << calculateDamage(hero, 15) << std::endl;
     heal(hero, 30);
     
     return 0;
@@ -223,9 +223,9 @@ int main() {
 
 ---
 
-## Part 5: Nested Structs
+## Часть 5: Вложенные структуры
 
-Structs can contain other structs — perfect for complex game objects.
+Структуры могут содержать другие структуры — идеально для сложных игровых объектов.
 
 ```cpp
 #include <iostream>
@@ -258,22 +258,22 @@ struct Player {
 
 int main() {
     Player hero;
-    hero.name = "Geralt";
+    hero.name = "Геральт";
     hero.health = 100;
     hero.position = {100.0f, 200.0f};
     hero.inventory.gold = 500;
     hero.inventory.maxWeight = 100;
     hero.inventory.items = {
-        {"Silver Sword", 1000, 5.0f},
-        {"Health Potion", 50, 0.5f},
-        {"Leather Armor", 200, 8.0f}
+        {"Серебряный меч", 1000, 5.0f},
+        {"Зелье здоровья", 50, 0.5f},
+        {"Кожаная броня", 200, 8.0f}
     };
     
-    // Access nested members
-    std::cout << "Player: " << hero.name << std::endl;
-    std::cout << "Position: (" << hero.position.x << ", " << hero.position.y << ")" << std::endl;
-    std::cout << "Gold: " << hero.inventory.gold << std::endl;
-    std::cout << "First item: " << hero.inventory.items[0].name << std::endl;
+    // Доступ к вложенным членам
+    std::cout << "Игрок: " << hero.name << std::endl;
+    std::cout << "Позиция: (" << hero.position.x << ", " << hero.position.y << ")" << std::endl;
+    std::cout << "Золото: " << hero.inventory.gold << std::endl;
+    std::cout << "Первый предмет: " << hero.inventory.items[0].name << std::endl;
     
     return 0;
 }
@@ -281,14 +281,14 @@ int main() {
 
 ---
 
-## Part 6: Enums — Named Constants
+## Часть 6: Перечисления — именованные константы
 
-Enums give names to related constants.
+Перечисления дают имена связанным константам.
 
 ```cpp
 #include <iostream>
 
-// Basic enum
+// Базовое перечисление
 enum Difficulty {
     EASY,     // 0
     NORMAL,   // 1
@@ -296,7 +296,7 @@ enum Difficulty {
     NIGHTMARE // 3
 };
 
-// Specify values
+// Указание значений
 enum Element {
     FIRE = 1,
     WATER = 2,
@@ -304,7 +304,7 @@ enum Element {
     AIR = 4
 };
 
-// Non-sequential
+// Непоследовательные значения
 enum Status {
     IDLE = 0,
     MOVING = 5,
@@ -316,26 +316,26 @@ int main() {
     Difficulty gameDifficulty = HARD;
     
     if (gameDifficulty == HARD) {
-        std::cout << "Prepare for challenge!" << std::endl;
+        std::cout << "Готовьтесь к испытанию!" << std::endl;
     }
     
-    // Enums are integers internally
-    std::cout << "HARD value: " << HARD << std::endl;
-    std::cout << "WATER value: " << WATER << std::endl;
+    // Перечисления внутри являются целыми числами
+    std::cout << "Значение HARD: " << HARD << std::endl;
+    std::cout << "Значение WATER: " << WATER << std::endl;
     
-    // Switch with enum
+    // Switch с перечислением
     switch (gameDifficulty) {
         case EASY:
-            std::cout << "Casual mode" << std::endl;
+            std::cout << "Режим для новичков" << std::endl;
             break;
         case NORMAL:
-            std::cout << "Standard experience" << std::endl;
+            std::cout << "Стандартный опыт" << std::endl;
             break;
         case HARD:
-            std::cout << "For veterans only" << std::endl;
+            std::cout << "Только для ветеранов" << std::endl;
             break;
         case NIGHTMARE:
-            std::cout << "You must be mad!" << std::endl;
+            std::cout << "Вы, должно быть, безумны!" << std::endl;
             break;
     }
     
@@ -345,25 +345,25 @@ int main() {
 
 ---
 
-## Part 7: Enum Classes (Type-Safe Enums)
+## Часть 7: Классы перечислений (типобезопасные перечисления)
 
-Traditional enums have problems — they pollute the global namespace and can be accidentally compared to integers.
+У традиционных перечислений есть проблемы — они засоряют глобальное пространство имён и их можно случайно сравнивать с целыми числами.
 
 ```cpp
-// ❌ Problems with traditional enums
+// ❌ Проблемы с традиционными перечислениями
 enum Color { RED, GREEN, BLUE };
-enum TrafficLight { RED, YELLOW, GREEN };  // ERROR! RED and GREEN already defined
+enum TrafficLight { RED, YELLOW, GREEN };  // ОШИБКА! RED и GREEN уже определены
 
-int x = RED;  // Allowed — can convert to int
-if (RED == 0) { }  // Compares enum to int
+int x = RED;  // Разрешено — можно преобразовать в int
+if (RED == 0) { }  // Сравнение перечисления с int
 ```
 
-**Enum classes** (C++11) solve these problems:
+**Классы перечислений** (C++11) решают эти проблемы:
 
 ```cpp
 #include <iostream>
 
-// ✅ Enum class — type-safe, scoped
+// ✅ Класс перечисления — типобезопасный, с областью видимости
 enum class Color {
     RED,
     GREEN,
@@ -377,25 +377,25 @@ enum class TrafficLight {
 };
 
 int main() {
-    Color c = Color::RED;           // Must scope
+    Color c = Color::RED;           // Обязательно с областью видимости
     TrafficLight t = TrafficLight::GREEN;
     
-    // int x = Color::RED;          // ❌ ERROR! Can't convert to int
-    // if (c == t) { }              // ❌ ERROR! Different types
+    // int x = Color::RED;          // ❌ ОШИБКА! Нельзя преобразовать в int
+    // if (c == t) { }              // ❌ ОШИБКА! Разные типы
     
-    if (c == Color::RED) {          // ✅ Must compare same type
-        std::cout << "It's red!" << std::endl;
+    if (c == Color::RED) {          // ✅ Сравнивать нужно только одинаковые типы
+        std::cout << "Это красный!" << std::endl;
     }
     
-    // Convert to integer if needed
+    // Преобразование в целое число, если нужно
     int redValue = static_cast<int>(Color::RED);
-    std::cout << "Red value: " << redValue << std::endl;
+    std::cout << "Значение RED: " << redValue << std::endl;
     
     return 0;
 }
 ```
 
-### Game Example: Character States
+### Игровой пример: Состояния персонажа
 
 ```cpp
 #include <iostream>
@@ -428,25 +428,25 @@ struct GameCharacter {
 
 std::string stateToString(CharacterState state) {
     switch (state) {
-        case CharacterState::IDLE:      return "Idle";
-        case CharacterState::WALKING:   return "Walking";
-        case CharacterState::RUNNING:   return "Running";
-        case CharacterState::JUMPING:   return "Jumping";
-        case CharacterState::ATTACKING: return "Attacking";
-        case CharacterState::HURT:      return "Hurt";
-        case CharacterState::DEAD:      return "Dead";
-        default:                        return "Unknown";
+        case CharacterState::IDLE:      return "Ожидание";
+        case CharacterState::WALKING:   return "Ходьба";
+        case CharacterState::RUNNING:   return "Бег";
+        case CharacterState::JUMPING:   return "Прыжок";
+        case CharacterState::ATTACKING: return "Атака";
+        case CharacterState::HURT:      return "Ранен";
+        case CharacterState::DEAD:      return "Мёртв";
+        default:                        return "Неизвестно";
     }
 }
 
 int main() {
-    GameCharacter hero = {"Kaelen", 100, CharacterState::IDLE, ElementalType::FIRE};
+    GameCharacter hero = {"Каэлен", 100, CharacterState::IDLE, ElementalType::FIRE};
     
-    std::cout << hero.name << " is " << stateToString(hero.state) << std::endl;
+    std::cout << hero.name << " находится в состоянии " << stateToString(hero.state) << std::endl;
     
-    // Change state
+    // Изменение состояния
     hero.state = CharacterState::ATTACKING;
-    std::cout << hero.name << " starts " << stateToString(hero.state) << "!" << std::endl;
+    std::cout << hero.name << " начинает " << stateToString(hero.state) << "!" << std::endl;
     
     return 0;
 }
@@ -454,7 +454,7 @@ int main() {
 
 ---
 
-## Complete Example: RPG Character System
+## Полный пример: RPG система персонажей
 
 ```cpp
 #include <iostream>
@@ -463,7 +463,7 @@ int main() {
 #include <cstdlib>
 #include <ctime>
 
-// Enums
+// Перечисления
 enum class CharacterClass {
     WARRIOR,
     MAGE,
@@ -486,7 +486,7 @@ enum class ItemType {
     QUEST
 };
 
-// Structs
+// Структуры
 struct Vector2 {
     float x;
     float y;
@@ -521,7 +521,7 @@ struct Character {
     int gold;
 };
 
-// Function declarations
+// Объявления функций
 Character createCharacter();
 void displayCharacter(const Character& c);
 void levelUp(Character& c);
@@ -533,26 +533,26 @@ std::string itemTypeToString(ItemType it);
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     
-    // Create a hero
+    // Создание героя
     Character hero = createCharacter();
     
-    // Create some items
-    Item sword = {"Iron Sword", ItemType::WEAPON, 100, 15, "A sturdy iron blade"};
-    Item potion = {"Health Potion", ItemType::CONSUMABLE, 50, 20, "Restores 20 HP"};
-    Item armor = {"Leather Armor", ItemType::ARMOR, 80, 5, "Light protection"};
+    // Создание предметов
+    Item sword = {"Железный меч", ItemType::WEAPON, 100, 15, "Прочный железный клинок"};
+    Item potion = {"Зелье здоровья", ItemType::CONSUMABLE, 50, 20, "Восстанавливает 20 HP"};
+    Item armor = {"Кожаная броня", ItemType::ARMOR, 80, 5, "Лёгкая защита"};
     
-    // Add items to inventory
+    // Добавление предметов в инвентарь
     addItem(hero, sword);
     addItem(hero, potion);
     addItem(hero, armor);
-    addItem(hero, {"Gold Ring", ItemType::QUEST, 200, 0, "A mysterious ring"});
+    addItem(hero, {"Золотое кольцо", ItemType::QUEST, 200, 0, "Таинственное кольцо"});
     
-    // Display character
+    // Отображение персонажа
     displayCharacter(hero);
     displayInventory(hero);
     
-    // Simulate leveling up
-    std::cout << "\n=== LEVEL UP! ===" << std::endl;
+    // Симуляция повышения уровня
+    std::cout << "\n=== ПОВЫШЕНИЕ УРОВНЯ! ===" << std::endl;
     hero.level = 2;
     levelUp(hero);
     displayCharacter(hero);
@@ -563,21 +563,21 @@ int main() {
 Character createCharacter() {
     Character c;
     
-    std::cout << "=== CHARACTER CREATION ===" << std::endl;
-    std::cout << "Enter name: ";
+    std::cout << "=== СОЗДАНИЕ ПЕРСОНАЖА ===" << std::endl;
+    std::cout << "Введите имя: ";
     std::getline(std::cin, c.name);
     
-    std::cout << "\nChoose class:" << std::endl;
-    std::cout << "1. Warrior (High HP, Strength)" << std::endl;
-    std::cout << "2. Mage (High Mana, Intelligence)" << std::endl;
-    std::cout << "3. Rogue (Balanced, Dexterity)" << std::endl;
-    std::cout << "4. Cleric (Healing, Support)" << std::endl;
-    std::cout << "Choice: ";
+    std::cout << "\nВыберите класс:" << std::endl;
+    std::cout << "1. Воин (Высокий HP, Сила)" << std::endl;
+    std::cout << "2. Маг (Высокая мана, Интеллект)" << std::endl;
+    std::cout << "3. Разбойник (Сбалансированный, Ловкость)" << std::endl;
+    std::cout << "4. Жрец (Лечение, Поддержка)" << std::endl;
+    std::cout << "Выбор: ";
     
     int classChoice;
     std::cin >> classChoice;
     
-    // Base stats (will be modified by class)
+    // Базовые характеристики (изменяются классом)
     c.level = 1;
     c.stats.strength = 10;
     c.stats.dexterity = 10;
@@ -629,18 +629,18 @@ Character createCharacter() {
 }
 
 void displayCharacter(const Character& c) {
-    std::cout << "\n=== CHARACTER SHEET ===" << std::endl;
-    std::cout << "Name: " << c.name << std::endl;
-    std::cout << "Class: " << classToString(c.characterClass) << std::endl;
-    std::cout << "Level: " << c.level << std::endl;
-    std::cout << "Health: " << c.health << "/" << c.maxHealth << std::endl;
-    std::cout << "Mana: " << c.mana << "/" << c.maxMana << std::endl;
-    std::cout << "Gold: " << c.gold << std::endl;
-    std::cout << "\nStats:" << std::endl;
-    std::cout << "  Strength: " << c.stats.strength << std::endl;
-    std::cout << "  Dexterity: " << c.stats.dexterity << std::endl;
-    std::cout << "  Intelligence: " << c.stats.intelligence << std::endl;
-    std::cout << "  Vitality: " << c.stats.vitality << std::endl;
+    std::cout << "\n=== ЛИСТ ПЕРСОНАЖА ===" << std::endl;
+    std::cout << "Имя: " << c.name << std::endl;
+    std::cout << "Класс: " << classToString(c.characterClass) << std::endl;
+    std::cout << "Уровень: " << c.level << std::endl;
+    std::cout << "Здоровье: " << c.health << "/" << c.maxHealth << std::endl;
+    std::cout << "Мана: " << c.mana << "/" << c.maxMana << std::endl;
+    std::cout << "Золото: " << c.gold << std::endl;
+    std::cout << "\nХарактеристики:" << std::endl;
+    std::cout << "  Сила: " << c.stats.strength << std::endl;
+    std::cout << "  Ловкость: " << c.stats.dexterity << std::endl;
+    std::cout << "  Интеллект: " << c.stats.intelligence << std::endl;
+    std::cout << "  Живучесть: " << c.stats.vitality << std::endl;
 }
 
 void levelUp(Character& c) {
@@ -649,7 +649,7 @@ void levelUp(Character& c) {
     c.health = c.maxHealth;
     c.mana = c.maxMana;
     
-    // Increase stats based on class
+    // Увеличение характеристик в зависимости от класса
     switch (c.characterClass) {
         case CharacterClass::WARRIOR:
             c.stats.strength += 3;
@@ -674,24 +674,24 @@ void levelUp(Character& c) {
 
 void addItem(Character& c, const Item& item) {
     c.inventory.push_back(item);
-    std::cout << "Added " << item.name << " to inventory!" << std::endl;
+    std::cout << "Добавлен " << item.name << " в инвентарь!" << std::endl;
 }
 
 void displayInventory(const Character& c) {
-    std::cout << "\n=== INVENTORY ===" << std::endl;
-    std::cout << "Gold: " << c.gold << std::endl;
+    std::cout << "\n=== ИНВЕНТАРЬ ===" << std::endl;
+    std::cout << "Золото: " << c.gold << std::endl;
     
     if (c.inventory.empty()) {
-        std::cout << "Inventory is empty!" << std::endl;
+        std::cout << "Инвентарь пуст!" << std::endl;
         return;
     }
     
     for (size_t i = 0; i < c.inventory.size(); i++) {
         const Item& item = c.inventory[i];
         std::cout << i+1 << ". " << item.name << " [" << itemTypeToString(item.type) << "]";
-        std::cout << " - Value: " << item.value;
+        std::cout << " - Цена: " << item.value;
         if (item.powerBonus > 0) {
-            std::cout << " (+" << item.powerBonus << " power)";
+            std::cout << " (+" << item.powerBonus << " силы)";
         }
         std::cout << std::endl;
     }
@@ -699,59 +699,59 @@ void displayInventory(const Character& c) {
 
 std::string classToString(CharacterClass cc) {
     switch (cc) {
-        case CharacterClass::WARRIOR: return "Warrior";
-        case CharacterClass::MAGE:    return "Mage";
-        case CharacterClass::ROGUE:   return "Rogue";
-        case CharacterClass::CLERIC:  return "Cleric";
-        default:                      return "Unknown";
+        case CharacterClass::WARRIOR: return "Воин";
+        case CharacterClass::MAGE:    return "Маг";
+        case CharacterClass::ROGUE:   return "Разбойник";
+        case CharacterClass::CLERIC:  return "Жрец";
+        default:                      return "Неизвестно";
     }
 }
 
 std::string itemTypeToString(ItemType it) {
     switch (it) {
-        case ItemType::WEAPON:     return "Weapon";
-        case ItemType::ARMOR:      return "Armor";
-        case ItemType::CONSUMABLE: return "Consumable";
-        case ItemType::QUEST:      return "Quest Item";
-        default:                   return "Unknown";
+        case ItemType::WEAPON:     return "Оружие";
+        case ItemType::ARMOR:      return "Броня";
+        case ItemType::CONSUMABLE: return "Расходник";
+        case ItemType::QUEST:      return "Квестовый предмет";
+        default:                   return "Неизвестно";
     }
 }
 ```
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Forgetting Semicolon After Struct
+### 1. Забытая точка с запятой после структуры
 
 ```cpp
-// ❌ Missing semicolon
+// ❌ Пропущена точка с запятой
 struct Player {
     int health;
     int mana;
-}  // ERROR!
+}  // ОШИБКА!
 
-// ✅ Correct
+// ✅ Правильно
 struct Player {
     int health;
     int mana;
-};  // Semicolon required!
+};  // Точка с запятой обязательна!
 ```
 
-### 2. Pass by Value for Large Structs
+### 2. Передача по значению для больших структур
 
 ```cpp
-// ❌ Copies entire struct (slow)
+// ❌ Копирует всю структуру (медленно)
 void processPlayer(Player p) { }
 
-// ✅ Pass by const reference (fast, read-only)
+// ✅ Передача по константной ссылке (быстро, только чтение)
 void processPlayer(const Player& p) { }
 
-// ✅ Pass by reference (fast, can modify)
+// ✅ Передача по ссылке (быстро, можно изменять)
 void modifyPlayer(Player& p) { }
 ```
 
-### 3. Using Raw Enums in Switch Without `default`
+### 3. Использование обычных перечислений в switch без `default`
 
 ```cpp
 enum class Color { RED, GREEN, BLUE };
@@ -760,44 +760,44 @@ void describe(Color c) {
     switch (c) {
         case Color::RED:   // ...
         case Color::GREEN: // ...
-        // Missing BLUE and default!
+        // Пропущены BLUE и default!
     }
 }
 ```
 
-### 4. Comparing Different Enum Types
+### 4. Сравнение разных типов перечислений
 
 ```cpp
 enum class A { VALUE };
 enum class B { VALUE };
 
-if (A::VALUE == B::VALUE) {  // ❌ ERROR! Different types
+if (A::VALUE == B::VALUE) {  // ❌ ОШИБКА! Разные типы
 ```
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Struct definition
+// Определение структуры
 struct StructName {
     Type member1;
     Type member2;
 };
 
-// Create instance
+// Создание экземпляра
 StructName variable;
-variable.member1 = value;
+variable.member1 = значение;
 
-// Initialize
-StructName var = {value1, value2};           // Aggregate
-StructName var = {.member1 = value1};        // Designated (C++20)
+// Инициализация
+StructName var = {значение1, значение2};           // Агрегатная
+StructName var = {.member1 = значение1};        // Именованная (C++20)
 
-// Enum (traditional)
+// Перечисление (традиционное)
 enum Name { VALUE1, VALUE2, VALUE3 };
 enum Name { VALUE1 = 10, VALUE2 = 20 };
 
-// Enum class (type-safe)
+// Класс перечисления (типобезопасное)
 enum class Name {
     VALUE1,
     VALUE2,
@@ -805,53 +805,53 @@ enum class Name {
 };
 Name var = Name::VALUE1;
 
-// Convert enum class to int
+// Преобразование класса перечисления в int
 int value = static_cast<int>(Name::VALUE1);
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Define a `struct Point` with x and y coordinates. Create a function `float distance(Point a, Point b)` that calculates distance between two points.
+**Упражнение 1 (Лёгкое):** Определите `struct Point` с координатами x и y. Создайте функцию `float distance(Point a, Point b)`, которая вычисляет расстояние между двумя точками.
 
-**Exercise 2 (Easy):** Create an `enum class Season { SPRING, SUMMER, FALL, WINTER }`. Write a function that returns the average temperature for each season.
+**Упражнение 2 (Лёгкое):** Создайте `enum class Season { SPRING, SUMMER, FALL, WINTER }`. Напишите функцию, возвращающую среднюю температуру для каждого сезона.
 
-**Exercise 3 (Medium):** Create a `struct Card` for a card game with suit and rank (use enums). Create a `struct Deck` with a vector of Cards. Add functions to shuffle and draw a card.
+**Упражнение 3 (Среднее):** Создайте `struct Card` для карточной игры с мастью и достоинством (используйте перечисления). Создайте `struct Deck` с вектором карт. Добавьте функции для перетасовки и выдачи карты.
 
-**Exercise 4 (Medium):** Build a `struct Rectangle` with width, height, and position (x, y). Add functions: area, perimeter, containsPoint(x, y), intersects(other).
+**Упражнение 4 (Среднее):** Создайте `struct Rectangle` с шириной, высотой и позицией (x, y). Добавьте функции: площадь, периметр, containsPoint(x, y), intersects(other).
 
-**Exercise 5 (Hard):** Create a "Quest System" with:
+**Упражнение 5 (Сложное):** Создайте "Систему квестов" с:
 - `enum class QuestStatus { NOT_STARTED, ACTIVE, COMPLETED, FAILED }`
-- `struct Quest` with name, description, reward, status, objectives list
-- Functions to start, update progress, complete, and display quest log
+- `struct Quest` с именем, описанием, наградой, статусом, списком целей
+- Функции для начала, обновления прогресса, завершения и отображения журнала квестов
 
-**Exercise 6 (Challenge):** Build a "Turn-Based Battle System" using structs for Character, Skill, and Battle. Use enums for states and damage types. Include multiple characters, skills with cooldowns, and status effects.
-
----
-
-## Summary
-
-You now know:
-
-✅ **Structs** — group related data into custom types  
-✅ **Nested structs** — build complex data structures  
-✅ **Enums** — create named constants for states and types  
-✅ **Enum classes** — type-safe, scoped enums  
-✅ Complete RPG character system example  
-✅ When to use each tool  
-
-## What's Next?
-
-Next lesson: **File I/O** — save and load game data, write logs, and persist player progress!
+**Упражнение 6 (Вызов):** Создайте "Пошаговую боевую систему" с использованием структур для персонажа, способностей и битвы. Используйте перечисления для состояний и типов урона. Включите нескольких персонажей, способности с перезарядкой и статусные эффекты.
 
 ---
 
-## Resources
+## Резюме
 
-- [C++ Structs (cppreference)](https://en.cppreference.com/w/cpp/language/struct)
-- [C++ Enums (cppreference)](https://en.cppreference.com/w/cpp/language/enum)
+Теперь вы знаете:
+
+✅ **Структуры** — группировка связанных данных в пользовательские типы  
+✅ **Вложенные структуры** — построение сложных структур данных  
+✅ **Перечисления** — создание именованных констант для состояний и типов  
+✅ **Классы перечислений** — типобезопасные перечисления с областью видимости  
+✅ Полный пример RPG системы персонажей  
+✅ Когда использовать каждый инструмент  
+
+## Что дальше?
+
+Следующий урок: **Ввод/вывод в файлы** — сохранение и загрузка игровых данных, запись логов и сохранение прогресса игрока!
 
 ---
 
-**Practice Task:** Create a "Save Game System" using structs. Define a `SaveData` struct containing player stats, inventory, quest progress, and world state. Write functions to save to a file and load from a file. This leads perfectly into the next lesson on File I/O!
+## Ресурсы
+
+- [Структуры C++ (cppreference)](https://en.cppreference.com/w/cpp/language/struct)
+- [Перечисления C++ (cppreference)](https://en.cppreference.com/w/cpp/language/enum)
+
+---
+
+**Практическое задание:** Создайте "Систему сохранения игры" с использованием структур. Определите структуру `SaveData`, содержащую статистику игрока, инвентарь, прогресс квестов и состояние мира. Напишите функции для сохранения в файл и загрузки из файла. Это идеально подводит к следующему уроку о вводе/выводе в файлы!

@@ -4,7 +4,7 @@ description: "Master unique_ptr, shared_ptr, weak_ptr — never leak memory agai
 pubDate: 2026-05-17
 tags: ["C++", "intermediate", "smart-pointers", "RAII", "memory-management"]
 lang: "en"
-lessonNumber: 17
+lessonNumber: 207
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

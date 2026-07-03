@@ -3,8 +3,8 @@ title: "Templates — Generic Programming"
 description: "Write code once, use with any type — generic containers, algorithms, and more"
 pubDate: 2026-05-14
 tags: ["C++", "intermediate", "templates", "generic-programming", "metaprogramming"]
-lang: "ru"
-lessonNumber: 14
+lang: "en"
+lessonNumber: 204
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

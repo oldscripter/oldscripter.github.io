@@ -3,8 +3,8 @@ title: "Performance Optimization — Making Games Run Fast"
 description: "Profile, optimize, and squeeze every drop of performance from your C++ games"
 pubDate: 2026-05-22
 tags: ["C++", "advanced", "optimization", "profiling", "performance"]
-lang: "ru"
-lessonNumber: 22
+lang: "en"
+lessonNumber: 305
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---

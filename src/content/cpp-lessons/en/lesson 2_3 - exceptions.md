@@ -4,7 +4,7 @@ description: "Handle errors gracefully without crashing — file not found, inva
 pubDate: 2026-05-13
 tags: ["C++", "intermediate", "exceptions", "error-handling", "robust-code"]
 lang: "en"
-lessonNumber: 13
+lessonNumber: 203
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

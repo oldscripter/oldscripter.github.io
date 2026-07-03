@@ -4,7 +4,7 @@ description: "Make your programs interactive — read user input and format beau
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "io", "cin", "cout"]
 lang: "en"
-lessonNumber: 3
+lessonNumber: 103
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

@@ -3,8 +3,8 @@ title: "STL Containers — Vector, Map, Set, and More"
 description: "Master C++ Standard Template Library containers for efficient data management"
 pubDate: 2026-05-15
 tags: ["C++", "intermediate", "STL", "containers", "data-structures"]
-lang: "ru"
-lessonNumber: 15
+lang: "en"
+lessonNumber: 205
 subcategory: "intermediate"
 author: "Stanislav Talanov"
 ---

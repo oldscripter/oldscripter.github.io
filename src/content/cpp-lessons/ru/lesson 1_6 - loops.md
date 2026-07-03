@@ -1,6 +1,6 @@
 ---
-title: "Loops: while, do-while, and for"
-description: "Repeat code efficiently — from game loops to processing thousands of enemies"
+title: "Циклы: while, do-while и for"
+description: "Эффективно повторяйте код — от игровых циклов до обработки тысяч врагов"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "loops", "iteration", "game-loop"]
 lang: "ru"
@@ -9,25 +9,25 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 6: Loops — while, do-while, and for
+# Урок 6: Циклы — while, do-while и for
 
-Welcome back! So far, our programs run each line once and stop. But games need repetition — updating 60 times per second, processing hundreds of enemies, drawing thousands of particles. **Loops** make this possible.
+Добро пожаловать обратно! До сих пор наши программы выполняли каждую строку один раз и завершались. Но игры требуют повторения — обновление 60 раз в секунду, обработка сотен врагов, отрисовка тысяч частиц. **Циклы** делают это возможным.
 
-## What You'll Learn
+## Что вы изучите
 
-- `while` loops (repeat while condition is true)
-- `do-while` loops (run at least once)
-- `for` loops (count-controlled repetition)
-- Infinite loops and how to avoid them
-- `break` and `continue` (control inside loops)
-- Nested loops
-- Range-based `for` loops (C++11 and later)
+- Циклы `while` (повторять, пока условие истинно)
+- Циклы `do-while` (выполнить как минимум один раз)
+- Циклы `for` (повторение с счётчиком)
+- Бесконечные циклы и как их избежать
+- `break` и `continue` (управление внутри циклов)
+- Вложенные циклы
+- Циклы `for` на основе диапазона (C++11 и новее)
 
 ---
 
-## Part 1: The `while` Loop
+## Часть 1: Цикл `while`
 
-"While this condition is true, keep doing this."
+"Пока это условие истинно, продолжай делать это."
 
 ```cpp
 #include <iostream>
@@ -37,38 +37,38 @@ int main() {
     
     while (countdown > 0) {
         std::cout << countdown << "... ";
-        countdown--;  // VERY IMPORTANT: change the condition!
+        countdown--;  // ОЧЕНЬ ВАЖНО: изменить условие!
     }
     
-    std::cout << "Liftoff!" << std::endl;
+    std::cout << "Пуск!" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-5... 4... 3... 2... 1... Liftoff!
+5... 4... 3... 2... 1... Пуск!
 ```
 
-### Anatomy of a `while` Loop
+### Анатомия цикла `while`
 
 ```cpp
-// Initialization (before the loop)
+// Инициализация (до цикла)
 int i = 0;
 
-// Condition (checked BEFORE each iteration)
+// Условие (проверяется ПЕРЕД каждой итерацией)
 while (i < 5) {
-    // Body (runs while condition is true)
+    // Тело (выполняется, пока условие истинно)
     std::cout << i << std::endl;
     
-    // Update (changes toward ending the loop)
+    // Обновление (изменяет условие для завершения цикла)
     i++;
 }
-// Continue here when condition becomes false
+// Продолжение здесь, когда условие становится ложным
 ```
 
-### Real Game Example: Enemy Spawner
+### Реальный игровой пример: Спавнер врагов
 
 ```cpp
 #include <iostream>
@@ -81,24 +81,24 @@ int main() {
     int enemiesToSpawn = 10;
     int enemiesSpawned = 0;
     
-    std::cout << "Wave 1: Spawning " << enemiesToSpawn << " enemies..." << std::endl;
+    std::cout << "Волна 1: Спавн " << enemiesToSpawn << " врагов..." << std::endl;
     
     while (enemiesSpawned < enemiesToSpawn) {
         enemiesSpawned++;
         
-        // Random enemy type
-        int enemyType = std::rand() % 3;  // 0, 1, or 2
+        // Случайный тип врага
+        int enemyType = std::rand() % 3;  // 0, 1 или 2
         
         if (enemyType == 0) {
-            std::cout << "🐺 Goblin spawned (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
+            std::cout << "🐺 Гоблин заспавнен (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
         } else if (enemyType == 1) {
-            std::cout << "🧟 Skeleton spawned (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
+            std::cout << "🧟 Скелет заспавнен (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
         } else {
-            std::cout << "🐉 Orc spawned (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
+            std::cout << "🐉 Орк заспавнен (" << enemiesSpawned << "/" << enemiesToSpawn << ")" << std::endl;
         }
     }
     
-    std::cout << "Wave complete! Prepare for battle!" << std::endl;
+    std::cout << "Волна завершена! Готовьтесь к бою!" << std::endl;
     
     return 0;
 }
@@ -106,35 +106,35 @@ int main() {
 
 ---
 
-## Part 2: The `do-while` Loop
+## Часть 2: Цикл `do-while`
 
-"DO this, THEN check the condition." — Guarantees at least one execution.
+"СДЕЛАЙ это, ЗАТЕМ проверь условие." — Гарантирует как минимум одно выполнение.
 
 ```cpp
 #include <iostream>
 
 int main() {
-    int health = 0;  // Already dead
+    int health = 0;  // Уже мёртв
     
-    // This loop ALWAYS runs at least once
+    // Этот цикл ВСЕГДА выполняется как минимум один раз
     do {
-        std::cout << "Health is " << health << " — trying to revive..." << std::endl;
-        health += 10;  // Attempt to heal
+        std::cout << "Здоровье: " << health << " — попытка воскрешения..." << std::endl;
+        health += 10;  // Попытка лечения
     } while (health < 50);
     
-    std::cout << "Successfully revived to " << health << " health!" << std::endl;
+    std::cout << "Успешно воскрешён с " << health << " здоровьем!" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Health is 0 — trying to revive...
-Successfully revived to 10 health!  (But wait, condition checks AFTER)
+Здоровье: 0 — попытка воскрешения...
+Успешно воскрешён с 10 здоровьем!  (Но подождите, условие проверяется ПОСЛЕ)
 ```
 
-Actually, let me clarify:
+На самом деле, давайте уточним:
 
 ```cpp
 #include <iostream>
@@ -143,26 +143,26 @@ int main() {
     int health = 0;
     
     do {
-        std::cout << "Current health: " << health << std::endl;
+        std::cout << "Текущее здоровье: " << health << std::endl;
         health += 25;
-        std::cout << "Healed to: " << health << std::endl;
+        std::cout << "Вылечено до: " << health << std::endl;
     } while (health < 50);
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Current health: 0
-Healed to: 25
-Current health: 25
-Healed to: 50
+Текущее здоровье: 0
+Вылечено до: 25
+Текущее здоровье: 25
+Вылечено до: 50
 ```
 
-### When to Use `do-while`
+### Когда использовать `do-while`
 
-Best for: **Menu systems, input validation, and situations where you need at least one iteration.**
+Лучше всего для: **Меню, валидации ввода и ситуаций, где нужна как минимум одна итерация.**
 
 ```cpp
 #include <iostream>
@@ -170,27 +170,27 @@ Best for: **Menu systems, input validation, and situations where you need at lea
 int main() {
     int choice;
     
-    // Menu loop — always show menu at least once
+    // Цикл меню — всегда показывать меню как минимум один раз
     do {
-        std::cout << "\n=== MAIN MENU ===" << std::endl;
-        std::cout << "1. Start Game" << std::endl;
-        std::cout << "2. Options" << std::endl;
-        std::cout << "3. Quit" << std::endl;
-        std::cout << "Choice: ";
+        std::cout << "\n=== ГЛАВНОЕ МЕНЮ ===" << std::endl;
+        std::cout << "1. Начать игру" << std::endl;
+        std::cout << "2. Настройки" << std::endl;
+        std::cout << "3. Выйти" << std::endl;
+        std::cout << "Выбор: ";
         std::cin >> choice;
         
         switch (choice) {
             case 1:
-                std::cout << "Starting game..." << std::endl;
+                std::cout << "Запуск игры..." << std::endl;
                 break;
             case 2:
-                std::cout << "Opening options..." << std::endl;
+                std::cout << "Открытие настроек..." << std::endl;
                 break;
             case 3:
-                std::cout << "Goodbye!" << std::endl;
+                std::cout << "До свидания!" << std::endl;
                 break;
             default:
-                std::cout << "Invalid choice. Try again." << std::endl;
+                std::cout << "Неверный выбор. Попробуйте снова." << std::endl;
         }
     } while (choice != 3);
     
@@ -200,78 +200,78 @@ int main() {
 
 ---
 
-## Part 3: The `for` Loop
+## Часть 3: Цикл `for`
 
-The most common loop for counting. "For this variable from start to end, do this."
+Самый распространённый цикл для счёта. "Для этой переменной от начала до конца, сделай это."
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // for (initialization; condition; update)
+    // for (инициализация; условие; обновление)
     for (int i = 0; i < 5; i++) {
-        std::cout << "Iteration " << i << std::endl;
+        std::cout << "Итерация " << i << std::endl;
     }
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Iteration 0
-Iteration 1
-Iteration 2
-Iteration 3
-Iteration 4
+Итерация 0
+Итерация 1
+Итерация 2
+Итерация 3
+Итерация 4
 ```
 
-### Breaking Down the `for` Loop
+### Разбор цикла `for`
 
 ```cpp
-for (int i = 0;    // 1. Initialization (runs once at the beginning)
-     i < 5;        // 2. Condition (checked BEFORE each iteration)
-     i++) {        // 3. Update (runs AFTER each iteration)
+for (int i = 0;    // 1. Инициализация (выполняется один раз в начале)
+     i < 5;        // 2. Условие (проверяется ПЕРЕД каждой итерацией)
+     i++) {        // 3. Обновление (выполняется ПОСЛЕ каждой итерации)
     
-    // 4. Body (runs each time condition is true)
+    // 4. Тело (выполняется каждый раз, когда условие истинно)
 }
 ```
 
-**Execution order:**
-1. Initialization (`int i = 0`)
-2. Condition check (`i < 5`?) — if false, exit loop
-3. Body (the code inside `{}`)
-4. Update (`i++`)
-5. Go back to step 2
+**Порядок выполнения:**
+1. Инициализация (`int i = 0`)
+2. Проверка условия (`i < 5`?) — если ложно, выход из цикла
+3. Тело (код внутри `{}`)
+4. Обновление (`i++`)
+5. Возврат к шагу 2
 
-### Common `for` Loop Patterns
+### Распространённые паттерны цикла `for`
 
 ```cpp
-// Count up
+// Счёт вверх
 for (int i = 0; i < 10; i++) {
     std::cout << i << " ";
 }
-// Output: 0 1 2 3 4 5 6 7 8 9
+// Вывод: 0 1 2 3 4 5 6 7 8 9
 
-// Count down
+// Счёт вниз
 for (int i = 10; i > 0; i--) {
     std::cout << i << " ";
 }
-// Output: 10 9 8 7 6 5 4 3 2 1
+// Вывод: 10 9 8 7 6 5 4 3 2 1
 
-// Step by 2
+// Шаг 2
 for (int i = 0; i <= 10; i += 2) {
     std::cout << i << " ";
 }
-// Output: 0 2 4 6 8 10
+// Вывод: 0 2 4 6 8 10
 
-// Multiple variables
+// Несколько переменных
 for (int i = 0, j = 10; i < j; i++, j--) {
     std::cout << "i=" << i << ", j=" << j << std::endl;
 }
 ```
 
-### Real Game Example: Experience System
+### Реальный игровой пример: Система уровней
 
 ```cpp
 #include <iostream>
@@ -281,17 +281,17 @@ int main() {
     int currentXP = 0;
     const int MAX_LEVEL = 10;
     
-    std::cout << "=== LEVELING SYSTEM ===" << std::endl;
+    std::cout << "=== СИСТЕМА УРОВНЕЙ ===" << std::endl;
     
     for (int level = 1; level <= MAX_LEVEL; level++) {
         int xpNeeded = level * 100;
         currentXP += xpNeeded;
         
-        std::cout << "Reached level " << level << "! ";
-        std::cout << "Total XP: " << currentXP << std::endl;
+        std::cout << "Достигнут уровень " << level << "! ";
+        std::cout << "Всего XP: " << currentXP << std::endl;
     }
     
-    std::cout << "\nMax level reached!" << std::endl;
+    std::cout << "\nМаксимальный уровень достигнут!" << std::endl;
     
     return 0;
 }
@@ -299,30 +299,30 @@ int main() {
 
 ---
 
-## Part 4: Infinite Loops (and How to Avoid Them)
+## Часть 4: Бесконечные циклы (и как их избежать)
 
 ```cpp
-// ❌ INFINITE LOOP — condition never becomes false
+// ❌ БЕСКОНЕЧНЫЙ ЦИКЛ — условие никогда не становится ложным
 int i = 0;
 while (i < 10) {
     std::cout << i << std::endl;
-    // Missing i++!
+    // Пропущен i++!
 }
 
-// ❌ Another infinite loop
-for (int i = 0; i < 10; i--) {  // Counting down, will never reach 10
+// ❌ Ещё один бесконечный цикл
+for (int i = 0; i < 10; i--) {  // Счёт вниз, никогда не достигнет 10
     std::cout << i << std::endl;
 }
 
-// ❌ Condition always true
+// ❌ Условие всегда истинно
 while (true) {
-    // This runs forever unless you have break
+    // Это будет выполняться вечно, если нет break
 }
 ```
 
-### Intentional Infinite Loops (Game Loops)
+### Преднамеренные бесконечные циклы (Игровые циклы)
 
-Games use intentional infinite loops:
+В играх используются намеренные бесконечные циклы:
 
 ```cpp
 #include <iostream>
@@ -333,25 +333,25 @@ int main() {
     bool isRunning = true;
     int frame = 0;
     
-    // Game loop — runs until player quits
+    // Игровой цикл — выполняется, пока игрок не выйдет
     while (isRunning) {
-        // Process input
-        // Update game logic
-        // Render graphics
+        // Обработка ввода
+        // Обновление игровой логики
+        // Отрисовка графики
         
         frame++;
-        std::cout << "Frame: " << frame << std::endl;
+        std::cout << "Кадр: " << frame << std::endl;
         
-        // Simulate 60 FPS (in real code, you'd use proper timing)
+        // Симуляция 60 FPS (в реальном коде используется правильный тайминг)
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
         
-        // Check quit condition (simplified)
+        // Проверка условия выхода (упрощённо)
         if (frame >= 60) {
-            isRunning = false;  // Exit loop
+            isRunning = false;  // Выход из цикла
         }
     }
     
-    std::cout << "Game exited." << std::endl;
+    std::cout << "Игра завершена." << std::endl;
     
     return 0;
 }
@@ -359,61 +359,61 @@ int main() {
 
 ---
 
-## Part 5: `break` and `continue`
+## Часть 5: `break` и `continue`
 
-### `break` — Exit the Loop Immediately
+### `break` — Немедленный выход из цикла
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Search for treasure
+    // Поиск сокровища
     for (int chest = 1; chest <= 100; chest++) {
-        std::cout << "Opening chest " << chest << "... ";
+        std::cout << "Открываем сундук " << chest << "... ";
         
         if (chest == 42) {
-            std::cout << "FOUND LEGENDARY SWORD! 🗡️" << std::endl;
-            break;  // Exit the loop immediately
+            std::cout << "НАЙДЕН ЛЕГЕНДАРНЫЙ МЕЧ! 🗡️" << std::endl;
+            break;  // Немедленный выход из цикла
         }
         
-        std::cout << "Nothing special." << std::endl;
+        std::cout << "Ничего особенного." << std::endl;
     }
     
-    std::cout << "Treasure hunt complete!" << std::endl;
+    std::cout << "Поиск сокровищ завершён!" << std::endl;
     
     return 0;
 }
 ```
 
-### `continue` — Skip This Iteration
+### `continue` — Пропуск этой итерации
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Process only even numbers
+    // Обработка только чётных чисел
     for (int i = 1; i <= 10; i++) {
         if (i % 2 != 0) {
-            continue;  // Skip odd numbers
+            continue;  // Пропуск нечётных чисел
         }
         
-        std::cout << "Processing even number: " << i << std::endl;
+        std::cout << "Обработка чётного числа: " << i << std::endl;
     }
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Processing even number: 2
-Processing even number: 4
-Processing even number: 6
-Processing even number: 8
-Processing even number: 10
+Обработка чётного числа: 2
+Обработка чётного числа: 4
+Обработка чётного числа: 6
+Обработка чётного числа: 8
+Обработка чётного числа: 10
 ```
 
-### Real Game Example: Combat System with Break
+### Реальный игровой пример: Система боя с break
 
 ```cpp
 #include <iostream>
@@ -428,46 +428,46 @@ int main() {
     int enemyHealth = 80;
     int turn = 0;
     
-    std::cout << "=== BATTLE START ===" << std::endl;
+    std::cout << "=== БОЙ НАЧИНАЕТСЯ ===" << std::endl;
     
-    while (true) {  // Game loop
+    while (true) {  // Игровой цикл
         turn++;
-        std::cout << "\n--- Turn " << turn << " ---" << std::endl;
+        std::cout << "\n--- Ход " << turn << " ---" << std::endl;
         
-        // Player turn
+        // Ход игрока
         int damage = playerDamage + (std::rand() % 10);
         enemyHealth -= damage;
-        std::cout << "You deal " << damage << " damage! Enemy health: " << enemyHealth << std::endl;
+        std::cout << "Вы наносите " << damage << " урона! Здоровье врага: " << enemyHealth << std::endl;
         
         if (enemyHealth <= 0) {
-            std::cout << "Victory! You defeated the enemy!" << std::endl;
-            break;  // Exit battle loop
+            std::cout << "Победа! Вы победили врага!" << std::endl;
+            break;  // Выход из боевого цикла
         }
         
-        // Enemy turn
+        // Ход врага
         int enemyDamage = 10 + (std::rand() % 15);
         playerHealth -= enemyDamage;
-        std::cout << "Enemy deals " << enemyDamage << " damage! Your health: " << playerHealth << std::endl;
+        std::cout << "Враг наносит " << enemyDamage << " урона! Ваше здоровье: " << playerHealth << std::endl;
         
         if (playerHealth <= 0) {
-            std::cout << "You were defeated... Game Over." << std::endl;
-            break;  // Exit battle loop
+            std::cout << "Вы были побеждены... Игра окончена." << std::endl;
+            break;  // Выход из боевого цикла
         }
         
-        // Escape chance every 3 turns
+        // Шанс побега каждые 3 хода
         if (turn % 3 == 0) {
-            std::cout << "Do you want to flee? (1=Yes, 0=No): ";
+            std::cout << "Хотите сбежать? (1=Да, 0=Нет): ";
             int flee;
             std::cin >> flee;
             
             if (flee == 1) {
-                std::cout << "You fled from battle!" << std::endl;
+                std::cout << "Вы сбежали из боя!" << std::endl;
                 break;
             }
         }
     }
     
-    std::cout << "Battle ended after " << turn << " turns." << std::endl;
+    std::cout << "Бой завершён после " << turn << " ходов." << std::endl;
     
     return 0;
 }
@@ -475,34 +475,34 @@ int main() {
 
 ---
 
-## Part 6: Nested Loops
+## Часть 6: Вложенные циклы
 
-Loops inside loops — essential for grids, tilemaps, and 2D content.
+Циклы внутри циклов — необходимы для сеток, тайловых карт и 2D-контента.
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Simple 3x3 grid
+    // Простая сетка 3x3
     for (int row = 0; row < 3; row++) {
         for (int col = 0; col < 3; col++) {
             std::cout << "(" << row << "," << col << ") ";
         }
-        std::cout << std::endl;  // New line after each row
+        std::cout << std::endl;  // Новая строка после каждого ряда
     }
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
 (0,0) (0,1) (0,2) 
 (1,0) (1,1) (1,2) 
 (2,0) (2,1) (2,2) 
 ```
 
-### Real Game Example: Tilemap Rendering
+### Реальный игровой пример: Отрисовка тайловой карты
 
 ```cpp
 #include <iostream>
@@ -515,7 +515,7 @@ int main() {
     const int WIDTH = 10;
     const int HEIGHT = 5;
     
-    // Generate random tilemap
+    // Генерация случайной тайловой карты
     char tilemap[HEIGHT][WIDTH];
     
     for (int y = 0; y < HEIGHT; y++) {
@@ -523,16 +523,16 @@ int main() {
             int tileType = std::rand() % 4;
             
             switch (tileType) {
-                case 0: tilemap[y][x] = '.'; break;  // Floor
-                case 1: tilemap[y][x] = '#'; break;  // Wall
-                case 2: tilemap[y][x] = 'E'; break;  // Enemy
-                case 3: tilemap[y][x] = 'T'; break;  // Treasure
+                case 0: tilemap[y][x] = '.'; break;  // Пол
+                case 1: tilemap[y][x] = '#'; break;  // Стена
+                case 2: tilemap[y][x] = 'E'; break;  // Враг
+                case 3: tilemap[y][x] = 'T'; break;  // Сокровище
             }
         }
     }
     
-    // Render the tilemap
-    std::cout << "=== DUNGEON MAP ===" << std::endl;
+    // Отрисовка тайловой карты
+    std::cout << "=== КАРТА ПОДЗЕМЕЛЬЯ ===" << std::endl;
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             std::cout << tilemap[y][x] << " ";
@@ -540,7 +540,7 @@ int main() {
         std::cout << std::endl;
     }
     
-    // Find all enemies
+    // Поиск всех врагов
     int enemyCount = 0;
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
@@ -550,23 +550,23 @@ int main() {
         }
     }
     
-    std::cout << "\nEnemies detected: " << enemyCount << std::endl;
+    std::cout << "\nОбнаружено врагов: " << enemyCount << std::endl;
     
     return 0;
 }
 ```
 
-### Multiplication Table (Classic Example)
+### Таблица умножения (Классический пример)
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 
 int main() {
-    std::cout << "Multiplication Table (1-10)" << std::endl;
+    std::cout << "Таблица умножения (1-10)" << std::endl;
     std::cout << "    ";
     
-    // Header
+    // Заголовок
     for (int i = 1; i <= 10; i++) {
         std::cout << std::setw(4) << i;
     }
@@ -574,7 +574,7 @@ int main() {
     
     std::cout << "    " << std::string(40, '-') << std::endl;
     
-    // Table body
+    // Тело таблицы
     for (int row = 1; row <= 10; row++) {
         std::cout << std::setw(2) << row << " |";
         
@@ -590,40 +590,40 @@ int main() {
 
 ---
 
-## Part 7: Range-based `for` Loop (C++11)
+## Часть 7: Цикл `for` на основе диапазона (C++11)
 
-Modern C++ feature for iterating through collections.
+Современная возможность C++ для итерации по коллекциям.
 
 ```cpp
 #include <iostream>
 #include <vector>
 
 int main() {
-    // Arrays
+    // Массивы
     int scores[] = {95, 87, 76, 100, 82};
     
-    std::cout << "Scores: ";
+    std::cout << "Очки: ";
     for (int score : scores) {
         std::cout << score << " ";
     }
     std::cout << std::endl;
     
-    // Vectors
-    std::vector<std::string> inventory = {"Sword", "Shield", "Potion"};
+    // Векторы
+    std::vector<std::string> inventory = {"Меч", "Щит", "Зелье"};
     
-    std::cout << "Inventory: ";
+    std::cout << "Инвентарь: ";
     for (const std::string& item : inventory) {
         std::cout << item << " ";
     }
     std::cout << std::endl;
     
-    // Modify values (use reference)
+    // Изменение значений (используйте ссылку)
     int numbers[] = {1, 2, 3, 4, 5};
     for (int& num : numbers) {
-        num *= 2;  // Double each number
+        num *= 2;  // Удвоить каждое число
     }
     
-    std::cout << "Doubled: ";
+    std::cout << "Удвоено: ";
     for (int num : numbers) {
         std::cout << num << " ";
     }
@@ -635,59 +635,59 @@ int main() {
 
 ---
 
-## Part 8: Loop Performance Tips
+## Часть 8: Советы по производительности циклов
 
-### Pre-increment vs Post-increment
+### Префиксный vs постфиксный инкремент
 
 ```cpp
-// For simple types (int, char), no difference
-for (int i = 0; i < 1000000; i++) { }   // Fine
-for (int i = 0; i < 1000000; ++i) { }   // Also fine
+// Для простых типов (int, char) разницы нет
+for (int i = 0; i < 1000000; i++) { }   // Нормально
+for (int i = 0; i < 1000000; ++i) { }   // Тоже нормально
 
-// For iterators (in real code), ++i is slightly faster
-for (auto it = vec.begin(); it != vec.end(); ++it) { }  // Preferred
+// Для итераторов (в реальном коде) ++i немного быстрее
+for (auto it = vec.begin(); it != vec.end(); ++it) { }  // Предпочтительно
 ```
 
-### Move Invariant Checks Outside Loop
+### Выносите инварианты за пределы цикла
 
 ```cpp
-// ❌ Slow — checks condition 1000 times
+// ❌ Медленно — проверяет условие 1000 раз
 for (int i = 0; i < 1000; i++) {
     if (someConstantCondition) {
-        // do something
+        // сделать что-то
     }
 }
 
-// ✅ Faster — check once
+// ✅ Быстрее — проверить один раз
 if (someConstantCondition) {
     for (int i = 0; i < 1000; i++) {
-        // do something
+        // сделать что-то
     }
 }
 ```
 
-### Cache-Friendly Loops
+### Кэш-дружественные циклы
 
 ```cpp
-// ✅ Better — access memory sequentially
+// ✅ Лучше — последовательный доступ к памяти
 int matrix[1000][1000];
 for (int row = 0; row < 1000; row++) {
     for (int col = 0; col < 1000; col++) {
-        sum += matrix[row][col];  // Row-major order
+        sum += matrix[row][col];  // Порядок по строкам
     }
 }
 
-// ❌ Worse — jumps through memory
+// ❌ Хуже — прыгает по памяти
 for (int col = 0; col < 1000; col++) {
     for (int row = 0; row < 1000; row++) {
-        sum += matrix[row][col];  // Column-major order
+        sum += matrix[row][col];  // Порядок по столбцам
     }
 }
 ```
 
 ---
 
-## Complete Example: RPG Battle System with All Loop Types
+## Полный пример: RPG боевая система со всеми типами циклов
 
 ```cpp
 #include <iostream>
@@ -699,54 +699,54 @@ for (int col = 0; col < 1000; col++) {
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     
-    // Player stats
+    // Характеристики игрока
     std::string playerName;
     int playerHealth = 100;
     int playerMaxHealth = 100;
     int playerMana = 50;
     int playerLevel = 1;
     
-    // Enemy list
-    std::vector<std::string> enemyTypes = {"Goblin", "Orc", "Troll", "Dark Knight"};
+    // Список врагов
+    std::vector<std::string> enemyTypes = {"Гоблин", "Орк", "Тролль", "Тёмный рыцарь"};
     std::vector<int> enemyHealths = {30, 50, 80, 120};
     std::vector<int> enemyDamages = {8, 15, 20, 25};
     
-    std::cout << "=== EPIC RPG BATTLE SYSTEM ===" << std::endl;
-    std::cout << "Enter your name: ";
+    std::cout << "=== EPIC RPG БОЕВАЯ СИСТЕМА ===" << std::endl;
+    std::cout << "Введите ваше имя: ";
     std::getline(std::cin, playerName);
     
     bool gameRunning = true;
     
-    // Main game loop
+    // Основной игровой цикл
     while (gameRunning) {
-        std::cout << "\n--- New Encounter ---" << std::endl;
+        std::cout << "\n--- Новая встреча ---" << std::endl;
         
-        // Select random enemy
+        // Выбор случайного врага
         int enemyIndex = std::rand() % enemyTypes.size();
         std::string enemyName = enemyTypes[enemyIndex];
         int enemyHealth = enemyHealths[enemyIndex];
         int enemyMaxHealth = enemyHealths[enemyIndex];
         int enemyDamage = enemyDamages[enemyIndex];
         
-        std::cout << "A level " << playerLevel << " " << enemyName << " appears!" << std::endl;
-        std::cout << "Enemy Health: " << enemyHealth << "/" << enemyMaxHealth << std::endl;
+        std::cout << "Появляется " << enemyName << " уровня " << playerLevel << "!" << std::endl;
+        std::cout << "Здоровье врага: " << enemyHealth << "/" << enemyMaxHealth << std::endl;
         
         bool battleRunning = true;
         int turnCount = 0;
         
-        // Battle loop
+        // Боевой цикл
         while (battleRunning) {
             turnCount++;
-            std::cout << "\n=== Turn " << turnCount << " ===" << std::endl;
-            std::cout << playerName << " Health: " << playerHealth << "/" << playerMaxHealth << std::endl;
-            std::cout << enemyName << " Health: " << enemyHealth << "/" << enemyMaxHealth << std::endl;
+            std::cout << "\n=== Ход " << turnCount << " ===" << std::endl;
+            std::cout << playerName << " Здоровье: " << playerHealth << "/" << playerMaxHealth << std::endl;
+            std::cout << enemyName << " Здоровье: " << enemyHealth << "/" << enemyMaxHealth << std::endl;
             
-            // Player turn
-            std::cout << "\nChoose action:" << std::endl;
-            std::cout << "1. Attack" << std::endl;
-            std::cout << "2. Cast Spell (Mana: " << playerMana << ")" << std::endl;
-            std::cout << "3. Flee" << std::endl;
-            std::cout << "Choice: ";
+            // Ход игрока
+            std::cout << "\nВыберите действие:" << std::endl;
+            std::cout << "1. Атаковать" << std::endl;
+            std::cout << "2. Применить заклинание (Мана: " << playerMana << ")" << std::endl;
+            std::cout << "3. Сбежать" << std::endl;
+            std::cout << "Выбор: ";
             
             int choice;
             std::cin >> choice;
@@ -755,36 +755,36 @@ int main() {
             bool fled = false;
             
             switch (choice) {
-                case 1:  // Attack
+                case 1:  // Атака
                     damage = 15 + (std::rand() % 15) + (playerLevel * 2);
-                    std::cout << "You attack for " << damage << " damage!" << std::endl;
+                    std::cout << "Вы атакуете и наносите " << damage << " урона!" << std::endl;
                     enemyHealth -= damage;
                     break;
                     
-                case 2:  // Spell
+                case 2:  // Заклинание
                     if (playerMana >= 10) {
                         damage = 25 + (std::rand() % 20) + (playerLevel * 3);
                         playerMana -= 10;
-                        std::cout << "You cast Fireball for " << damage << " damage!" << std::endl;
+                        std::cout << "Вы применяете Огненный шар и наносите " << damage << " урона!" << std::endl;
                         enemyHealth -= damage;
                     } else {
-                        std::cout << "Not enough mana! You stumble..." << std::endl;
+                        std::cout << "Недостаточно маны! Вы спотыкаетесь..." << std::endl;
                         damage = 5;
                         enemyHealth -= damage;
                     }
                     break;
                     
-                case 3:  // Flee
+                case 3:  // Побег
                     if (std::rand() % 100 < 50 + (playerLevel * 5)) {
-                        std::cout << "You fled successfully!" << std::endl;
+                        std::cout << "Вы успешно сбежали!" << std::endl;
                         fled = true;
                     } else {
-                        std::cout << "Failed to flee!" << std::endl;
+                        std::cout << "Не удалось сбежать!" << std::endl;
                     }
                     break;
                     
                 default:
-                    std::cout << "Invalid choice! You hesitate..." << std::endl;
+                    std::cout << "Неверный выбор! Вы колеблетесь..." << std::endl;
             }
             
             if (fled) {
@@ -792,53 +792,53 @@ int main() {
                 continue;
             }
             
-            // Check victory
+            // Проверка победы
             if (enemyHealth <= 0) {
-                std::cout << "\n✦ VICTORY! ✦" << std::endl;
+                std::cout << "\n✦ ПОБЕДА! ✦" << std::endl;
                 int xpGain = 50 + (enemyIndex * 20);
-                std::cout << "Gained " << xpGain << " XP!" << std::endl;
+                std::cout << "Получено " << xpGain << " XP!" << std::endl;
                 
-                // Level up check (simple)
+                // Проверка повышения уровня (упрощённо)
                 if (xpGain > 100 && playerLevel < 5) {
                     playerLevel++;
                     playerMaxHealth += 20;
                     playerHealth = playerMaxHealth;
                     playerMana += 10;
-                    std::cout << "LEVEL UP! You are now level " << playerLevel << "!" << std::endl;
+                    std::cout << "ПОВЫШЕНИЕ УРОВНЯ! Теперь вы уровень " << playerLevel << "!" << std::endl;
                 }
                 
                 battleRunning = false;
                 continue;
             }
             
-            // Enemy turn
-            std::cout << "\n" << enemyName << " attacks!" << std::endl;
+            // Ход врага
+            std::cout << "\n" << enemyName << " атакует!" << std::endl;
             int enemyHit = enemyDamage + (std::rand() % 10);
             playerHealth -= enemyHit;
-            std::cout << enemyName << " deals " << enemyHit << " damage!" << std::endl;
+            std::cout << enemyName << " наносит " << enemyHit << " урона!" << std::endl;
             
-            // Check defeat
+            // Проверка поражения
             if (playerHealth <= 0) {
-                std::cout << "\n✗ You have been defeated! ✗" << std::endl;
+                std::cout << "\n✗ Вы были побеждены! ✗" << std::endl;
                 battleRunning = false;
                 gameRunning = false;
             }
         }
         
-        // After battle, offer healing if player survived
+        // После боя, предложение лечения, если игрок выжил
         if (playerHealth > 0) {
-            std::cout << "\nContinue exploring? (1=Yes, 0=No): ";
+            std::cout << "\nПродолжить исследование? (1=Да, 0=Нет): ";
             int continueChoice;
             std::cin >> continueChoice;
             
             if (continueChoice == 0) {
                 gameRunning = false;
-                std::cout << "Thanks for playing, " << playerName << "!" << std::endl;
+                std::cout << "Спасибо за игру, " << playerName << "!" << std::endl;
             } else {
-                // Heal between battles
+                // Лечение между боями
                 playerHealth = playerMaxHealth;
                 playerMana = 50;
-                std::cout << "You rest and recover full health and mana." << std::endl;
+                std::cout << "Вы отдыхаете и восстанавливаете здоровье и ману." << std::endl;
             }
         }
     }
@@ -849,114 +849,114 @@ int main() {
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Off-by-One Errors
+### 1. Ошибка на единицу (Off-by-One)
 
 ```cpp
-// ❌ Wrong — prints 0 to 4 (5 items)
-for (int i = 0; i <= 5; i++) {  // Should be i < 5
+// ❌ Неправильно — выводит 0-4 (5 элементов)
+for (int i = 0; i <= 5; i++) {  // Должно быть i < 5
 
-// ✅ Correct
-for (int i = 0; i < 5; i++) {  // Prints 0-4
+// ✅ Правильно
+for (int i = 0; i < 5; i++) {  // Выводит 0-4
 
-// For 1-based counting
-for (int i = 1; i <= 5; i++) {  // Prints 1-5
+// Для счёта с 1
+for (int i = 1; i <= 5; i++) {  // Выводит 1-5
 ```
 
-### 2. Forgetting to Update Loop Variable
+### 2. Забытое обновление переменной цикла
 
 ```cpp
-// ❌ Infinite loop
+// ❌ Бесконечный цикл
 int i = 0;
 while (i < 10) {
     std::cout << i << std::endl;
-    // Missing i++
+    // Пропущен i++
 }
 
-// ✅ Correct
+// ✅ Правильно
 while (i < 10) {
     std::cout << i << std::endl;
     i++;
 }
 ```
 
-### 3. Semicolon After Loop
+### 3. Точка с запятой после цикла
 
 ```cpp
-// ❌ Empty loop body
+// ❌ Пустое тело цикла
 for (int i = 0; i < 10; i++);
 {
-    std::cout << "This runs once, not 10 times!" << std::endl;
+    std::cout << "Это выполняется один раз, а не 10!" << std::endl;
 }
 
-// ✅ Correct
+// ✅ Правильно
 for (int i = 0; i < 10; i++) {
-    std::cout << "Runs 10 times" << std::endl;
+    std::cout << "Выполняется 10 раз" << std::endl;
 }
 ```
 
-### 4. Modifying Container While Iterating
+### 4. Изменение контейнера во время итерации
 
 ```cpp
-// ❌ Dangerous — invalidates iterator
+// ❌ Опасно — инвалидирует итератор
 std::vector<int> vec = {1, 2, 3, 4, 5};
 for (int val : vec) {
     if (val == 3) {
-        vec.push_back(6);  // BAD! Vector changes while iterating
+        vec.push_back(6);  // ПЛОХО! Вектор меняется во время итерации
     }
 }
 
-// ✅ Safe approach — collect indices to remove later
+// ✅ Безопасный подход — собирать индексы для удаления позже
 ```
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// while loop
-while (condition) {
-    // runs while condition is true
+// Цикл while
+while (условие) {
+    // выполняется, пока условие истинно
 }
 
-// do-while loop
+// Цикл do-while
 do {
-    // runs at least once
-} while (condition);
+    // выполняется как минимум один раз
+} while (условие);
 
-// for loop
-for (initialization; condition; update) {
-    // runs until condition false
+// Цикл for
+for (инициализация; условие; обновление) {
+    // выполняется, пока условие истинно
 }
 
-// break — exit loop immediately
-// continue — skip to next iteration
+// break — немедленный выход из цикла
+// continue — переход к следующей итерации
 
-// Range-based for (C++11)
-for (type variable : container) {
-    // iterates through entire container
+// Цикл for на основе диапазона (C++11)
+for (тип переменная : контейнер) {
+    // итерация по всему контейнеру
 }
 
-// Nested loops
+// Вложенные циклы
 for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
-        // inner loop runs 10x for each outer iteration
+        // внутренний цикл выполняется 10 раз для каждой итерации внешнего
     }
 }
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Print numbers from 1 to 100. For multiples of 3 print "Fizz", multiples of 5 print "Buzz", multiples of both print "FizzBuzz".
+**Упражнение 1 (Лёгкое):** Выведите числа от 1 до 100. Для чисел, кратных 3, выведите "Fizz", для кратных 5 — "Buzz", для кратных обоим — "FizzBuzz".
 
-**Exercise 2 (Easy):** Calculate the sum of all numbers from 1 to N (user input) using a `for` loop.
+**Упражнение 2 (Лёгкое):** Вычислите сумму всех чисел от 1 до N (пользовательский ввод) с помощью цикла `for`.
 
-**Exercise 3 (Medium):** Create a number guessing game. Generate random 1-100, let user guess, tell "too high" or "too low". Count attempts. Use a `while` loop.
+**Упражнение 3 (Среднее):** Создайте игру "Угадай число". Сгенерируйте случайное число 1-100, дайте пользователю угадывать, сообщайте "слишком много" или "слишком мало". Считайте попытки. Используйте цикл `while`.
 
-**Exercise 4 (Medium):** Print a triangle pattern:
+**Упражнение 4 (Среднее):** Выведите треугольный паттерн:
 ```
 *
 **
@@ -964,43 +964,43 @@ for (int i = 0; i < 10; i++) {
 ****
 *****
 ```
-Use nested loops.
+Используйте вложенные циклы.
 
-**Exercise 5 (Hard):** Create a "Bank Interest Calculator" where a user deposits an amount and interest compounds annually. Show balance for 10 years using a `for` loop.
+**Упражнение 5 (Сложное):** Создайте "Калькулятор банковского процента", где пользователь вносит сумму, и проценты начисляются ежегодно. Покажите баланс за 10 лет с помощью цикла `for`.
 
-**Exercise 6 (Challenge):** Build a "Dungeon Crawler" text game with:
-- 5x5 grid (nested loops for display)
-- Player starts at (0,0), goal at (4,4)
-- Random enemies placed on grid
-- Player moves with W/A/S/D
-- Combat uses previous battle system
-- Win by reaching goal
-
----
-
-## Summary
-
-You now know:
-
-✅ `while` loops for condition-controlled repetition  
-✅ `do-while` loops for guaranteed first execution  
-✅ `for` loops for counting and iteration  
-✅ How to avoid infinite loops  
-✅ `break` and `continue` for flow control  
-✅ Nested loops for 2D content  
-✅ Range-based `for` loops (modern C++)  
-
-## What's Next?
-
-Next lesson: **Arrays and Vectors** — storing collections of data (inventories, high scores, enemy lists)!
+**Упражнение 6 (Вызов):** Создайте текстовую игру "Подземелье" с:
+- Сеткой 5x5 (вложенные циклы для отображения)
+- Игрок начинает в (0,0), цель в (4,4)
+- Случайные враги на сетке
+- Движение игрока с помощью W/A/S/D
+- Бой использует предыдущую боевую систему
+- Победа при достижении цели
 
 ---
 
-## Resources
+## Резюме
 
-- [C++ Loops (cppreference)](https://en.cppreference.com/w/cpp/language/for)
-- [Range-based for loop](https://en.cppreference.com/w/cpp/language/range-for)
+Теперь вы знаете:
+
+✅ Циклы `while` для повторения по условию  
+✅ Циклы `do-while` для гарантированного первого выполнения  
+✅ Циклы `for` для счёта и итерации  
+✅ Как избегать бесконечных циклов  
+✅ `break` и `continue` для управления потоком  
+✅ Вложенные циклы для 2D-контента  
+✅ Циклы `for` на основе диапазона (современный C++)  
+
+## Что дальше?
+
+Следующий урок: **Массивы и векторы** — хранение коллекций данных (инвентари, рекорды, списки врагов)!
 
 ---
 
-**Practice Task:** Create a "Dice Roll Simulator" that rolls two dice 1000 times and tracks how many times each sum (2-12) appears. Use a `for` loop for the rolls, another `for` loop to display results. This is excellent practice for loops and will be useful when we cover arrays next!
+## Ресурсы
+
+- [Циклы C++ (cppreference)](https://en.cppreference.com/w/cpp/language/for)
+- [Цикл for на основе диапазона](https://en.cppreference.com/w/cpp/language/range-for)
+
+---
+
+**Практическое задание:** Создайте "Симулятор броска кубиков", который бросает два кубика 1000 раз и отслеживает, сколько раз выпала каждая сумма (2-12). Используйте цикл for для бросков и ещё один цикл for для отображения результатов. Это отличная практика для циклов и пригодится, когда мы перейдём к массивам!

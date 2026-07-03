@@ -4,7 +4,7 @@ description: "Repeat code efficiently — from game loops to processing thousand
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "loops", "iteration", "game-loop"]
 lang: "en"
-lessonNumber: 6
+lessonNumber: 106
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

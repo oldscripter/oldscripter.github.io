@@ -1,6 +1,6 @@
 ---
-title: "Сортировки"
-description: "Все алгоритмы сортировок"
+title: "Sorting Algorithms"
+description: "All sorting algorithms"
 pubDate: 2026-06-25
 tags: ["C++", "algorithms", "sorting"]
 lang: "en"
@@ -9,42 +9,42 @@ subcategory: "algorithms"
 author: "Stanislav Talanov"
 ---
 
-Ниже я привел группы, для классификации сортировок. Самая первая группа для тех, кто не хочет изобретать велосипед: сортировки в стандартной библиотеке (`<algorithm>`). Все последующие группы - для тех, кто хочет узнать внутреннее устройство сортировок или готовится к собесам. 
+Below I have grouped sorting algorithms for classification. The first group is for those who don't want to reinvent the wheel: sorting algorithms in the standard library (`<algorithm>`). All subsequent groups are for those who want to understand the internals of sorting algorithms or are preparing for interviews.
 
-### 1. Стандартные сортировки в STL
-Это то, что используется в 95% случаев. Не нужно писать велосипед, если он уже есть.
+### 1. Standard STL Sorting Algorithms
+This is what is used in 95% of cases. No need to reinvent the wheel when it's already there.
 
-*   <span style="color: #089c00ff;">std::sort</span> — реализует алгоритм <span style="color: #7da8e1ff;">интроспективной сортировки</span> (гибрид быстрой `Quick sort`, пирамидальной `Heap sort` и вставками `Insertion Sort`). Самая быстрая для случайных данных. Сложность `O(n log n)`.
-*   <span style="color: #089c00ff;">std::stable_sort</span> — реализует алгоритм <span style="color: #7da8e1ff;">сортировка слиянием</span> `Merge Sort`. Сохраняет относительный порядок равных элементов. Сложность `O(n log n)`.
-*   <span style="color: #089c00ff;">std::partial_sort</span> — реализует алгоритм <span style="color: #7da8e1ff;">пирамидальной сортировки</span> `Heap Sort`. Используется, когда нужно найти и отсортировать только первые `k` элементов (например, топ-10). Сложность `O(n log k)`.
-*   <span style="color: #089c00ff;">std::nth_element</span> — реализует алгоритм <span style="color: #7da8e1ff;">быстрого выбора</span> `Quick Select`. Не сортирует полностью, а лишь ставит *n-й* элемент на его окончательное место, разбивая массив на "меньшие" и "большие". Сложность `O(n)` в среднем.
+*   <span style="color: #089c00ff;">std::sort</span> — implements the <span style="color: #7da8e1ff;">introsort</span> algorithm (a hybrid of Quick Sort, Heap Sort, and Insertion Sort). The fastest for random data. Complexity `O(n log n)`.
+*   <span style="color: #089c00ff;">std::stable_sort</span> — implements the <span style="color: #7da8e1ff;">Merge Sort</span> algorithm. Preserves the relative order of equal elements. Complexity `O(n log n)`.
+*   <span style="color: #089c00ff;">std::partial_sort</span> — implements the <span style="color: #7da8e1ff;">Heap Sort</span> algorithm. Used when you need to find and sort only the first `k` elements (e.g., top-10). Complexity `O(n log k)`.
+*   <span style="color: #089c00ff;">std::nth_element</span> — implements the <span style="color: #7da8e1ff;">Quick Select</span> algorithm. Does not sort completely, but places the *n-th* element in its final position, partitioning the array into "smaller" and "larg" elements. Complexity `O(n)` on average.
 
-| Алгоритм | Средняя сложность | Худшая сложность | Память | Стабильная | Когда использовать |
+| Algorithm | Average Complexity | Worst-Case Complexity | Memory | Stable | When to Use |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| std::sort | `O(n log n)` | `O(n log n)` | `O(log n)` | 🔴 | `По умолчанию` Для любых данных. Гибрид быстрой + пирамидальной. |
-| std::stable_sort | `O(n log n)` | `O(n log n)` | `O(n)` | 🟢 | Когда важен порядок равных элементов (сортировка по 2 полям). |
-| std::partial_sort | `O(n log k)` | `O(n log k)` | `O(1)` | 🔴 | Нужно найти `top-k` элементов в правильном порядке. |
-| std::nth_element | `O(n)` | `O(n)` | `O(1)` | 🔴 | Нужно найти медиану или разделить массив на "меньшие" и "большие" (без сортировки внутри групп). |
+| std::sort | `O(n log n)` | `O(n log n)` | `O(log n)` | 🔴 | `Default` For any data. Hybrid of quick + heap sort. |
+| std::stable_sort | `O(n log n)` | `O(n log n)` | `O(n)` | 🟢 | When order of equal elements matters (sorting by 2 fields). |
+| std::partial_sort | `O(n log k)` | `O(n log k)` | `O(1)` | 🔴 | Need to find `top-k` elements in correct order. |
+| std::nth_element | `O(n)` | `O(n)` | `O(1)` | 🔴 | Need to find median or partition array into "smaller" and "larger" (without sorting within groups). |
 
 ---
 
-### 2. Квадратичные
-Простые для понимания, но медленные на больших данных. Используются для маленьких массивов (до ~30 элементов) как оптимизация внутри сложных алгоритмов.
+### 2. Quadratic Sorting Algorithms
+Simple to understand, but slow on large data. Used for small arrays (up to ~30 elements) as an optimization inside complex algorithms.
 
-*   <span style="color: #089c00ff;">Bubble Sort</span> | <span style="color: #7da8e1ff;">Пузырьком</span> — классика, соседние элементы меняются местами, если стоят не в том порядке.
-*   <span style="color: #089c00ff;">Insertion Sort</span> | <span style="color: #7da8e1ff;">Вставками</span> — берем элемент и вставляем его в уже отсортированную часть слева. **Лучший** среди квадратичных для почти отсортированных данных `O(n)` - в лучшем случае.
-*   <span style="color: #089c00ff;">Selection Sort</span> | <span style="color: #7da8e1ff;">Выбором</span> — ищем минимальный элемент и меняем его с текущей позицией. Нестабильная, но делает мало обменов.
+*   <span style="color: #089c00ff;">Bubble Sort</span> — classic, adjacent elements are swapped if they are in the wrong order.
+*   <span style="color: #089c00ff;">Insertion Sort</span> — take an element and insert it into the already sorted part on the left. **Best** among quadratic sorts for nearly sorted data `O(n)` - in the best case.
+*   <span style="color: #089c00ff;">Selection Sort</span> — find the minimum element and swap it with the current position. Unstable, but makes few swaps.
 
-> Обратите внимание, что в таблице ниже я привел колонку "Лушая сложность" - она имеет смысл только для сортировок в этой группе. А для всех остальынх групп 'лучшая' не отличается от 'средней'. 
+> Note that in the table below I included a "Best Complexity" column — it only makes sense for sorts in this group. For all other groups, 'best' does not differ from 'average'.
 
-| Алгоритм | Средняя сложность | Худшая сложность | Лучшая сложность | Память | Стабильная | Особенности |
+| Algorithm | Average Complexity | Worst-Case Complexity | Best Complexity | Memory | Stable | Features |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Insertion | `O(n^2)` | `O(n^2)` | `O(n)` | `O(1)` | 🟢 | **Идеальна** для почти отсортированных данных. Используется внутри `std::sort` для кусков < 32 элементов. |
-| Bubble | `O(n^2)` | `O(n^2)` | `O(n)` | `O(1)` | 🟢 | Медленная. Интересна только оптимизацией (если нет обменов — стоп). |
-| Selection | `O(n^2)` | `O(n^2)` | `O(n^2)` | `O(1)` | 🔴 | Делает мало обменов. Бесполезна в общем случае. |
+| Insertion | `O(n^2)` | `O(n^2)` | `O(n)` | `O(1)` | 🟢 | **Ideal** for nearly sorted data. Used inside `std::sort` for chunks < 32 elements. |
+| Bubble | `O(n^2)` | `O(n^2)` | `O(n)` | `O(1)` | 🟢 | Slow. Only interesting for optimization (if no swaps — stop). |
+| Selection | `O(n^2)` | `O(n^2)` | `O(n^2)` | `O(1)` | 🔴 | Makes few swaps. Useless in general cases. |
 
 <details>
-    <summary>Код Insertion Sort</summary>
+    <summary>Insertion Sort Code</summary>
 
 ``` c++
     // Insertion sort implementation
@@ -68,7 +68,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Bubble Sort</summary>
+    <summary>Bubble Sort Code</summary>
 
 ```c++
     // Bubble sort implementation
@@ -87,7 +87,7 @@ author: "Stanislav Talanov"
                     swapped = true;
                 }
             }
-            // Если не было обменов, массив уже отсортирован
+            // If no swaps, the array is already sorted
             if (!swapped) break;
         }
     }
@@ -95,7 +95,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Selection Sort</summary>
+    <summary>Selection Sort Code</summary>
 
 ``` c++
     // Selection sort implementation
@@ -124,28 +124,28 @@ author: "Stanislav Talanov"
 
 ---
 
-### 3. Эффективные
-Используются для больших объемов данных.
+### 3. Efficient Sorting Algorithms
+Used for large data volumes.
 
-*   <span style="color: #089c00ff;">Quick Sort</span> | <span style="color: #7da8e1ff;">Быстрая</span> — рекурсивное разделение по опорному элементу `pivot`. Самая быстрая на практике, но есть риск `O(n^2)` на плохих данных (если не использовать рандомизацию).
-*   <span style="color: #089c00ff;">Merge Sort</span> | <span style="color: #7da8e1ff;">Слиянием</span>  — рекурсивно делим массив пополам, сортируем половинки и сливаем. Требует дополнительной памяти `O(n)`. Стабильна.
-*   <span style="color: #089c00ff;">Heap Sort</span> | <span style="color: #7da8e1ff;">Пирамидальная</span>  — строим кучу (`max-heap`) и последовательно извлекаем корень. Работает за гарантированное `O(n\log n)` без дополнительной памяти (in-place), но медленнее `Quick Sort` на практике.
+*   <span style="color: #089c00ff;">Quick Sort</span> — recursive partitioning around a pivot element. The fastest in practice, but there is a risk of `O(n^2)` on bad data (if randomization is not used).
+*   <span style="color: #089c00ff;">Merge Sort</span> — recursively divide the array in half, sort the halves, and merge. Requires additional memory `O(n)`. Stable.
+*   <span style="color: #089c00ff;">Heap Sort</span> — build a max-heap and sequentially extract the root. Runs in guaranteed `O(n log n)` without additional memory (in-place), but slower than Quick Sort in practice.
 
-| Алгоритм | Средняя сложность | Худшая сложность | Память | Стабильная | Особенности |
+| Algorithm | Average Complexity | Worst-Case Complexity | Memory | Stable | Features |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Quick Sort | `O(n log n)` | `O(n^2)` | `O(log n)` | 🔴 | Самый быстрый на практике. Плох на уже отсортированных данных (если неудачный выбор pivot). |
-| Merge Sort | `O(n log n)` | `O(n log n)` | `O(n)` | 🟢 | Надежна, но жрет память. Хороша для связных списков. |
-| Heap Sort | `O(n log n)` | `O(n log n)` | `O(1)` | 🔴 | Гарантированная скорость, но медленнее быстрой из-за "прыжков" по памяти (кэш промахи). |
+| Quick Sort | `O(n log n)` | `O(n^2)` | `O(log n)` | 🔴 | Fastest in practice. Poor on already sorted data (if bad pivot selection). |
+| Merge Sort | `O(n log n)` | `O(n log n)` | `O(n)` | 🟢 | Reliable but memory-hungry. Good for linked lists. |
+| Heap Sort | `O(n log n)` | `O(n log n)` | `O(1)` | 🔴 | Guaranteed speed, but slower than quicksort due to memory "jumps" (cache misses). |
 
 <details>
-    <summary>Код Quick Sort</summary>
+    <summary>Quick Sort Code</summary>
 
 ``` c++
     // Quick sort implementation
     template<typename T>
     int partition(vector<T>& arr, int low, int high) 
     {
-        // Выбираем средний элемент как опорный (избегаем худшего случая)
+        // Choose middle element as pivot (avoids worst-case)
         int mid = low + (high - low) / 2;
         swap(arr[mid], arr[high]);
         
@@ -187,7 +187,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Merge Sort</summary>
+    <summary>Merge Sort Code</summary>
 
 ``` c++
     // Merge sort implementation
@@ -197,7 +197,7 @@ author: "Stanislav Talanov"
         int n1 = mid - left + 1;
         int n2 = right - mid;
         
-        // Создаем временные массивы
+        // Create temporary arrays
         vector<T> L(n1), R(n2);
         
         for (int i = 0; i < n1; i++) L[i] = arr[left + i];
@@ -259,7 +259,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Heap Sort</summary>
+    <summary>Heap Sort Code</summary>
 
 ``` c++
     // Heap sort implementation
@@ -285,13 +285,13 @@ author: "Stanislav Talanov"
     {
         int n = arr.size();
         
-        // Строим кучу (перестраиваем массив)
+        // Build heap (rearrange array)
         for (int i = n / 2 - 1; i >= 0; i--) 
         {
             heapify(arr, n, i);
         }
         
-        // Извлекаем элементы из кучи
+        // Extract elements from heap
         for (int i = n - 1; i > 0; i--) 
         {
             swap(arr[0], arr[i]);
@@ -303,23 +303,23 @@ author: "Stanislav Talanov"
 
 ---
 
-### 4. Специальные
-Используются, когда известна природа данных (например, ограниченный диапазон чисел).
+### 4. Special-Purpose Sorting Algorithms
+Used when the nature of the data is known (e.g., limited range of numbers).
 
-*   <span style="color: #089c00ff;">Counting Sort</span> | <span style="color: #7da8e1ff;">Подсчетом</span> — считаем количество вхождений каждого значения. Работает за `O(n+k)`, где `k` — диапазон значений. Требует много памяти, если числа большие.
-*   <span style="color: #089c00ff;">Radix Sort</span> | <span style="color: #7da8e1ff;">Поразрядная</span> — сортировка по разрядам чисел (используя подсчет внутри). Работает за `O(n*w)`, где `w` — количество разрядов.
-*   <span style="color: #089c00ff;">Bucket Sort</span> | <span style="color: #7da8e1ff;">Блочная</span> — распределяем элементы по корзинам (ведрам), внутри каждой корзины сортируем вставками или рекурсивно.
+*   <span style="color: #089c00ff;">Counting Sort</span> — count the occurrences of each value. Runs in `O(n+k)`, where `k` is the value range. Requires a lot of memory if numbers are large.
+*   <span style="color: #089c00ff;">Radix Sort</span> — sorting by digits (using counting sort internally). Runs in `O(n*w)`, where `w` is the number of digits.
+*   <span style="color: #089c00ff;">Bucket Sort</span> — distribute elements into buckets, sort each bucket with insertion sort or recursively.
 
-> Обратите внимание, что в таблице ниже нет таких понятий как 'средняя' и 'худшая' сложность - для сортировок в этой группе они равны.
+> Note that in the table below there are no concepts like 'average' and 'worst-case' complexity — for sorts in this group they are equal.
 
-| Алгоритм | Сложность | Память | Стабильная | Ограничение |
+| Algorithm | Complexity | Memory | Stable | Limitation |
 | :--- | :--- | :--- | :--- | :--- |
-| Counting | `O(n + k)` | `O(k)` | 🟢 | Только для **целых чисел** в узком диапазоне `k`. Если `k` огромно — память взорвется. |
-| Radix | `O(n * w)` | `O(n + b)` | 🟢 | Где `w` — длина числа, `b` — основание системы. Не сравнивает элементы. |
-| Bucket | `O(n + k)` | `O(n * k)` | 🟢 | Требует равномерного распределения данных (чтобы корзины были заполнены поровну). |
+| Counting | `O(n + k)` | `O(k)` | 🟢 | Only for **integers** in a narrow range `k`. If `k` is huge — memory will blow up. |
+| Radix | `O(n * w)` | `O(n + b)` | 🟢 | Where `w` is the number of digits, `b` is the base. Does not compare elements. |
+| Bucket | `O(n + k)` | `O(n * k)` | 🟢 | Requires uniform data distribution (so buckets are filled evenly). |
 
 <details>
-    <summary>Код Counting Sort</summary>
+    <summary>Counting Sort Code</summary>
 
 ``` c++
     // Counting sort implementation
@@ -334,19 +334,19 @@ author: "Stanislav Talanov"
         vector<int> count(range, 0);
         vector<int> output(arr.size());
         
-        // Подсчет
+        // Count
         for (int val : arr) 
         {
             count[val - min_val]++;
         }
         
-        // Преобразуем count в позиции
+        // Transform count to positions
         for (int i = 1; i < range; i++) 
         {
             count[i] += count[i - 1];
         }
         
-        // Строим выходной массив
+        // Build output array
         for (int i = arr.size() - 1; i >= 0; i--) 
         {
             output[count[arr[i] - min_val] - 1] = arr[i];
@@ -359,7 +359,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Radix Sort</summary>
+    <summary>Radix Sort Code</summary>
 
 ``` c++
     // Radix sort implementation
@@ -369,19 +369,19 @@ author: "Stanislav Talanov"
         vector<int> output(n);
         vector<int> count(10, 0);
         
-        // Подсчет цифр
+        // Count digits
         for (int i = 0; i < n; i++) 
         {
             count[(arr[i] / exp) % 10]++;
         }
         
-        // Преобразуем в позиции
+        // Transform to positions
         for (int i = 1; i < 10; i++) 
         {
             count[i] += count[i - 1];
         }
         
-        // Строим выходной массив
+        // Build output array
         for (int i = n - 1; i >= 0; i--) 
         {
             output[count[(arr[i] / exp) % 10] - 1] = arr[i];
@@ -397,7 +397,7 @@ author: "Stanislav Talanov"
         
         int max_val = *max_element(arr.begin(), arr.end());
         
-        // Сортируем по каждому разряду
+        // Sort by each digit
         for (int exp = 1; max_val / exp > 0; exp *= 10) 
         {
             countingSortForRadix(arr, exp);
@@ -407,12 +407,12 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Bucket Sort</summary>
+    <summary>Bucket Sort Code</summary>
 
 ``` c++
     // Bucket sort implementation
 
-    // Версия 1: Для чисел с плавающей точкой [0, 1)
+    // Version 1: For floating-point numbers [0, 1)
     template<typename T>
     void bucketSortFloat(vector<T>& arr) 
     {
@@ -420,26 +420,26 @@ author: "Stanislav Talanov"
         
         int n = arr.size();
         
-        // 1. Создаем n пустых корзин
+        // 1. Create n empty buckets
         vector<vector<T>> buckets(n);
         
-        // 2. Распределяем элементы по корзинам
-        // Предполагаем, что числа в диапазоне [0, 1)
+        // 2. Distribute elements into buckets
+        // Assuming numbers are in range [0, 1)
         for (int i = 0; i < n; i++) 
         {
             int bucketIndex = static_cast<int>(n * arr[i]);
-            // Защита от выхода за границы (если число == 1.0)
+            // Protection against out of bounds (if number == 1.0)
             if (bucketIndex == n) bucketIndex = n - 1;
             buckets[bucketIndex].push_back(arr[i]);
         }
         
-        // 3. Сортируем каждую корзину (используем вставками)
+        // 3. Sort each bucket (using insertion sort)
         for (int i = 0; i < n; i++) 
         {
-            sort(buckets[i].begin(), buckets[i].end()); // или insertionSort
+            sort(buckets[i].begin(), buckets[i].end()); // or insertionSort
         }
         
-        // 4. Собираем результат
+        // 4. Collect result
         int index = 0;
         for (int i = 0; i < n; i++) 
         {
@@ -450,7 +450,7 @@ author: "Stanislav Talanov"
         }
     }
 
-    // Версия 2: Для целых чисел с произвольным диапазоном
+    // Version 2: For integers with arbitrary range
     template<typename T>
     void bucketSortInt(vector<T>& arr) 
     {
@@ -458,35 +458,35 @@ author: "Stanislav Talanov"
         
         int n = arr.size();
         
-        // Находим min и max
+        // Find min and max
         T min_val = *min_element(arr.begin(), arr.end());
         T max_val = *max_element(arr.begin(), arr.end());
         
-        // Если все элементы равны
+        // If all elements are equal
         if (min_val == max_val) return;
         
-        // Количество корзин = n (можно настроить)
+        // Number of buckets = n (can be adjusted)
         int numBuckets = n;
         vector<vector<T>> buckets(numBuckets);
         
-        // Распределяем по корзинам
+        // Distribute into buckets
         for (int i = 0; i < n; i++) 
         {
-            // Нормализуем значение в диапазон [0, 1)
+            // Normalize value to range [0, 1)
             double normalized = static_cast<double>(arr[i] - min_val) / (max_val - min_val + 1);
             int bucketIndex = static_cast<int>(numBuckets * normalized);
-            // Защита от выхода
+            // Protection against out of bounds
             if (bucketIndex >= numBuckets) bucketIndex = numBuckets - 1;
             buckets[bucketIndex].push_back(arr[i]);
         }
         
-        // Сортируем каждую корзину
+        // Sort each bucket
         for (int i = 0; i < numBuckets; i++) 
         {
             sort(buckets[i].begin(), buckets[i].end());
         }
         
-        // Собираем результат
+        // Collect result
         int index = 0;
         for (int i = 0; i < numBuckets; i++) 
         {
@@ -497,7 +497,7 @@ author: "Stanislav Talanov"
         }
     }
 
-    // Версия 3: С использованием списков (std::list) для эффективной вставки
+    // Version 3: Using lists (std::list) for efficient insertion
     template<typename T>
     void bucketSortList(vector<T>& arr) 
     {
@@ -512,7 +512,7 @@ author: "Stanislav Talanov"
         int numBuckets = n;
         vector<list<T>> buckets(numBuckets);
         
-        // Распределяем по корзинам (используем списки для O(1) вставки)
+        // Distribute into buckets (using lists for O(1) insertion)
         for (int i = 0; i < n; i++) 
         {
             double normalized = static_cast<double>(arr[i] - min_val) / (max_val - min_val + 1);
@@ -521,13 +521,13 @@ author: "Stanislav Talanov"
             buckets[bucketIndex].push_back(arr[i]);
         }
         
-        // Сортируем каждую корзину
+        // Sort each bucket
         for (int i = 0; i < numBuckets; i++) 
         {
             buckets[i].sort();
         }
         
-        // Собираем результат
+        // Collect result
         int index = 0;
         for (int i = 0; i < numBuckets; i++) 
         {
@@ -538,7 +538,7 @@ author: "Stanislav Talanov"
         }
     }
 
-    // Оптимизированная версия: используем insertionSort для маленьких корзин
+    // Optimized version: use insertionSort for small buckets
     template<typename T>
     void insertionSort(vector<T>& arr) 
     {
@@ -567,7 +567,7 @@ author: "Stanislav Talanov"
         
         if (min_val == max_val) return;
         
-        // Используем sqrt(n) корзин для баланса
+        // Use sqrt(n) buckets for balance
         int numBuckets = static_cast<int>(sqrt(n)) + 1;
         vector<vector<T>> buckets(numBuckets);
         
@@ -579,7 +579,7 @@ author: "Stanislav Talanov"
             buckets[bucketIndex].push_back(arr[i]);
         }
         
-        // Сортируем каждую корзину (используем вставками для малых корзин)
+        // Sort each bucket (using insertion sort for small buckets)
         for (int i = 0; i < numBuckets; i++) 
         {
             if (buckets[i].size() > 1) 
@@ -602,21 +602,21 @@ author: "Stanislav Talanov"
 
 ---
 
-### 5. Экзотические
-Их чаще спрашивают на собеседованиях, чем пишут в коде.
+### 5. Exotic Sorting Algorithms
+These are more often asked about in interviews than written in code.
 
-*   <span style="color: #089c00ff;">Shell Sort</span> | <span style="color: #7da8e1ff;">Шелла</span> — улучшение сортировки вставками с шагом (`gap`). Сложность зависит от шага, обычно - `O(n^{1.5})`.
-*   <span style="color: #089c00ff;">Gnome Sort</span> | <span style="color: #7da8e1ff;">Гномья</span> — вариация пузырька, движется вперед-назад.
-*   <span style="color: #089c00ff;">Comb Sort</span> | <span style="color: #7da8e1ff;">Расческой</span> — улучшение пузырька с уменьшающимся шагом.
+*   <span style="color: #089c00ff;">Shell Sort</span> — an improvement over insertion sort with a step (`gap`). Complexity depends on the gap, usually `O(n^{1.5})`.
+*   <span style="color: #089c00ff;">Gnome Sort</span> — a variation of bubble sort that moves back and forth.
+*   <span style="color: #089c00ff;">Comb Sort</span> — an improvement over bubble sort with a decreasing step.
 
-| Алгоритм | Лучшая сложность | Средняя сложность | Худшая сложность | Память | Стабильная | Особенности |
+| Algorithm | Best Complexity | Average Complexity | Worst-Case Complexity | Memory | Stable | Features |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Shell Sort | `O(n log n)` |`O(n^{1.25})`... `O(n^{1.5})` | `O(n^2)` | `O(1)` | 🔴 | Сортирует элементы, стоящие на расстоянии `gap` друг от друга, постепенно уменьшая `gap` до 1. Выбор последовательности шагов (например, Кнута или Седжвика) критически влияет на скорость. |
-| Gnome Sort | `O(n)` | `O(n^2)` | `O(n^2)` | `O(1)` | 🟢 | Похожа на пузырек, но движется как садовый гном: шаг вперед, если порядок верен, и шаг назад, если элементы надо поменять. Очень проста в реализации, но бесполезна на практике из-за огромного числа «прыжков». |
-| Comb Sort | `O(n log n)` | `O(n^2 / 2^p)` (где `p` — число проходов) | `O(n^2)` | `O(1)` | 🔴 | Улучшение пузырька: сравнивает элементы на большом расстоянии (как Шелл), чтобы быстро удалить «черепах» (мелкие числа в конце). Коэффициент сжатия шага обычно равен `1.3`. |
+| Shell Sort | `O(n log n)` |`O(n^{1.25})`... `O(n^{1.5})` | `O(n^2)` | `O(1)` | 🔴 | Sorts elements at a distance of `gap` from each other, gradually reducing `gap` to 1. The choice of gap sequence (e.g., Knuth's or Sedgewick's) critically affects speed. |
+| Gnome Sort | `O(n)` | `O(n^2)` | `O(n^2)` | `O(1)` | 🟢 | Similar to bubble sort, but moves like a garden gnome: one step forward if order is correct, one step back if elements need to be swapped. Very simple to implement, but useless in practice due to huge number of "jumps". |
+| Comb Sort | `O(n log n)` | `O(n^2 / 2^p)` (where `p` is the number of passes) | `O(n^2)` | `O(1)` | 🔴 | Improvement over bubble sort: compares elements at a large distance (like Shell sort) to quickly remove "turtles" (small numbers at the end). The shrink factor is typically `1.3`. |
 
 <details>
-    <summary>Код Shell Sort</summary>
+    <summary>Shell Sort Code</summary>
 
 ``` c++
     // Shell sort implementation
@@ -625,7 +625,7 @@ author: "Stanislav Talanov"
     {
         int n = arr.size();
         
-        // Используем последовательность Кнута: (3^k - 1) / 2
+        // Use Knuth's sequence: (3^k - 1) / 2
         int gap = 1;
         while (gap < n / 3) 
         {
@@ -652,7 +652,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Gnome Sort</summary>
+    <summary>Gnome Sort Code</summary>
 
 ``` c++
     // Gnome sort implementation
@@ -679,7 +679,7 @@ author: "Stanislav Talanov"
 </details>
 
 <details>
-    <summary>Код Comb Sort</summary>
+    <summary>Comb Sort Code</summary>
 
 ``` c++
     // Comb sort implementation
@@ -693,7 +693,7 @@ author: "Stanislav Talanov"
         
         while (gap > 1 || swapped) 
         {
-            // Обновляем gap
+            // Update gap
             if (gap > 1) 
             {
                 gap = static_cast<int>(gap / SHRINK_FACTOR);
@@ -714,27 +714,27 @@ author: "Stanislav Talanov"
 ```
 </details>
 
-- По поводу сложности Шелла (`O(n^{1.5})`):
-Она зависит от шага - это единственный алгоритм в вашем списке, чья сложность — это открытая математическая проблема. 
-  -   Если взять шаги `(n/2, n/4, ... 1)` — сложность будет `O(n^2)` (плохо).
-  -   Если взять `последовательность Кнута` `(1, 4, 13, 40, ...)` — сложность около `O(n^{1.5})`.
-  - Если взять `последовательность Седжвика` — сложность около `O(n^{4/3})` или даже `O(n log^2 n)`.
+- About Shell Sort complexity (`O(n^{1.5})`):
+It depends on the step — this is the only algorithm in your list whose complexity is an open mathematical problem.
+  - If you take steps `(n/2, n/4, ... 1)` — complexity will be `O(n^2)` (bad).
+  - If you take `Knuth's sequence` `(1, 4, 13, 40, ...)` — complexity is about `O(n^{1.5})`.
+  - If you take `Sedgewick's sequence` — complexity is about `O(n^{4/3})` or even `O(n log^2 n)`.
 
-- Почему у Расческой в лучшем случае `O(n log n)`:
-    - Это теоретическая оценка. На практике расческа очень быстрая (почти как быстрая сортировка), но из-за того, что в конце она вынуждена делать финальный проход пузырьком с шагом 1, математически ее сложность всё равно остается квадратичной в худшем случае. Однако константа настолько мала, что она обгоняет пирамидальную на мелких данных.
+- Why does Comb Sort have `O(n log n)` in the best case:
+    - This is a theoretical estimate. In practice, comb sort is very fast (almost as fast as quicksort), but because at the end it is forced to do a final bubble sort pass with step 1, mathematically its complexity still remains quadratic in the worst case. However, the constant is so small that it outperforms heap sort on small data.
 
-- Все три алгоритма сортируют массив **на месте** (in-place), не выделяя дополнительных массивов, как, например, сортировка слиянием.
+- All three algorithms sort the array **in place**, without allocating additional arrays like merge sort.
 
 ---
 
 ### 💎 BEST PRACTICE:
-- По дефолту используйте `std::sort` (интроспективная).
-- Если массив совсем маленький (до 32 элементов) — компилятор сам вызовет сортировку вставками внутри `std::sort`, так что об этом можно не беспокоиться.
-- Если вам нужно сохранить порядок равных элементов (например, сортировка таблицы по двум колонкам) — используйте `std::stable_sort`.
-- Если нужна гарантия скорости, даже если кто-то пытается сломать алгоритм (вредоносные данные) → используйте <пирамидальную> `Heap`.
-- **Числа от 0 до 255** или IP-адреса → используйте <поразрядную> `Radix` или <подсчетом> `Counting` — они отработают за линейное время `O(n)`, что быстрее логарифмических.
-- **Нужна только медиана или квантиль** → `std::nth_element` (работает мгновенно, не сортируя всё).
-- По экзотике:
-  - **Сортировка Шелла** `Shell` — единственная из экзотической троицы, которая реально используется. Ее можно встретить во встраиваемых системах (микроконтроллерах), где память критична (нет места под рекурсию и стек быстрой сортировки), а данных не очень много (до нескольких тысяч элементов).
-  -  **Сортировка расческой** `Comb` — исторический курьез. Она была популярна в начале 2000-х на медленных компьютерах, но сегодня `std::sort` делает её полностью ненужной.
-  - **Гномья сортировка** `Gnome`— чисто образовательный пример. Её часто показывают студентам, чтобы продемонстрировать, как легко можно реализовать сортировку, но она абсолютно неконкурентоспособна.
+- By default, use `std::sort` (introsort).
+- If the array is very small (up to 32 elements) — the compiler will call insertion sort inside `std::sort` itself, so you don't need to worry about it.
+- If you need to preserve the order of equal elements (e.g., sorting a table by two columns) — use `std::stable_sort`.
+- If you need guaranteed speed, even if someone tries to break the algorithm (malicious data) → use Heap Sort.
+- **Numbers from 0 to 255** or IP addresses → use Radix Sort or Counting Sort — they will run in linear time `O(n)`, which is faster than logarithmic ones.
+- **Only need median or quantile** → `std::nth_element` (works instantly, without sorting everything).
+- On exotic sorts:
+  - **Shell Sort** — the only one of the exotic trio that is actually used. It can be found in embedded systems (microcontrollers), where memory is critical (no room for recursion and quicksort stack), and there is not much data (up to a few thousand elements).
+  - **Comb Sort** — a historical curiosity. It was popular in the early 2000s on slow computers, but today `std::sort` makes it completely unnecessary.
+  - **Gnome Sort** — purely an educational example. It is often shown to students to demonstrate how easily a sort can be implemented, but it is absolutely uncompetitive.

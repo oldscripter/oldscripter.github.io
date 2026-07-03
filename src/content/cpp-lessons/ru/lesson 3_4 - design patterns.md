@@ -1,6 +1,6 @@
 ---
-title: "Game Design Patterns — Building Scalable Game Architecture"
-description: "Singleton, Factory, Observer, Component — proven patterns for game development"
+title: "Паттерны проектирования игр — создание масштабируемой архитектуры"
+description: "Singleton, Factory, Observer, Component — проверенные паттерны для разработки игр"
 pubDate: 2026-05-21
 tags: ["C++", "advanced", "design-patterns", "architecture", "game-engine"]
 lang: "ru"
@@ -9,24 +9,24 @@ subcategory: "advanced"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 21: Game Design Patterns — Building Scalable Game Architecture
+# Урок 21: Паттерны проектирования игр — создание масштабируемой архитектуры
 
-Welcome back! You've mastered C++ features. Now it's time to learn how to **structure large game projects**. Design patterns are reusable solutions to common problems.
+Добро пожаловать обратно! Вы освоили возможности C++. Теперь пришло время узнать, как **структурировать большие игровые проекты**. Паттерны проектирования — это многократно используемые решения для типичных проблем.
 
-## What You'll Learn
+## Что вы изучите
 
-- **Singleton** — global access (use sparingly!)
-- **Factory** — flexible object creation
-- **Observer** — event systems and decoupling
-- **Component** — flexible game objects (Unity-style)
-- **State** — managing game states (menus, gameplay, pause)
-- **Object Pool** — efficient reuse of objects
+- **Singleton** — глобальный доступ (используйте с осторожностью!)
+- **Factory** — гибкое создание объектов
+- **Observer** — системы событий и слабая связанность
+- **Component** — гибкие игровые объекты (в стиле Unity)
+- **State** — управление состояниями игры (меню, геймплей, пауза)
+- **Object Pool** — эффективное переиспользование объектов
 
 ---
 
-## Part 1: Singleton — The Controversial Pattern
+## Часть 1: Singleton — спорный паттерн
 
-Singleton ensures only ONE instance exists globally.
+Singleton гарантирует, что существует только ОДИН экземпляр глобально.
 
 ```cpp
 #include <iostream>
@@ -39,12 +39,12 @@ private:
     int level;
     bool isPaused;
     
-    // Private constructor (nobody can create instances)
+    // Приватный конструктор (никто не может создавать экземпляры)
     GameManager() : score(0), level(1), isPaused(false) {
-        std::cout << "GameManager created" << std::endl;
+        std::cout << "GameManager создан" << std::endl;
     }
     
-    // Delete copy constructor and assignment
+    // Удаление конструктора копирования и присваивания
     GameManager(const GameManager&) = delete;
     GameManager& operator=(const GameManager&) = delete;
     
@@ -58,70 +58,70 @@ public:
     
     void addScore(int points) {
         score += points;
-        std::cout << "Score: " << score << std::endl;
+        std::cout << "Счёт: " << score << std::endl;
     }
     
     void nextLevel() {
         level++;
-        std::cout << "Level: " << level << std::endl;
+        std::cout << "Уровень: " << level << std::endl;
     }
     
     void togglePause() {
         isPaused = !isPaused;
-        std::cout << (isPaused ? "Game Paused" : "Game Resumed") << std::endl;
+        std::cout << (isPaused ? "Игра на паузе" : "Игра возобновлена") << std::endl;
     }
     
     int getScore() const { return score; }
 };
 
-// Initialize static member
+// Инициализация статического члена
 GameManager* GameManager::instance = nullptr;
 
-// Modern C++11 thread-safe singleton (better!)
+// Современный потокобезопасный singleton на C++11 (лучше!)
 class ModernGameManager {
 private:
     ModernGameManager() = default;
     
 public:
     static ModernGameManager& getInstance() {
-        static ModernGameManager instance;  // Magic statics (thread-safe)
+        static ModernGameManager instance;  // Магические статики (потокобезопасны)
         return instance;
     }
     
     void doSomething() {
-        std::cout << "Modern singleton at work!" << std::endl;
+        std::cout << "Современный singleton работает!" << std::endl;
     }
     
-    // Delete copy
+    // Удаление копирования
     ModernGameManager(const ModernGameManager&) = delete;
     ModernGameManager& operator=(const ModernGameManager&) = delete;
 };
 
 int main() {
-    // Old way
+    // Старый способ
     GameManager::getInstance()->addScore(100);
     GameManager::getInstance()->nextLevel();
     
-    // Modern way (preferred)
+    // Современный способ (предпочтительный)
     ModernGameManager::getInstance().doSomething();
     
     return 0;
 }
 ```
 
-### When to Use Singleton (Rarely!)
+### Когда использовать Singleton (редко!)
 
 ```cpp
-// ✅ Acceptable use cases:
-// - Logging system
-// - Configuration manager
-// - Audio manager (single device)
-// - Rendering device
+// ✅ Допустимые случаи использования:
+// - Система логирования
+// - Менеджер конфигурации
+// - Аудиоменеджер (одно устройство)
+// - Устройство рендеринга
 
-// ❌ Bad use cases:
-// - Player data (what about multiplayer?)
-// - Enemy manager (multiple levels need different managers)
-// - Any data that should be reset between levels
+// ❌ Плохие случаи использования:
+// - Данные игрока (а как же мультиплеер?)
+// - Менеджер врагов (разные уровни требуют разных менеджеров)
+// - Любые данные, которые должны сбрасываться между уровнями
 
 class AudioManager {
 public:
@@ -131,26 +131,26 @@ public:
     }
     
     void playSound(const std::string& name) {
-        std::cout << "Playing: " << name << std::endl;
+        std::cout << "Воспроизведение: " << name << std::endl;
     }
     
 private:
-    AudioManager() { /* Initialize audio device */ }
+    AudioManager() { /* Инициализация аудиоустройства */ }
 };
 ```
 
 ---
 
-## Part 2: Factory Pattern — Creating Objects Without `new`
+## Часть 2: Паттерн Factory — создание объектов без `new`
 
-Factory pattern centralizes object creation.
+Factory централизует создание объектов.
 
 ```cpp
 #include <iostream>
 #include <memory>
 #include <unordered_map>
 
-// Base class
+// Базовый класс
 class Enemy {
 protected:
     int health;
@@ -163,21 +163,21 @@ public:
     virtual std::string getType() const = 0;
 };
 
-// Concrete enemies
+// Конкретные враги
 class Goblin : public Enemy {
 public:
     Goblin() {
         health = 30;
         damage = 8;
-        std::cout << "Goblin spawned!" << std::endl;
+        std::cout << "Гоблин заспавнен!" << std::endl;
     }
     
     void attack() override {
-        std::cout << "Goblin slashes for " << damage << " damage!" << std::endl;
+        std::cout << "Гоблин наносит " << damage << " урона!" << std::endl;
     }
     
     void update(float dt) override {
-        // Goblin AI
+        // ИИ гоблина
     }
     
     std::string getType() const override { return "Goblin"; }
@@ -188,15 +188,15 @@ public:
     Orc() {
         health = 60;
         damage = 15;
-        std::cout << "Orc spawned!" << std::endl;
+        std::cout << "Орк заспавнен!" << std::endl;
     }
     
     void attack() override {
-        std::cout << "Orc smashes for " << damage << " damage!" << std::endl;
+        std::cout << "Орк наносит " << damage << " урона!" << std::endl;
     }
     
     void update(float dt) override {
-        // Orc AI
+        // ИИ орка
     }
     
     std::string getType() const override { return "Orc"; }
@@ -207,21 +207,21 @@ public:
     Dragon() {
         health = 200;
         damage = 35;
-        std::cout << "DRAGON spawned! Run!" << std::endl;
+        std::cout << "ДРАКОН заспавнен! Бегите!" << std::endl;
     }
     
     void attack() override {
-        std::cout << "Dragon breathes fire for " << damage << " damage!" << std::endl;
+        std::cout << "Дракон дышит огнём на " << damage << " урона!" << std::endl;
     }
     
     void update(float dt) override {
-        // Dragon AI
+        // ИИ дракона
     }
     
     std::string getType() const override { return "Dragon"; }
 };
 
-// Simple Factory
+// Простая фабрика
 class EnemyFactory {
 public:
     static std::unique_ptr<Enemy> createEnemy(const std::string& type) {
@@ -236,7 +236,7 @@ public:
     }
 };
 
-// Abstract Factory with registration (extensible)
+// Абстрактная фабрика с регистрацией (расширяемая)
 class AbstractEnemyFactory {
 private:
     using Creator = std::function<std::unique_ptr<Enemy>()>;
@@ -257,13 +257,13 @@ public:
 };
 
 int main() {
-    // Simple factory
+    // Простая фабрика
     auto goblin = EnemyFactory::createEnemy("Goblin");
     auto orc = EnemyFactory::createEnemy("Orc");
     goblin->attack();
     orc->attack();
     
-    // Extensible factory
+    // Расширяемая фабрика
     AbstractEnemyFactory factory;
     factory.registerEnemy("Goblin", []() { return std::make_unique<Goblin>(); });
     factory.registerEnemy("Orc", []() { return std::make_unique<Orc>(); });
@@ -278,9 +278,9 @@ int main() {
 
 ---
 
-## Part 3: Observer Pattern — Event Systems
+## Часть 3: Паттерн Observer — системы событий
 
-Observer decouples event senders from receivers.
+Observer разделяет отправителей и получателей событий.
 
 ```cpp
 #include <iostream>
@@ -288,14 +288,14 @@ Observer decouples event senders from receivers.
 #include <functional>
 #include <algorithm>
 
-// Observer interface
+// Интерфейс Observer
 class IObserver {
 public:
     virtual ~IObserver() = default;
     virtual void onNotify(const std::string& event, int value) = 0;
 };
 
-// Subject (Observable)
+// Субъект (наблюдаемый)
 class EventManager {
 private:
     std::vector<IObserver*> observers;
@@ -319,17 +319,17 @@ public:
     }
 };
 
-// Concrete observers
+// Конкретные наблюдатели
 class AchievementSystem : public IObserver {
 public:
     void onNotify(const std::string& event, int value) override {
         if (event == "ENEMY_KILLED") {
             if (value >= 10) {
-                std::cout << "🏆 Achievement: Monster Slayer! (10 kills) 🏆" << std::endl;
+                std::cout << "🏆 Достижение: Истребитель монстров! (10 убийств) 🏆" << std::endl;
             }
         } else if (event == "SCORE_CHANGED") {
             if (value >= 1000) {
-                std::cout << "🏆 Achievement: Thousand Points! 🏆" << std::endl;
+                std::cout << "🏆 Достижение: Тысяча очков! 🏆" << std::endl;
             }
         }
     }
@@ -339,11 +339,11 @@ class UISystem : public IObserver {
 public:
     void onNotify(const std::string& event, int value) override {
         if (event == "SCORE_CHANGED") {
-            std::cout << "[UI] Score updated: " << value << std::endl;
+            std::cout << "[UI] Счёт обновлён: " << value << std::endl;
         } else if (event == "PLAYER_DAMAGE") {
-            std::cout << "[UI] Player took " << value << " damage!" << std::endl;
+            std::cout << "[UI] Игрок получил " << value << " урона!" << std::endl;
         } else if (event == "PLAYER_DEATH") {
-            std::cout << "[UI] GAME OVER! Score: " << value << std::endl;
+            std::cout << "[UI] КОНЕЦ ИГРЫ! Счёт: " << value << std::endl;
         }
     }
 };
@@ -352,16 +352,16 @@ class SoundSystem : public IObserver {
 public:
     void onNotify(const std::string& event, int value) override {
         if (event == "ENEMY_KILLED") {
-            std::cout << "[Sound] Playing: kill_sound.wav" << std::endl;
+            std::cout << "[Sound] Воспроизведение: kill_sound.wav" << std::endl;
         } else if (event == "PLAYER_DAMAGE") {
-            std::cout << "[Sound] Playing: hurt_sound.wav" << std::endl;
+            std::cout << "[Sound] Воспроизведение: hurt_sound.wav" << std::endl;
         } else if (event == "SCORE_CHANGED" && value % 100 == 0) {
-            std::cout << "[Sound] Playing: score_up.wav" << std::endl;
+            std::cout << "[Sound] Воспроизведение: score_up.wav" << std::endl;
         }
     }
 };
 
-// Game class that generates events
+// Игровой класс, генерирующий события
 class Game {
 private:
     EventManager events;
@@ -409,20 +409,20 @@ int main() {
     game.addSystem(&ui);
     game.addSystem(&sound);
     
-    std::cout << "=== GAME START ===" << std::endl;
-    game.killEnemy();   // Kill 1
-    game.killEnemy();   // Kill 2
-    game.addScore(500); // Score 700
-    game.killEnemy();   // Kill 3
-    game.addScore(400); // Score 1100 (triggers achievement)
+    std::cout << "=== ИГРА НАЧИНАЕТСЯ ===" << std::endl;
+    game.killEnemy();   // Убийство 1
+    game.killEnemy();   // Убийство 2
+    game.addScore(500); // Счёт 700
+    game.killEnemy();   // Убийство 3
+    game.addScore(400); // Счёт 1100 (вызывает достижение)
     game.damagePlayer(50);
-    game.damagePlayer(60); // Death
+    game.damagePlayer(60); // Смерть
     
     return 0;
 }
 ```
 
-### Modern Observer with `std::function` (No Interfaces)
+### Современный Observer с `std::function` (без интерфейсов)
 
 ```cpp
 #include <iostream>
@@ -447,27 +447,27 @@ public:
 };
 
 int main() {
-    // Type-safe events
+    // Типобезопасные события
     Event<int> onScoreChanged;
     Event<std::string> onPlayerDeath;
     
     onScoreChanged.addListener([](int score) {
-        std::cout << "Score updated: " << score << std::endl;
+        std::cout << "Счёт обновлён: " << score << std::endl;
     });
     
     onScoreChanged.addListener([](int score) {
         if (score >= 1000) {
-            std::cout << "High score achieved!" << std::endl;
+            std::cout << "Достигнут высокий счёт!" << std::endl;
         }
     });
     
     onPlayerDeath.addListener([](const std::string& reason) {
-        std::cout << "Player died: " << reason << std::endl;
+        std::cout << "Игрок умер: " << reason << std::endl;
     });
     
     onScoreChanged.invoke(500);
     onScoreChanged.invoke(1200);
-    onPlayerDeath.invoke("Fell into lava");
+    onPlayerDeath.invoke("Упал в лаву");
     
     return 0;
 }
@@ -475,9 +475,9 @@ int main() {
 
 ---
 
-## Part 4: Component Pattern — Flexible Game Objects
+## Часть 4: Паттерн Component — гибкие игровые объекты
 
-Unity-style Entity-Component architecture.
+Архитектура сущность-компонент в стиле Unity.
 
 ```cpp
 #include <iostream>
@@ -486,7 +486,7 @@ Unity-style Entity-Component architecture.
 #include <typeindex>
 #include <unordered_map>
 
-// Base Component
+// Базовый компонент
 class Component {
 protected:
     class GameObject* owner;
@@ -499,7 +499,7 @@ public:
     virtual void render() {}
 };
 
-// Game Object (Entity)
+// Игровой объект (сущность)
 class GameObject {
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
@@ -545,7 +545,7 @@ public:
     bool isActive() const { return active; }
 };
 
-// Example components
+// Примеры компонентов
 class TransformComponent : public Component {
 public:
     float x, y, z;
@@ -560,7 +560,7 @@ public:
     }
     
     void render() override {
-        std::cout << "  Position: (" << x << ", " << y << ", " << z << ")" << std::endl;
+        std::cout << "  Позиция: (" << x << ", " << y << ", " << z << ")" << std::endl;
     }
 };
 
@@ -574,9 +574,9 @@ public:
     
     void takeDamage(int amount) {
         health -= amount;
-        std::cout << "  Health: " << health << "/" << maxHealth << std::endl;
+        std::cout << "  Здоровье: " << health << "/" << maxHealth << std::endl;
         if (health <= 0) {
-            std::cout << "  Entity died!" << std::endl;
+            std::cout << "  Сущность погибла!" << std::endl;
         }
     }
     
@@ -585,7 +585,7 @@ public:
     }
     
     void render() override {
-        std::cout << "  Health: " << health << "/" << maxHealth << std::endl;
+        std::cout << "  Здоровье: " << health << "/" << maxHealth << std::endl;
     }
 };
 
@@ -597,7 +597,7 @@ public:
     SpriteComponent(const std::string& path) : texturePath(path) {}
     
     void render() override {
-        std::cout << "  Sprite: " << texturePath << std::endl;
+        std::cout << "  Спрайт: " << texturePath << std::endl;
     }
 };
 
@@ -622,7 +622,7 @@ public:
     }
 };
 
-// Usage
+// Использование
 int main() {
     auto player = std::make_unique<GameObject>();
     player->addComponent<TransformComponent>(100, 200, 0);
@@ -630,11 +630,11 @@ int main() {
     player->addComponent<SpriteComponent>("player.png");
     auto movement = player->addComponent<MovementComponent>(200.0f);
     
-    movement->setVelocity(1, 0);  // Move right
+    movement->setVelocity(1, 0);  // Движение вправо
     
-    // Game loop simulation
+    // Симуляция игрового цикла
     for (int frame = 0; frame < 3; frame++) {
-        std::cout << "\n--- Frame " << frame << " ---" << std::endl;
+        std::cout << "\n--- Кадр " << frame << " ---" << std::endl;
         player->update(0.016f);  // 60 FPS
         player->render();
     }
@@ -648,16 +648,16 @@ int main() {
 
 ---
 
-## Part 5: State Pattern — Managing Game States
+## Часть 5: Паттерн State — управление состояниями игры
 
 ```cpp
 #include <iostream>
 #include <memory>
 
-// Forward declaration
+// Предварительное объявление
 class GameContext;
 
-// State interface
+// Интерфейс состояния
 class GameState {
 public:
     virtual ~GameState() = default;
@@ -667,7 +667,7 @@ public:
     virtual std::string getName() const = 0;
 };
 
-// Context that holds current state
+// Контекст, хранящий текущее состояние
 class GameContext {
 private:
     std::unique_ptr<GameState> currentState;
@@ -688,19 +688,19 @@ public:
     }
     
     std::string getCurrentStateName() const {
-        return currentState ? currentState->getName() : "None";
+        return currentState ? currentState->getName() : "Нет";
     }
 };
 
-// Concrete states
+// Конкретные состояния
 class MainMenuState : public GameState {
 public:
     void onEnter(GameContext* context) override {
-        std::cout << "Entering MAIN MENU" << std::endl;
+        std::cout << "Вход в ГЛАВНОЕ МЕНЮ" << std::endl;
     }
     
     void onUpdate(GameContext* context, float dt) override {
-        std::cout << "Main menu - press 1 to start, 2 for settings, 3 to quit" << std::endl;
+        std::cout << "Главное меню - нажмите 1 для старта, 2 для настроек, 3 для выхода" << std::endl;
         
         int input;
         std::cin >> input;
@@ -710,16 +710,16 @@ public:
         } else if (input == 2) {
             context->changeState(std::make_unique<SettingsState>());
         } else if (input == 3) {
-            std::cout << "Quitting..." << std::endl;
+            std::cout << "Выход..." << std::endl;
             exit(0);
         }
     }
     
     void onExit(GameContext* context) override {
-        std::cout << "Exiting MAIN MENU" << std::endl;
+        std::cout << "Выход из ГЛАВНОГО МЕНЮ" << std::endl;
     }
     
-    std::string getName() const override { return "MainMenu"; }
+    std::string getName() const override { return "ГлавноеМеню"; }
 };
 
 class GameplayState : public GameState {
@@ -730,42 +730,42 @@ public:
     GameplayState() : gameTime(0) {}
     
     void onEnter(GameContext* context) override {
-        std::cout << "Entering GAMEPLAY" << std::endl;
+        std::cout << "Вход в ИГРОВОЙ процесс" << std::endl;
         gameTime = 0;
     }
     
     void onUpdate(GameContext* context, float dt) override {
         gameTime += dt;
-        std::cout << "Playing... Time: " << gameTime << " seconds (press ESC to pause)" << std::endl;
+        std::cout << "Игра... Время: " << gameTime << " секунд (нажмите ESC для паузы)" << std::endl;
         
-        // Simulate input
+        // Симуляция ввода
         char c;
         std::cin >> c;
-        if (c == 27) {  // ESC key
+        if (c == 27) {  // ESC
             context->changeState(std::make_unique<PauseState>());
         }
         
         if (gameTime >= 10.0f) {
-            std::cout << "You won!" << std::endl;
+            std::cout << "Вы победили!" << std::endl;
             context->changeState(std::make_unique<MainMenuState>());
         }
     }
     
     void onExit(GameContext* context) override {
-        std::cout << "Exiting GAMEPLAY" << std::endl;
+        std::cout << "Выход из ИГРОВОГО процесса" << std::endl;
     }
     
-    std::string getName() const override { return "Gameplay"; }
+    std::string getName() const override { return "Геймплей"; }
 };
 
 class PauseState : public GameState {
 public:
     void onEnter(GameContext* context) override {
-        std::cout << "Game PAUSED" << std::endl;
+        std::cout << "Игра на ПАУЗЕ" << std::endl;
     }
     
     void onUpdate(GameContext* context, float dt) override {
-        std::cout << "Paused - press R to resume, Q to quit to menu" << std::endl;
+        std::cout << "Пауза - нажмите R для продолжения, Q для выхода в меню" << std::endl;
         
         char input;
         std::cin >> input;
@@ -778,20 +778,20 @@ public:
     }
     
     void onExit(GameContext* context) override {
-        std::cout << "Resuming game..." << std::endl;
+        std::cout << "Возобновление игры..." << std::endl;
     }
     
-    std::string getName() const override { return "Pause"; }
+    std::string getName() const override { return "Пауза"; }
 };
 
 class SettingsState : public GameState {
 public:
     void onEnter(GameContext* context) override {
-        std::cout << "Entering SETTINGS" << std::endl;
+        std::cout << "Вход в НАСТРОЙКИ" << std::endl;
     }
     
     void onUpdate(GameContext* context, float dt) override {
-        std::cout << "Settings - press B to go back" << std::endl;
+        std::cout << "Настройки - нажмите B для возврата" << std::endl;
         
         char input;
         std::cin >> input;
@@ -802,17 +802,17 @@ public:
     }
     
     void onExit(GameContext* context) override {
-        std::cout << "Exiting SETTINGS" << std::endl;
+        std::cout << "Выход из НАСТРОЕК" << std::endl;
     }
     
-    std::string getName() const override { return "Settings"; }
+    std::string getName() const override { return "Настройки"; }
 };
 
 int main() {
     GameContext game;
     game.changeState(std::make_unique<MainMenuState>());
     
-    // Game loop
+    // Игровой цикл
     while (true) {
         game.update(0.016f);  // 60 FPS
     }
@@ -823,7 +823,7 @@ int main() {
 
 ---
 
-## Part 6: Object Pool Pattern — Reusing Objects Efficiently
+## Часть 6: Паттерн Object Pool — эффективное переиспользование объектов
 
 ```cpp
 #include <iostream>
@@ -864,7 +864,7 @@ public:
     
     void render() const {
         if (active) {
-            std::cout << "  Particle at (" << x << ", " << y << ")" << std::endl;
+            std::cout << "  Частица в (" << x << ", " << y << ")" << std::endl;
         }
     }
     
@@ -886,7 +886,7 @@ public:
     
     Particle* create(float x, float y, float vx, float vy, float life) {
         if (availableIndices.empty()) {
-            std::cout << "Pool exhausted! Cannot create particle." << std::endl;
+            std::cout << "Пул исчерпан! Нельзя создать частицу." << std::endl;
             return nullptr;
         }
         
@@ -904,7 +904,7 @@ public:
             }
         }
         
-        // Rebuild available indices
+        // Перестроение доступных индексов
         while (!availableIndices.empty()) availableIndices.pop();
         
         for (int i = 0; i < particles.size(); i++) {
@@ -926,11 +926,11 @@ public:
 };
 
 int main() {
-    ParticlePool pool(50);  // Max 50 particles
+    ParticlePool pool(50);  // Максимум 50 частиц
     
-    std::cout << "=== PARTICLE POOL DEMO ===" << std::endl;
+    std::cout << "=== ДЕМО ПУЛА ЧАСТИЦ ===" << std::endl;
     
-    // Create explosions
+    // Создание взрывов
     for (int i = 0; i < 60; i++) {
         float angle = i * 3.14159f * 2 / 60;
         float vx = cos(angle) * 100;
@@ -938,13 +938,13 @@ int main() {
         pool.create(0, 0, vx, vy, 2.0f);
     }
     
-    // Simulate frames
+    // Симуляция кадров
     for (int frame = 0; frame < 60; frame++) {
         pool.update(0.016f);
         
         if (frame % 10 == 0) {
-            std::cout << "Frame " << frame << ": " 
-                      << pool.getActiveCount() << " active particles" << std::endl;
+            std::cout << "Кадр " << frame << ": " 
+                      << pool.getActiveCount() << " активных частиц" << std::endl;
         }
     }
     
@@ -954,57 +954,57 @@ int main() {
 
 ---
 
-## Pattern Selection Guide
+## Руководство по выбору паттерна
 
-| Pattern | Use When | Game Example |
+| Паттерн | Когда использовать | Игровой пример |
 |---------|----------|--------------|
-| **Singleton** | Exactly one instance needed globally | Audio manager, config |
-| **Factory** | Creating families of related objects | Enemy spawner, item generator |
-| **Observer** | Decoupled event communication | Achievements, UI, sound |
-| **Component** | Flexible, data-driven entities | Unity-style game objects |
-| **State** | Object behavior changes with state | Game menus, AI states |
-| **Object Pool** | Frequent creation/destruction | Particles, bullets, enemies |
+| **Singleton** | Требуется ровно один экземпляр глобально | Аудиоменеджер, конфигурация |
+| **Factory** | Создание семейств связанных объектов | Спавнер врагов, генератор предметов |
+| **Observer** | Слабо связанное событийное взаимодействие | Достижения, UI, звук |
+| **Component** | Гибкие, управляемые данными сущности | Игровые объекты в стиле Unity |
+| **State** | Поведение объекта меняется в зависимости от состояния | Меню игры, состояния ИИ |
+| **Object Pool** | Частое создание/уничтожение объектов | Частицы, пули, враги |
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Implement a `LogManager` singleton with different log levels (INFO, WARNING, ERROR).
+**Упражнение 1 (Лёгкое):** Реализуйте `LogManager`-singleton с разными уровнями логирования (INFO, WARNING, ERROR).
 
-**Exercise 2 (Medium):** Create an `ItemFactory` that generates weapons, potions, and armor with random stats.
+**Упражнение 2 (Среднее):** Создайте `ItemFactory`, генерирующую оружие, зелья и броню со случайными характеристиками.
 
-**Exercise 3 (Medium):** Build a quest system using Observer pattern. When player kills enemies or collects items, update quest progress.
+**Упражнение 3 (Среднее):** Создайте систему квестов с использованием паттерна Observer. Когда игрок убивает врагов или собирает предметы, обновляйте прогресс квеста.
 
-**Exercise 4 (Hard):** Implement a complete ECS (Entity-Component-System) architecture for a small game.
+**Упражнение 4 (Сложное):** Реализуйте полноценную архитектуру ECS (Сущность-Компонент-Система) для небольшой игры.
 
-**Exercise 5 (Hard):** Create an AI state machine with states: Idle, Patrol, Chase, Attack, Flee.
+**Упражнение 5 (Сложное):** Создайте конечный автомат ИИ с состояниями: Ожидание, Патруль, Преследование, Атака, Побег.
 
-**Exercise 6 (Challenge):** Build a bullet hell shooter using Object Pool for bullets. Support thousands of simultaneous projectiles.
-
----
-
-## Summary
-
-You now know:
-
-✅ Singleton — global access (use sparingly)  
-✅ Factory — flexible object creation  
-✅ Observer — decoupled event systems  
-✅ Component — Unity-style game objects  
-✅ State — managing game/AI states  
-✅ Object Pool — efficient object reuse  
-
-## What's Next?
-
-Next lesson: **Performance Optimization** — profiling, cache efficiency, and making games run faster!
+**Упражнение 6 (Вызов):** Создайте игру "Bullet Hell" с использованием пула объектов для пуль. Поддерживайте тысячи снарядов одновременно.
 
 ---
 
-## Resources
+## Резюме
 
-- [Game Programming Patterns (book)](http://gameprogrammingpatterns.com/)
+Теперь вы знаете:
+
+✅ Singleton — глобальный доступ (используйте с осторожностью)  
+✅ Factory — гибкое создание объектов  
+✅ Observer — слабо связанные системы событий  
+✅ Component — игровые объекты в стиле Unity  
+✅ State — управление состояниями игры и ИИ  
+✅ Object Pool — эффективное переиспользование объектов  
+
+## Что дальше?
+
+Следующий урок: **Оптимизация производительности** — профилирование, эффективность кеша и ускорение игр!
+
+---
+
+## Ресурсы
+
+- [Game Programming Patterns (книга)](http://gameprogrammingpatterns.com/)
 - [Design Patterns: Elements of Reusable OO Software](https://en.wikipedia.org/wiki/Design_Patterns)
 
 ---
 
-**Practice Task:** Build a small game (like a top-down shooter) using Component pattern for entities, Observer for scoring/achievements, State for game flow, and Object Pool for bullets!
+**Практическое задание:** Создайте небольшую игру (например, шутер с видом сверху), используя паттерн Component для сущностей, Observer для очков/достижений, State для игрового потока и Object Pool для пуль!

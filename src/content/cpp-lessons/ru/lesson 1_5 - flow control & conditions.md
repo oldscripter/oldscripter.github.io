@@ -1,6 +1,6 @@
 ---
-title: "Control Flow: if, else, and switch"
-description: "Make decisions in your code — branching paths, multiple outcomes, and game logic"
+title: "Управление потоком: if, else и switch"
+description: "Принимайте решения в коде — ветвления, множественные исходы и игровая логика"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "control-flow", "if-else", "switch"]
 lang: "ru"
@@ -9,24 +9,24 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 5: Control Flow — if, else, and switch
+# Урок 5: Управление потоком — if, else и switch
 
-Welcome back! Now that we can calculate and compare values, it's time to make our programs **think**. Control flow statements let your code make decisions — the foundation of every game, from "did the player press jump?" to complex AI behavior.
+Добро пожаловать обратно! Теперь, когда мы умеем вычислять и сравнивать значения, пришло время заставить наши программы **думать**. Операторы управления потоком позволяют вашему коду принимать решения — основа каждой игры, от "нажал ли игрок прыжок?" до сложного поведения ИИ.
 
-## What You'll Learn
+## Что вы изучите
 
-- The `if` statement (basic decisions)
-- `else` and `else if` (multiple paths)
-- Nested `if` statements
-- The ternary operator (`? :`) — shorthand
-- `switch` statements (multiple fixed choices)
-- Best practices and common patterns
+- Оператор `if` (базовые решения)
+- `else` и `else if` (множественные пути)
+- Вложенные операторы `if`
+- Тернарный оператор (`? :`) — сокращённая запись
+- Операторы `switch` (множественные фиксированные варианты)
+- Лучшие практики и распространённые паттерны
 
 ---
 
-## Part 1: The `if` Statement
+## Часть 1: Оператор `if`
 
-The most basic decision maker: "If this is true, do that."
+Самый простой инструмент принятия решений: "Если это истинно, сделай то."
 
 ```cpp
 #include <iostream>
@@ -35,55 +35,55 @@ int main() {
     int health = 75;
     
     if (health < 100) {
-        std::cout << "You are wounded! Find a health potion." << std::endl;
+        std::cout << "Вы ранены! Найдите зелье здоровья." << std::endl;
     }
     
     if (health <= 0) {
-        std::cout << "Game Over!" << std::endl;
+        std::cout << "Игра окончена!" << std::endl;
     }
     
-    // Single statement (braces optional but NOT recommended)
+    // Один оператор (фигурные скобки опциональны, но НЕ рекомендую)
     if (health > 50) 
-        std::cout << "You're doing okay." << std::endl;  // Only this line is conditional
+        std::cout << "У вас всё хорошо." << std::endl;  // Только эта строка условна
     
-    // ALWAYS use braces for clarity and safety
+    // ВСЕГДА используйте фигурные скобки для ясности и безопасности
     if (health > 50) {
-        std::cout << "You're doing okay." << std::endl;
+        std::cout << "У вас всё хорошо." << std::endl;
     }
     
     return 0;
 }
 ```
 
-### The Condition Can Be ANY Expression
+### Условием Может Быть ЛЮБОЕ Выражение
 
 ```cpp
 int score = 100;
 int lives = 3;
 
-// Direct boolean
+// Прямое логическое значение
 if (lives > 0) { }
 
-// Comparison
+// Сравнение
 if (score == 100) { }
 
-// Function that returns bool
+// Функция, возвращающая bool
 if (isPlayerAlive()) { }
 
-// Variable that is bool
+// Переменная типа bool
 bool hasKey = true;
-if (hasKey) { }  // Same as if (hasKey == true)
+if (hasKey) { }  // То же, что if (hasKey == true)
 
-// Zero = false, non-zero = true
+// Ноль = false, не-ноль = true
 int enemies = 5;
-if (enemies) { }  // True because enemies != 0
+if (enemies) { }  // Истина, потому что enemies != 0
 ```
 
 ---
 
-## Part 2: `if-else` — Two Paths
+## Часть 2: `if-else` — два пути
 
-"Either do this OR that."
+"Либо сделай это, ИЛИ сделай то."
 
 ```cpp
 #include <iostream>
@@ -92,19 +92,19 @@ int main() {
     int mana = 30;
     
     if (mana >= 50) {
-        std::cout << "Cast Fireball!" << std::endl;
+        std::cout << "Применить Огненный шар!" << std::endl;
         mana -= 50;
     } else {
-        std::cout << "Not enough mana. Use a smaller spell." << std::endl;
+        std::cout << "Недостаточно маны. Используйте меньшее заклинание." << std::endl;
     }
     
-    // Real game example: critical hit
+    // Реальный игровой пример: критический удар
     int attackRoll = rand() % 20 + 1;  // 1-20
     
     if (attackRoll == 20) {
-        std::cout << "CRITICAL HIT! Double damage!" << std::endl;
+        std::cout << "КРИТИЧЕСКИЙ УДАР! Двойной урон!" << std::endl;
     } else {
-        std::cout << "Normal hit." << std::endl;
+        std::cout << "Обычный удар." << std::endl;
     }
     
     return 0;
@@ -113,9 +113,9 @@ int main() {
 
 ---
 
-## Part 3: `else if` — Multiple Paths
+## Часть 3: `else if` — множественные пути
 
-When you have more than two possibilities.
+Когда у вас больше двух вариантов.
 
 ```cpp
 #include <iostream>
@@ -124,22 +124,22 @@ int main() {
     int grade = 85;
     
     if (grade >= 90) {
-        std::cout << "A - Excellent!" << std::endl;
+        std::cout << "A — Отлично!" << std::endl;
     } else if (grade >= 80) {
-        std::cout << "B - Good job!" << std::endl;
+        std::cout << "B — Хорошая работа!" << std::endl;
     } else if (grade >= 70) {
-        std::cout << "C - Passing" << std::endl;
+        std::cout << "C — Удовлетворительно" << std::endl;
     } else if (grade >= 60) {
-        std::cout << "D - Needs improvement" << std::endl;
+        std::cout << "D — Нужно улучшение" << std::endl;
     } else {
-        std::cout << "F - Failed" << std::endl;
+        std::cout << "F — Неудовлетворительно" << std::endl;
     }
     
     return 0;
 }
 ```
 
-### Real Game Example: Player Rank
+### Реальный игровой пример: Ранг игрока
 
 ```cpp
 #include <iostream>
@@ -149,54 +149,54 @@ int main() {
     std::string rank;
     
     if (experience >= 5000) {
-        rank = "Legendary";
+        rank = "Легендарный";
     } else if (experience >= 2500) {
-        rank = "Master";
+        rank = "Мастер";
     } else if (experience >= 1000) {
-        rank = "Expert";
+        rank = "Эксперт";
     } else if (experience >= 500) {
-        rank = "Veteran";
+        rank = "Ветеран";
     } else if (experience >= 100) {
-        rank = "Novice";
+        rank = "Новичок";
     } else {
-        rank = "Rookie";
+        rank = "Рекрут";
     }
     
-    std::cout << "Your rank: " << rank << std::endl;
+    std::cout << "Ваш ранг: " << rank << std::endl;
     
     return 0;
 }
 ```
 
-### Important: Order Matters!
+### Важно: Порядок имеет значение!
 
-Conditions are checked from top to bottom. The FIRST true block executes.
+Условия проверяются сверху вниз. Выполняется ПЕРВЫЙ истинный блок.
 
 ```cpp
 int x = 75;
 
-// ✅ Correct order (most specific first)
+// ✅ Правильный порядок (сначала наиболее конкретное)
 if (x > 100) {
-    std::cout << "Over 100";
-} else if (x > 50) {   // 75 > 50 is true, but we already checked >100
+    std::cout << "Больше 100";
+} else if (x > 50) {   // 75 > 50 истинно, но мы уже проверили >100
     std::cout << "51-100";
 } else if (x > 0) {
     std::cout << "1-50";
 }
 
-// ❌ Wrong order (this never reaches x > 100)
-if (x > 50) {          // 75 > 50 is true - executes here!
-    std::cout << "Over 50";
-} else if (x > 100) {  // NEVER runs because first condition was true
-    std::cout << "Over 100";
+// ❌ Неправильный порядок (до x > 100 никогда не дойдёт)
+if (x > 50) {          // 75 > 50 истинно — выполняется здесь!
+    std::cout << "Больше 50";
+} else if (x > 100) {  // НИКОГДА не выполнится, потому что первое условие истинно
+    std::cout << "Больше 100";
 }
 ```
 
 ---
 
-## Part 4: Nested `if` Statements
+## Часть 4: Вложенные операторы `if`
 
-`if` statements inside other `if` statements.
+Операторы `if` внутри других операторов `if`.
 
 ```cpp
 #include <iostream>
@@ -206,24 +206,24 @@ int main() {
     bool hasTorch = false;
     bool isDaytime = true;
     
-    // Entering a dark cave
+    // Вход в тёмную пещеру
     if (hasKey) {
-        std::cout << "Door unlocked!" << std::endl;
+        std::cout << "Дверь открыта!" << std::endl;
         
         if (hasTorch || isDaytime) {
-            std::cout << "You can see inside." << std::endl;
+            std::cout << "Вы можете видеть внутри." << std::endl;
         } else {
-            std::cout << "It's pitch black! You need a torch." << std::endl;
+            std::cout << "Абсолютная темнота! Нужен факел." << std::endl;
         }
     } else {
-        std::cout << "The door is locked. Find the key." << std::endl;
+        std::cout << "Дверь заперта. Найдите ключ." << std::endl;
     }
     
     return 0;
 }
 ```
 
-### Complex Game Logic Example
+### Пример сложной игровой логики
 
 ```cpp
 #include <iostream>
@@ -234,26 +234,26 @@ int main() {
     int enemyHealth = 30;
     bool hasHealingPotion = true;
     
-    // Decision: fight or flee?
+    // Решение: сражаться или бежать?
     if (enemyHealth > 0) {
-        // Enemy is alive
+        // Враг жив
         if (playerHealth > 20) {
-            // Safe enough to fight
-            std::cout << "Attack the enemy!" << std::endl;
+            // Достаточно безопасно для боя
+            std::cout << "Атаковать врага!" << std::endl;
             
             if (playerLevel >= 10) {
-                std::cout << "Use special ability!" << std::endl;
+                std::cout << "Использовать особую способность!" << std::endl;
             }
         } else {
-            // Low health
+            // Низкое здоровье
             if (hasHealingPotion) {
-                std::cout << "Use healing potion, then fight!" << std::endl;
+                std::cout << "Использовать зелье лечения, затем атаковать!" << std::endl;
             } else {
-                std::cout << "Flee! You're too weak." << std::endl;
+                std::cout << "Бежать! Вы слишком слабы." << std::endl;
             }
         }
     } else {
-        std::cout << "Enemy already defeated." << std::endl;
+        std::cout << "Враг уже побеждён." << std::endl;
     }
     
     return 0;
@@ -262,12 +262,12 @@ int main() {
 
 ---
 
-## Part 5: The Ternary Operator (`? :`)
+## Часть 5: Тернарный оператор (`? :`)
 
-A shorthand for simple `if-else` statements.
+Сокращённая запись для простых операторов `if-else`.
 
 ```cpp
-// Traditional if-else
+// Традиционный if-else
 int health;
 if (score > 100) {
     health = 100;
@@ -275,11 +275,11 @@ if (score > 100) {
     health = 50;
 }
 
-// Ternary operator (condition ? true_value : false_value)
+// Тернарный оператор (условие ? значение_если_истина : значение_если_ложь)
 int health = (score > 100) ? 100 : 50;
 ```
 
-### More Examples
+### Больше примеров
 
 ```cpp
 #include <iostream>
@@ -288,22 +288,22 @@ int health = (score > 100) ? 100 : 50;
 int main() {
     int mana = 45;
     
-    // Set message based on condition
-    std::string status = (mana >= 50) ? "Ready to cast" : "Need more mana";
+    // Установить сообщение в зависимости от условия
+    std::string status = (mana >= 50) ? "Готов к заклинанию" : "Нужно больше маны";
     std::cout << status << std::endl;
     
-    // Determine max health
+    // Определить максимальное здоровье
     int level = 5;
     int maxHealth = (level >= 10) ? 200 : 100;
     
-    // Nested ternary (readable? debatable)
+    // Вложенный тернарный оператор (читаемость? спорно)
     int score = 85;
     char grade = (score >= 90) ? 'A' :
                  (score >= 80) ? 'B' :
                  (score >= 70) ? 'C' :
                  (score >= 60) ? 'D' : 'F';
     
-    // Game example: movement speed
+    // Игровой пример: скорость движения
     bool isSprinting = true;
     bool isCrouching = false;
     float baseSpeed = 5.0f;
@@ -314,17 +314,17 @@ int main() {
 }
 ```
 
-**When to use ternary:**
-- ✅ Simple, one-line assignments
-- ✅ When it improves readability
-- ❌ NOT for complex logic
-- ❌ NOT for side effects (function calls)
+**Когда использовать тернарный оператор:**
+- ✅ Простые присваивания в одну строку
+- ✅ Когда это улучшает читаемость
+- ❌ НЕ для сложной логики
+- ❌ НЕ для побочных эффектов (вызовы функций)
 
 ---
 
-## Part 6: The `switch` Statement
+## Часть 6: Оператор `switch`
 
-When you have many fixed values to check against a SINGLE variable.
+Когда нужно проверить множество фиксированных значений для ОДНОЙ переменной.
 
 ```cpp
 #include <iostream>
@@ -334,20 +334,20 @@ int main() {
     
     switch (weaponChoice) {
         case 1:
-            std::cout << "Sword equipped!" << std::endl;
-            std::cout << "Damage: 15-25" << std::endl;
-            break;  // Without break, execution "falls through"
+            std::cout << "Меч экипирован!" << std::endl;
+            std::cout << "Урон: 15-25" << std::endl;
+            break;  // Без break выполнение "провалится" дальше
         case 2:
-            std::cout << "Bow equipped!" << std::endl;
-            std::cout << "Damage: 10-30 (ranged)" << std::endl;
+            std::cout << "Лук экипирован!" << std::endl;
+            std::cout << "Урон: 10-30 (дальний)" << std::endl;
             break;
         case 3:
-            std::cout << "Staff equipped!" << std::endl;
-            std::cout << "Damage: 8-20 (magic)" << std::endl;
+            std::cout << "Посох экипирован!" << std::endl;
+            std::cout << "Урон: 8-20 (магия)" << std::endl;
             break;
-        default:  // Runs if no case matches
-            std::cout << "Fists equipped!" << std::endl;
-            std::cout << "Damage: 2-6" << std::endl;
+        default:  // Выполняется, если ни один case не подошёл
+            std::cout << "Кулаки экипированы!" << std::endl;
+            std::cout << "Урон: 2-6" << std::endl;
             break;
     }
     
@@ -355,35 +355,35 @@ int main() {
 }
 ```
 
-### Game Example: Movement Input
+### Игровой пример: Ввод движения
 
 ```cpp
 #include <iostream>
 
 int main() {
     char input;
-    std::cout << "Press W/A/S/D to move: ";
+    std::cout << "Нажмите W/A/S/D для движения: ";
     std::cin >> input;
     
     switch (input) {
         case 'w':
         case 'W':
-            std::cout << "Moving UP" << std::endl;
+            std::cout << "Движение ВВЕРХ" << std::endl;
             break;
         case 's':
         case 'S':
-            std::cout << "Moving DOWN" << std::endl;
+            std::cout << "Движение ВНИЗ" << std::endl;
             break;
         case 'a':
         case 'A':
-            std::cout << "Moving LEFT" << std::endl;
+            std::cout << "Движение ВЛЕВО" << std::endl;
             break;
         case 'd':
         case 'D':
-            std::cout << "Moving RIGHT" << std::endl;
+            std::cout << "Движение ВПРАВО" << std::endl;
             break;
         default:
-            std::cout << "Invalid input!" << std::endl;
+            std::cout << "Неверный ввод!" << std::endl;
             break;
     }
     
@@ -391,9 +391,9 @@ int main() {
 }
 ```
 
-### Fall-Through Behavior (Intentional)
+### Поведение "проваливания" (Intentional Fall-Through)
 
-Sometimes you WANT multiple cases to do the same thing.
+Иногда вы ХОТИТЕ, чтобы несколько case делали одно и то же.
 
 ```cpp
 #include <iostream>
@@ -403,94 +403,94 @@ int main() {
     int days;
     
     switch (month) {
-        case 2:  // February
+        case 2:  // Февраль
             days = 28;
             break;
         case 4:
         case 6:
         case 9:
-        case 11:  // April, June, September, November
+        case 11:  // Апрель, Июнь, Сентябрь, Ноябрь
             days = 30;
             break;
-        default:  // January, March, May, July, August, October, December
+        default:  // Январь, Март, Май, Июль, Август, Октябрь, Декабрь
             days = 31;
             break;
     }
     
-    std::cout << "Days in month " << month << ": " << days << std::endl;
+    std::cout << "Дней в месяце " << month << ": " << days << std::endl;
     
     return 0;
 }
 ```
 
-### switch vs if-else: Which to Use?
+### switch vs if-else: Что использовать?
 
-| Use `switch` when... | Use `if-else` when... |
+| Используйте `switch`, когда... | Используйте `if-else`, когда... |
 |---------------------|----------------------|
-| Testing ONE variable | Complex conditions |
-| Fixed values (integers, chars, enums) | Ranges (x > 5 && x < 10) |
-| Many cases (more than 3-4) | Boolean logic (&&, \|\|) |
-| Clear, mutually exclusive options | Different variables |
+| Проверяется ОДНА переменная | Сложные условия |
+| Фиксированные значения (целые числа, символы, перечисления) | Диапазоны (x > 5 && x < 10) |
+| Много case (больше 3-4) | Булева логика (&&, \|\|) |
+| Чёткие, взаимоисключающие варианты | Разные переменные |
 
 ```cpp
-// Good for switch
+// Хорошо для switch
 switch (difficulty) {
     case EASY:    health = 100; break;
     case NORMAL:  health = 75;  break;
     case HARD:    health = 50;  break;
 }
 
-// Must use if-else (ranges)
+// Приходится использовать if-else (диапазоны)
 if (health <= 0) {
-    // dead
+    // мёртв
 } else if (health < 25) {
-    // critical
+    // критическое состояние
 } else if (health < 75) {
-    // wounded
+    // ранен
 } else {
-    // healthy
+    // здоров
 }
 ```
 
 ---
 
-## Part 7: Common Patterns and Best Practices
+## Часть 7: Распространённые паттерны и лучшие практики
 
-### Pattern 1: Guard Clauses (Early Returns)
+### Паттерн 1: Охранные условия (Guard Clauses)
 
-Check error conditions FIRST, then do the main work.
+Проверяйте условия ошибки ПЕРВЫМИ, затем выполняйте основную работу.
 
 ```cpp
-// ❌ Deep nesting (bad)
+// ❌ Глубокая вложенность (плохо)
 void processDamage(int damage, int health) {
     if (damage > 0) {
         if (health > 0) {
             health -= damage;
             if (health <= 0) {
-                std::cout << "Player died!";
+                std::cout << "Игрок умер!";
             }
         }
     }
 }
 
-// ✅ Guard clauses (good)
+// ✅ Охранные условия (хорошо)
 void processDamage(int damage, int health) {
     if (damage <= 0) return;
     if (health <= 0) return;
     
     health -= damage;
     if (health <= 0) {
-        std::cout << "Player died!";
+        std::cout << "Игрок умер!";
     }
 }
 ```
 
-### Pattern 2: Combining Conditions with Logical Operators
+### Паттерн 2: Объединение условий с логическими операторами
 
-Instead of nested `if`s, combine when possible.
+Вместо вложенных `if` объединяйте условия, когда это возможно.
 
 ```cpp
-// ❌ Too nested
+// ❌ Слишком вложено
 if (hasKey) {
     if (hasTorch) {
         if (level >= 5) {
@@ -499,44 +499,44 @@ if (hasKey) {
     }
 }
 
-// ✅ Combined
+// ✅ Объединено
 if (hasKey && hasTorch && level >= 5) {
     openChest();
 }
 ```
 
-### Pattern 3: Boolean Flags
+### Паттерн 3: Булевы флаги
 
 ```cpp
-// ❌ Redundant comparison
+// ❌ Избыточное сравнение
 if (isAlive == true) { }
 
-// ✅ Direct
+// ✅ Напрямую
 if (isAlive) { }
 
-// ❌ Double negative
+// ❌ Двойное отрицание
 if (!isDead == false) { }
 
-// ✅ Clear
+// ✅ Понятно
 if (isAlive) { }
 ```
 
-### Pattern 4: Constant Conditions
+### Паттерн 4: Константы в условии
 
-Put constants on the left to catch `=` typos.
+Помещайте константы слева, чтобы поймать опечатки с `=`.
 
 ```cpp
-// ❌ Easy to mistype =
-if (health = 0) {  // Bug: assigns, then checks
+// ❌ Легко ошибиться, написав =
+if (health = 0) {  // Ошибка: присваивание, затем проверка
 
-// ✅ Compiler error if you type =
-if (0 = health) {  // Error: can't assign to constant
+// ✅ Ошибка компиляции, если вы напишете =
+if (0 = health) {  // Ошибка: нельзя присвоить константе
 }
 ```
 
 ---
 
-## Part 8: Complete Game Example — RPG Dialogue System
+## Часть 8: Полный игровой пример — RPG система диалогов
 
 ```cpp
 #include <iostream>
@@ -548,81 +548,81 @@ int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     
     std::string playerName;
-    int reputation = 0;  // -100 to 100
+    int reputation = 0;  // -100 до 100
     int gold = 50;
     
-    std::cout << "=== THE VILLAGE ELDER ===" << std::endl;
-    std::cout << "Enter your name: ";
+    std::cout << "=== СТАРЕЙШИНА ДЕРЕВНИ ===" << std::endl;
+    std::cout << "Введите ваше имя: ";
     std::getline(std::cin, playerName);
     
-    std::cout << "\nElder: Welcome, " << playerName << "! We need a hero.\n" << std::endl;
+    std::cout << "\nСтарейшина: Добро пожаловать, " << playerName << "! Нам нужен герой.\n" << std::endl;
     
-    // Dialogue choices
-    std::cout << "How do you respond?\n";
-    std::cout << "1. 'I'll help. What's the reward?' (Greedy)\n";
-    std::cout << "2. 'I shall help. For honor!' (Noble)\n";
-    std::cout << "3. '...' (Silent)\n";
-    std::cout << "4. 'Not interested.' (Refuse)\n";
-    std::cout << "Choice: ";
+    // Варианты диалога
+    std::cout << "Как вы ответите?\n";
+    std::cout << "1. 'Я помогу. Какая награда?' (Жадный)\n";
+    std::cout << "2. 'Я помогу. Ради чести!' (Благородный)\n";
+    std::cout << "3. '...' (Молчание)\n";
+    std::cout << "4. 'Не интересно.' (Отказ)\n";
+    std::cout << "Выбор: ";
     
     int choice;
     std::cin >> choice;
     
-    // Update reputation based on choice
+    // Изменение репутации в зависимости от выбора
     switch (choice) {
         case 1:
-            std::cout << "\nElder: *frowns* Very well... There's 100 gold in it for you.\n";
+            std::cout << "\nСтарейшина: *хмурится* Хорошо... Вам 100 золотых.\n";
             reputation -= 10;
             break;
         case 2:
-            std::cout << "\nElder: *smiles* A true hero! The village thanks you.\n";
+            std::cout << "\nСтарейшина: *улыбается* Настоящий герой! Деревня благодарит вас.\n";
             reputation += 20;
             break;
         case 3:
-            std::cout << "\nElder: ... I'll take that as a yes.\n";
-            reputation += 5;  // Neutral, slight positive
+            std::cout << "\nСтарейшина: ... Я сочту это за согласие.\n";
+            reputation += 5;  // Нейтрально, слегка положительно
             break;
         case 4:
-            std::cout << "\nElder: *sighs* Then we have no hope...\n";
+            std::cout << "\nСтарейшина: *вздыхает* Тогда у нас нет надежды...\n";
             reputation -= 30;
-            gold = 0;  // Refuse quest, leave town
+            gold = 0;  // Отказ от квеста, уход из деревни
             break;
         default:
-            std::cout << "\nElder: I'll assume that's a yes?\n";
+            std::cout << "\nСтарейшина: Я предположу, что это согласие?\n";
             break;
     }
     
-    // Quest reward based on reputation
-    std::cout << "\n--- OUTCOME ---" << std::endl;
+    // Награда за квест в зависимости от репутации
+    std::cout << "\n--- ИТОГ ---" << std::endl;
     
     if (reputation >= 20) {
-        std::cout << "The elder gives you a family heirloom as thanks!\n";
+        std::cout << "Старейшина даёт вам семейную реликвию в знак благодарности!\n";
         gold += 150;
     } else if (reputation >= 0) {
-        std::cout << "The elder pays you the standard reward.\n";
+        std::cout << "Старейшина платит вам стандартную награду.\n";
         gold += 100;
     } else if (reputation > -20) {
-        std::cout << "The elder pays you less than promised.\n";
+        std::cout << "Старейшина платит вам меньше обещанного.\n";
         gold += 50;
     } else {
-        std::cout << "The elder refuses to pay you. You leave in shame.\n";
+        std::cout << "Старейшина отказывается платить. Вы уходите в позоре.\n";
         gold = 0;
     }
     
-    // Final stats
-    std::cout << "\n=== QUEST COMPLETE ===" << std::endl;
-    std::cout << "Reputation: " << reputation << std::endl;
-    std::cout << "Gold: " << gold << std::endl;
+    // Итоговая статистика
+    std::cout << "\n=== КВЕСТ ЗАВЕРШЁН ===" << std::endl;
+    std::cout << "Репутация: " << reputation << std::endl;
+    std::cout << "Золото: " << gold << std::endl;
     
-    // Final message based on reputation
+    // Финальное сообщение в зависимости от репутации
     if (reputation >= 20) {
-        std::cout << "The villagers cheer your name! You are a legend!" << std::endl;
+        std::cout << "Жители деревни славят ваше имя! Вы легенда!" << std::endl;
     } else if (reputation >= 0) {
-        std::cout << "The villagers respect you." << std::endl;
+        std::cout << "Жители деревни уважают вас." << std::endl;
     } else if (reputation > -30) {
-        std::cout << "The villagers avoid eye contact." << std::endl;
+        std::cout << "Жители деревни избегают зрительного контакта." << std::endl;
     } else {
-        std::cout << "You are banned from the village forever." << std::endl;
+        std::cout << "Вам запрещён вход в деревню навсегда." << std::endl;
     }
     
     return 0;
@@ -631,67 +631,67 @@ int main() {
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Forgetting Braces
+### 1. Забытые фигурные скобки
 
 ```cpp
-// ❌ Looks like both lines are conditional, but only the first is
+// ❌ Кажется, что обе строки условны, но только первая
 if (health <= 0)
-    std::cout << "Game Over" << std::endl;
-    respawn();  // This ALWAYS runs!
+    std::cout << "Игра окончена" << std::endl;
+    respawn();  // Это выполняется ВСЕГДА!
 
-// ✅ Braces fix it
+// ✅ Фигурные скобки решают проблему
 if (health <= 0) {
-    std::cout << "Game Over" << std::endl;
+    std::cout << "Игра окончена" << std::endl;
     respawn();
 }
 ```
 
-### 2. Missing `break` in `switch`
+### 2. Пропущенный `break` в `switch`
 
 ```cpp
 int x = 2;
 switch (x) {
     case 1:
-        std::cout << "One";
-        // Missing break! Falls through to case 2
+        std::cout << "Один";
+        // Пропущен break! Проваливается в case 2
     case 2:
-        std::cout << "Two";  // Executes even though x == 2
-        break;  // Without break, would fall to default
+        std::cout << "Два";  // Выполняется, даже если x == 2
+        break;  // Без break провалился бы в default
     default:
-        std::cout << "Other";
+        std::cout << "Другое";
 }
-// Output: "Two" (fine) but if x=1: output "OneTwo"
+// Вывод: "Два" (нормально) но если x=1: вывод "ОдинДва"
 ```
 
-### 3. Using `=` instead of `==`
+### 3. Использование `=` вместо `==`
 
 ```cpp
 int x = 5;
-if (x = 10) {  // Assigns 10 to x, condition is TRUE (10 != 0)
-    // This ALWAYS runs!
+if (x = 10) {  // Присваивает 10 переменной x, условие ИСТИННО (10 != 0)
+    // Это выполняется ВСЕГДА!
 }
 ```
 
-### 4. Semicolon after `if`
+### 4. Точка с запятой после `if`
 
 ```cpp
-if (health <= 0);  // Empty statement! The if does nothing
+if (health <= 0);  // Пустой оператор! if ничего не делает
 {
-    std::cout << "Game Over";  // This ALWAYS runs
+    std::cout << "Игра окончена";  // Это выполняется ВСЕГДА
 }
 ```
 
-### 5. Overly Complex Conditions
+### 5. Чрезмерно сложные условия
 
 ```cpp
-// ❌ Hard to read
+// ❌ Трудно читать
 if ((player.alive && !player.stunned) || (player.invincibleFrames > 0 && player.health > 0) && !player.isFrozen) {
     player.attack();
 }
 
-// ✅ Break it down
+// ✅ Разбиваем на части
 bool canAct = player.alive && !player.stunned && !player.isFrozen;
 bool invincibleButAlive = player.invincibleFrames > 0 && player.health > 0;
 
@@ -702,95 +702,95 @@ if (canAct || invincibleButAlive) {
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Basic if
-if (condition) {
-    // runs if true
+// Базовый if
+if (условие) {
+    // выполняется, если истинно
 }
 
 // if-else
-if (condition) {
-    // runs if true
+if (условие) {
+    // выполняется, если истинно
 } else {
-    // runs if false
+    // выполняется, если ложно
 }
 
 // if-else if-else
-if (condition1) {
-    // runs if condition1 true
-} else if (condition2) {
-    // runs if condition1 false AND condition2 true
+if (условие1) {
+    // выполняется, если условие1 истинно
+} else if (условие2) {
+    // выполняется, если условие1 ложно И условие2 истинно
 } else {
-    // runs if all false
+    // выполняется, если все ложны
 }
 
-// Ternary operator
-variable = (condition) ? value_if_true : value_if_false;
+// Тернарный оператор
+переменная = (условие) ? значение_если_истина : значение_если_ложь;
 
 // Switch
-switch (expression) {
-    case value1:
-        // code
+switch (выражение) {
+    case значение1:
+        // код
         break;
-    case value2:
-        // code
+    case значение2:
+        // код
         break;
     default:
-        // code
+        // код
         break;
 }
 
-// Guard clause pattern
-if (error_condition) return;
-// main logic continues...
+// Паттерн охранного условия
+if (условие_ошибки) return;
+// основная логика продолжается...
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Write a program that asks for a number and prints:
-- "Positive" if > 0
-- "Negative" if < 0
-- "Zero" if == 0
+**Упражнение 1 (Лёгкое):** Напишите программу, которая запрашивает число и выводит:
+- "Положительное", если > 0
+- "Отрицательное", если < 0
+- "Ноль", если == 0
 
-**Exercise 2 (Easy):** Rock Paper Scissors. Ask for player choice (1=Rock, 2=Paper, 3=Scissors), generate random computer choice, determine winner using `switch`.
+**Упражнение 2 (Лёгкое):** Камень-Ножницы-Бумага. Спросите выбор игрока (1=Камень, 2=Ножницы, 3=Бумага), сгенерируйте случайный выбор компьютера, определите победителя с помощью `switch`.
 
-**Exercise 3 (Medium):** Create a "Grade Calculator" using `if-else if`. Input score (0-100), output letter grade (A=90+, B=80+, C=70+, D=60+, F=below 60). Add +/- (e.g., B+ for 87-89).
+**Упражнение 3 (Среднее):** Создайте "Калькулятор оценок" с помощью `if-else if`. Введите оценку (0-100), выведите буквенную оценку (A=90+, B=80+, C=70+, D=60+, F=ниже 60). Добавьте +/- (например, B+ для 87-89).
 
-**Exercise 4 (Medium):** Write a "Simple Calculator" using `switch`. Input two numbers and an operator (+, -, *, /). Perform the calculation. Handle division by zero.
+**Упражнение 4 (Среднее):** Напишите "Простой калькулятор" с помощью `switch`. Введите два числа и оператор (+, -, *, /). Выполните вычисление. Обработайте деление на ноль.
 
-**Exercise 5 (Hard):** Create a "Day of Week" program using `switch`. Input number 1-7, output day name. Then extend with `if-else` to say "Weekend!" for Saturday/Sunday.
+**Упражнение 5 (Сложное):** Создайте программу "День недели" с помощью `switch`. Введите число 1-7, выведите название дня. Затем расширьте с помощью `if-else`, чтобы выводить "Выходной!" для Субботы/Воскресенья.
 
-**Exercise 6 (Challenge):** Build a "Text Adventure" with at least 3 choices. Each choice leads to different outcomes. Track player stats (health, gold, reputation). Use nested `if` statements and `switch` for different branches.
-
----
-
-## Summary
-
-You now know:
-
-✅ `if`, `else`, and `else if` for branching logic  
-✅ The ternary operator for simple assignments  
-✅ `switch` statements for multiple fixed values  
-✅ Nested conditions and when to avoid deep nesting  
-✅ Guard clauses and early returns  
-✅ Common patterns and pitfalls  
-
-## What's Next?
-
-Next lesson: **Loops (while, do-while, for)** — we'll learn how to repeat code efficiently, from game loops to processing collections!
+**Упражнение 6 (Вызов):** Создайте "Текстовое приключение" как минимум с 3 вариантами выбора. Каждый выбор ведёт к разным исходам. Отслеживайте статистику игрока (здоровье, золото, репутацию). Используйте вложенные `if` и `switch` для разных веток.
 
 ---
 
-## Resources
+## Резюме
 
-- [C++ if Statement (cppreference)](https://en.cppreference.com/w/cpp/language/if)
-- [C++ switch Statement (cppreference)](https://en.cppreference.com/w/cpp/language/switch)
-- [C++ Tutorial: Control Flow](https://www.learncpp.com/cpp-tutorial/control-flow-introduction/)
+Теперь вы знаете:
+
+✅ `if`, `else` и `else if` для ветвления логики  
+✅ Тернарный оператор для простых присваиваний  
+✅ Операторы `switch` для множества фиксированных значений  
+✅ Вложенные условия и как избегать глубокой вложенности  
+✅ Охранные условия и ранние возвраты  
+✅ Распространённые паттерны и ловушки  
+
+## Что дальше?
+
+Следующий урок: **Циклы (while, do-while, for)** — мы научимся эффективно повторять код, от игровых циклов до обработки коллекций!
 
 ---
 
-**Practice Task:** Create a simple "Guess the Number" game where the computer picks a random number (1-100). Use `if-else` to tell the player "too high" or "too low". Use a counter to track attempts. Add different messages based on how many attempts they took (e.g., "Amazing!" for <5, "Good" for 5-10, "Better luck next time" for >10).
+## Ресурсы
+
+- [Оператор if в C++ (cppreference)](https://en.cppreference.com/w/cpp/language/if)
+- [Оператор switch в C++ (cppreference)](https://en.cppreference.com/w/cpp/language/switch)
+- [Учебник по управлению потоком](https://www.learncpp.com/cpp-tutorial/control-flow-introduction/)
+
+---
+
+**Практическое задание:** Создайте простую игру "Угадай число", где компьютер загадывает случайное число (1-100). Используйте `if-else`, чтобы сообщать игроку "слишком много" или "слишком мало". Используйте счётчик для отслеживания попыток. Добавьте разные сообщения в зависимости от количества попыток (например, "Потрясающе!" для <5, "Хорошо" для 5-10, "В следующий раз повезёт" для >10).

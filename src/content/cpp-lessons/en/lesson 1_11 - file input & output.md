@@ -4,7 +4,7 @@ description: "Persist data, save player progress, load configurations, and write
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "file-io", "fstream", "serialization"]
 lang: "en"
-lessonNumber: 10
+lessonNumber: 111
 subcategory: "beginner"
 author: "Stanislav Talanov"
 ---

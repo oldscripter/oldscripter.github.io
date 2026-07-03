@@ -4,7 +4,7 @@ description: "Stop copying unnecessary data — master move constructors, move a
 pubDate: 2026-05-18
 tags: ["C++", "advanced", "move-semantics", "rvalue-references", "perfect-forwarding"]
 lang: "en"
-lessonNumber: 18
+lessonNumber: 301
 subcategory: "advanced"
 author: "Stanislav Talanov"
 ---
