@@ -1,6 +1,6 @@
 ---
-title: "Operators and Expressions"
-description: "Master arithmetic, comparison, and logical operators to build game logic"
+title: "Операторы и выражения"
+description: "Освойте арифметические, операторы сравнения и логические операторы для построения игровой логики"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "operators", "expressions", "game-logic"]
 lang: "ru"
@@ -9,33 +9,33 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 4: Operators and Expressions
+# Урок 4: Операторы и выражения
 
-Welcome back! Now that we can store data and get user input, it's time to **make decisions and calculations**. Operators are the tools that let us manipulate data, compare values, and build complex game logic.
+Добро пожаловать обратно! Теперь, когда мы умеем хранить данные и получать пользовательский ввод, пришло время **принимать решения и производить вычисления**. Операторы — это инструменты, которые позволяют нам управлять данными, сравнивать значения и строить сложную игровую логику.
 
-## What You'll Learn
+## Что вы изучите
 
-- Arithmetic operators (math!)
-- Assignment operators (`=`, `+=`, `-=`, etc.)
-- Increment/decrement (`++`, `--`)
-- Relational operators (`<`, `>`, `==`, `!=`, etc.)
-- Logical operators (`&&`, `||`, `!`)
-- Operator precedence (what happens first?)
-- Bitwise operators (bonus: for power users)
+- Арифметические операторы (математика!)
+- Операторы присваивания (`=`, `+=`, `-=` и т.д.)
+- Инкремент/декремент (`++`, `--`)
+- Операторы сравнения (`<`, `>`, `==`, `!=` и т.д.)
+- Логические операторы (`&&`, `||`, `!`)
+- Приоритет операторов (что выполняется первым?)
+- Побитовые операторы (бонус: для продвинутых пользователей)
 
 ---
 
-## Part 1: Arithmetic Operators
+## Часть 1: Арифметические операторы
 
-These work just like basic math — but with a few C++ quirks.
+Они работают как обычная математика — но с несколькими особенностями C++.
 
-| Operator | Meaning | Example | Result |
+| Оператор | Значение | Пример | Результат |
 |----------|---------|---------|--------|
-| `+` | Addition | `5 + 3` | `8` |
-| `-` | Subtraction | `5 - 3` | `2` |
-| `*` | Multiplication | `5 * 3` | `15` |
-| `/` | Division | `5 / 2` | `2` (⚠️ integer division!) |
-| `%` | Modulo (remainder) | `5 % 2` | `1` |
+| `+` | Сложение | `5 + 3` | `8` |
+| `-` | Вычитание | `5 - 3` | `2` |
+| `*` | Умножение | `5 * 3` | `15` |
+| `/` | Деление | `5 / 2` | `2` (⚠️ целочисленное деление!) |
+| `%` | Остаток от деления | `5 % 2` | `1` |
 
 ```cpp
 #include <iostream>
@@ -45,76 +45,76 @@ int main() {
     int damage = 35;
     int healing = 20;
     
-    // Basic arithmetic
+    // Базовая арифметика
     int newHealth = health - damage;        // 65
     int afterHeal = newHealth + healing;    // 85
     
-    std::cout << "After damage: " << newHealth << std::endl;
-    std::cout << "After heal: " << afterHeal << std::endl;
+    std::cout << "После урона: " << newHealth << std::endl;
+    std::cout << "После лечения: " << afterHeal << std::endl;
     
-    // Multiplication
+    // Умножение
     int score = 10;
     int multiplier = 3;
     int totalScore = score * multiplier;     // 30
     
-    // Division - WARNING: Integer division truncates!
+    // Деление - ВНИМАНИЕ: целочисленное деление отбрасывает дробную часть!
     int players = 5;
     int candies = 17;
-    int eachGets = candies / players;        // 3 (not 3.4!)
+    int eachGets = candies / players;        // 3 (не 3.4!)
     int remainder = candies % players;       // 2
     
-    std::cout << "Each player gets: " << eachGets << " candies" << std::endl;
-    std::cout << "Leftover: " << remainder << " candies" << std::endl;
+    std::cout << "Каждый игрок получает: " << eachGets << " конфет" << std::endl;
+    std::cout << "Остаток: " << remainder << " конфет" << std::endl;
     
     return 0;
 }
 ```
 
-### The Integer Division Trap
+### Ловушка целочисленного деления
 
 ```cpp
-float result1 = 5 / 2;      // result1 = 2.0 (not 2.5!)
+float result1 = 5 / 2;      // result1 = 2.0 (не 2.5!)
 float result2 = 5.0f / 2;   // result2 = 2.5
 float result3 = 5 / 2.0f;   // result3 = 2.5
-float result4 = (float)5 / 2; // result4 = 2.5 (explicit cast)
+float result4 = (float)5 / 2; // result4 = 2.5 (явное приведение типа)
 
-// For game development, always use floats for division:
+// Для разработки игр всегда используйте float при делении:
 float attackPower = 45.0f;
 float defense = 20.0f;
 float damageMultiplier = attackPower / defense;  // 2.25
 ```
 
-**Rule:** If both operands are integers, C++ does integer division (truncates). If at least one is a float/double, you get floating-point division.
+**Правило:** Если оба операнда — целые числа, C++ выполняет целочисленное деление (отбрасывает дробную часть). Если хотя бы один операнд — float/double, вы получаете деление с плавающей точкой.
 
-### Modulo (`%`) — Surprisingly Useful in Games
+### Остаток от деления (`%`) — неожиданно полезен в играх
 
 ```cpp
-// Check if number is even
+// Проверка на чётность
 bool isEven = (number % 2 == 0);
 
-// Wrap around (arrays, tilemaps)
-int tileIndex = currentTile % totalTiles;  // Cycles 0,1,2,0,1,2...
+// Зацикливание (массивы, тайлы)
+int tileIndex = currentTile % totalTiles;  // Цикл 0,1,2,0,1,2...
 
-// Extract digits
+// Извлечение цифр
 int lastDigit = number % 10;      // 123 % 10 = 3
 int firstDigit = number / 100;    // 123 / 100 = 1
 
-// Cooldown system
+// Система перезарядки
 int frameCount = 0;
 if (frameCount % 60 == 0) {
-    // Do something every 60 frames (1 second at 60 FPS)
+    // Делать что-то каждые 60 кадров (1 секунда при 60 FPS)
 }
 ```
 
 ---
 
-## Part 2: Assignment Operators
+## Часть 2: Операторы присваивания
 
-We've been using `=`, but there's a whole family:
+Мы использовали `=`, но есть целое семейство:
 
-| Operator | Example | Meaning |
+| Оператор | Пример | Значение |
 |----------|---------|---------|
-| `=` | `x = 5` | Assign 5 to x |
+| `=` | `x = 5` | Присвоить 5 переменной x |
 | `+=` | `x += 3` | `x = x + 3` |
 | `-=` | `x -= 2` | `x = x - 2` |
 | `*=` | `x *= 4` | `x = x * 4` |
@@ -127,19 +127,19 @@ We've been using `=`, but there's a whole family:
 int main() {
     int health = 100;
     
-    // Instead of: health = health + 20;
+    // Вместо: health = health + 20;
     health += 20;    // 120
-    std::cout << "After potion: " << health << std::endl;
+    std::cout << "После зелья: " << health << std::endl;
     
-    // Instead of: health = health - 35;
+    // Вместо: health = health - 35;
     health -= 35;    // 85
-    std::cout << "After hit: " << health << std::endl;
+    std::cout << "После удара: " << health << std::endl;
     
-    // Instead of: score = score * 2;
+    // Вместо: score = score * 2;
     int score = 50;
     score *= 2;      // 100
     
-    // Instead of: gold = gold / 4;
+    // Вместо: gold = gold / 4;
     int gold = 100;
     gold /= 4;       // 25
     
@@ -147,76 +147,76 @@ int main() {
 }
 ```
 
-**Game use cases:**
+**Примеры использования в играх:**
 ```cpp
 playerHealth += potionAmount;
 mana -= spellCost;
 score *= comboMultiplier;
-gold /= 2;  // "You paid half your gold as tax"
+gold /= 2;  // "Вы заплатили половину своего золота в качестве налога"
 ```
 
 ---
 
-## Part 3: Increment/Decrement Operators
+## Часть 3: Операторы инкремента/декремента
 
-Used constantly in loops and counters.
+Постоянно используются в циклах и счётчиках.
 
-| Operator | Meaning | Example |
+| Оператор | Значение | Пример |
 |----------|---------|---------|
-| `++x` | Pre-increment (increment, then use) | `int y = ++x` |
-| `x++` | Post-increment (use, then increment) | `int y = x++` |
-| `--x` | Pre-decrement | |
-| `x--` | Post-decrement | |
+| `++x` | Префиксный инкремент (увеличить, затем использовать) | `int y = ++x` |
+| `x++` | Постфиксный инкремент (использовать, затем увеличить) | `int y = x++` |
+| `--x` | Префиксный декремент | |
+| `x--` | Постфиксный декремент | |
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Pre vs Post - THE CLASSIC CONFUSION
+    // Префикс vs Постфикс - КЛАССИЧЕСКАЯ ПУТАНИЦА
     int a = 5;
     int b = 5;
     
-    int preResult = ++a;  // a becomes 6, then preResult gets 6
-    int postResult = b++; // postResult gets 5, then b becomes 6
+    int preResult = ++a;  // a становится 6, затем preResult получает 6
+    int postResult = b++; // postResult получает 5, затем b становится 6
     
-    std::cout << "After ++a: a=" << a << ", result=" << preResult << std::endl;
-    std::cout << "After b++: b=" << b << ", result=" << postResult << std::endl;
+    std::cout << "После ++a: a=" << a << ", результат=" << preResult << std::endl;
+    std::cout << "После b++: b=" << b << ", результат=" << postResult << std::endl;
     
-    // Practical use - when alone, they work the same
+    // Практическое использование - когда оператор один, работают одинаково
     int kills = 0;
-    kills++;    // kills becomes 1
-    ++kills;    // kills becomes 2
-    kills--;    // kills becomes 1
+    kills++;    // kills становится 1
+    ++kills;    // kills становится 2
+    kills--;    // kills становится 1
     
-    // Game example: next item in inventory
+    // Игровой пример: следующий предмет в инвентаре
     int currentItem = 0;
     int itemCount = 5;
     
-    currentItem++;           // Move to next item
+    currentItem++;           // Переход к следующему предмету
     if (currentItem >= itemCount) {
-        currentItem = 0;     // Wrap around
+        currentItem = 0;     // Зацикливание
     }
     
     return 0;
 }
 ```
 
-**Best practice:** Use `++i` (pre-increment) in most cases — it's slightly faster and more predictable. The difference matters in complex expressions.
+**Лучшая практика:** Используйте `++i` (префиксный инкремент) в большинстве случаев — он немного быстрее и предсказуемее. Разница имеет значение в сложных выражениях.
 
 ---
 
-## Part 4: Relational (Comparison) Operators
+## Часть 4: Операторы сравнения
 
-These answer YES/NO questions. The result is a `bool` (`true` or `false`).
+Они отвечают на вопросы ДА/НЕТ. Результат — `bool` (`true` или `false`).
 
-| Operator | Meaning | Example (true) |
+| Оператор | Значение | Пример (истина) |
 |----------|---------|----------------|
-| `==` | Equal to | `5 == 5` |
-| `!=` | Not equal to | `5 != 3` |
-| `<` | Less than | `3 < 5` |
-| `>` | Greater than | `5 > 3` |
-| `<=` | Less than or equal | `5 <= 5` |
-| `>=` | Greater than or equal | `5 >= 3` |
+| `==` | Равно | `5 == 5` |
+| `!=` | Не равно | `5 != 3` |
+| `<` | Меньше | `3 < 5` |
+| `>` | Больше | `5 > 3` |
+| `<=` | Меньше или равно | `5 <= 5` |
+| `>=` | Больше или равно | `5 >= 3` |
 
 ```cpp
 #include <iostream>
@@ -228,52 +228,52 @@ int main() {
     int playerLevel = 7;
     bool hasKey = true;
     
-    // Comparisons
+    // Сравнения
     bool willDie = (bossDamage >= playerHealth);  // 80 >= 75 = true
     bool canEnter = (playerLevel >= requiredLevel); // 7 >= 10 = false
     bool hasAccess = (canEnter && hasKey);  // false && true = false
     
     std::cout << std::boolalpha;
-    std::cout << "Will die? " << willDie << std::endl;
-    std::cout << "Can enter dungeon? " << canEnter << std::endl;
-    std::cout << "Has full access? " << hasAccess << std::endl;
+    std::cout << "Умрёт? " << willDie << std::endl;
+    std::cout << "Может войти в подземелье? " << canEnter << std::endl;
+    std::cout << "Имеет полный доступ? " << hasAccess << std::endl;
     
-    // Common mistake: = vs ==
-    if (playerHealth = 0) {  // WRONG: assigns 0, condition becomes false
-        std::cout << "Game Over" << std::endl;  // This never runs
+    // Частая ошибка: = vs ==
+    if (playerHealth = 0) {  // НЕПРАВИЛЬНО: присваивает 0, условие становится false
+        std::cout << "Игра окончена" << std::endl;  // Это никогда не выполнится
     }
     
-    if (playerHealth == 0) { // CORRECT: compares
-        std::cout << "Game Over" << std::endl;  // This runs correctly
+    if (playerHealth == 0) { // ПРАВИЛЬНО: сравнение
+        std::cout << "Игра окончена" << std::endl;  // Это выполнится корректно
     }
     
     return 0;
 }
 ```
 
-### Yoda Conditions (Defensive Programming)
+### Условия Йоды (Защитное программирование)
 
-Some developers write conditions backwards to catch `=` mistakes:
+Некоторые разработчики пишут условия наоборот, чтобы поймать ошибки с `=`:
 
 ```cpp
-if (0 == playerHealth) {  // Compiler error if you type = instead of ==
-    // Game over
+if (0 == playerHealth) {  // Ошибка компиляции, если вы напишете = вместо ==
+    // Игра окончена
 }
 ```
 
-This prevents `if (playerHealth = 0)` bugs. Use if you like, but it's less readable.
+Это предотвращает ошибки вида `if (playerHealth = 0)`. Используйте, если нравится, но это менее читаемо.
 
 ---
 
-## Part 5: Logical Operators
+## Часть 5: Логические операторы
 
-Combine multiple conditions into one.
+Объединяют несколько условий в одно.
 
-| Operator | Meaning | Truth Table |
+| Оператор | Значение | Таблица истинности |
 |----------|---------|-------------|
-| `&&` | AND (both true) | `true && true = true`, everything else false |
-| `||` | OR (at least one true) | `false || false = false`, everything else true |
-| `!` | NOT (negation) | `!true = false`, `!false = true` |
+| `&&` | И (оба истинны) | `true && true = true`, всё остальное false |
+| `||` | ИЛИ (хотя бы одно истинно) | `false || false = false`, всё остальное true |
+| `!` | НЕ (отрицание) | `!true = false`, `!false = true` |
 
 ```cpp
 #include <iostream>
@@ -286,119 +286,119 @@ int main() {
     
     std::cout << std::boolalpha;
     
-    // AND - BOTH must be true
+    // И - ОБА должны быть истинны
     bool canCastSpell = (mana >= 20) && (health > 0);  // true && true = true
-    std::cout << "Can cast spell? " << canCastSpell << std::endl;
+    std::cout << "Может применить заклинание? " << canCastSpell << std::endl;
     
-    // OR - AT LEAST ONE must be true
+    // ИЛИ - ХОТЯ БЫ ОДНО должно быть истинно
     bool canSurvive = (health > 0) || hasShield;  // true || false = true
-    std::cout << "Can survive hit? " << canSurvive << std::endl;
+    std::cout << "Может пережить удар? " << canSurvive << std::endl;
     
-    // NOT - reverses
+    // НЕ - инвертирует
     bool isDead = (health <= 0);
     bool isAlive = !isDead;
-    std::cout << "Is alive? " << isAlive << std::endl;
+    std::cout << "Жив? " << isAlive << std::endl;
     
-    // Complex game conditions
+    // Сложные игровые условия
     bool canUseUltimate = (level >= 10) && (mana >= 100) && !isDead;
     
-    // Short-circuit evaluation (important!)
-    bool safeCheck = (ptr != nullptr) && (ptr->value > 10);  // Second part only runs if first is true
+    // Короткое замыкание (важно!)
+    bool safeCheck = (ptr != nullptr) && (ptr->value > 10);  // Вторая часть выполняется только если первая истинна
     
     return 0;
 }
 ```
 
-### Short-Circuit Evaluation
+### Короткое замыкание
 
-C++ stops evaluating as soon as the result is known:
+C++ прекращает вычисление, как только результат становится известен:
 
 ```cpp
-// For && (AND): if first is false, second NEVER runs
+// Для && (И): если первое false, второе НИКОГДА не выполняется
 if (expensiveFunction() && cheapFunction()) { }
-// If expensiveFunction() returns false, cheapFunction() never called
+// Если expensiveFunction() возвращает false, cheapFunction() никогда не вызывается
 
-// For || (OR): if first is true, second NEVER runs
+// Для || (ИЛИ): если первое true, второе НИКОГДА не выполняется
 if (quickCheck() || slowDatabaseLookup()) { }
-// If quickCheck() returns true, slowDatabaseLookup() never runs
+// Если quickCheck() возвращает true, slowDatabaseLookup() никогда не вызывается
 ```
 
-**Game use:** Prevent null pointer crashes:
+**Игровое применение:** Предотвращение падений при работе с нулевыми указателями:
 ```cpp
-if (player != nullptr && player->health > 0) {  // Safe!
-    // Use player
+if (player != nullptr && player->health > 0) {  // Безопасно!
+    // Используем player
 }
 ```
 
 ---
 
-## Part 6: Operator Precedence
+## Часть 6: Приоритет операторов
 
-Not all operators are equal — some happen before others, just like in math.
+Не все операторы равны — одни выполняются раньше других, как в математике.
 
-**Remember PEMDAS from math?** C++ has its own rules:
+**Помните PEMDAS из математики?** У C++ свои правила:
 
-| Precedence | Operators | Example |
+| Приоритет | Операторы | Пример |
 |------------|-----------|---------|
-| 1 (highest) | `()` parentheses | `(a + b) * c` |
-| 2 | `++` `--` `!` (unary) | `!isDone` |
+| 1 (наивысший) | `()` круглые скобки | `(a + b) * c` |
+| 2 | `++` `--` `!` (унарные) | `!isDone` |
 | 3 | `*` `/` `%` | `a * b / c` |
 | 4 | `+` `-` | `a + b - c` |
 | 5 | `<` `>` `<=` `>=` | `a < b` |
 | 6 | `==` `!=` | `a == b` |
 | 7 | `&&` | `a && b` |
 | 8 | `||` | `a \|\| b` |
-| 9 (lowest) | `=` assignment | `x = 5` |
+| 9 (низший) | `=` присваивание | `x = 5` |
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Without parentheses - follows precedence
-    int result = 5 + 3 * 2;    // 5 + (3*2) = 11, NOT 16!
+    // Без скобок - следует приоритету
+    int result = 5 + 3 * 2;    // 5 + (3*2) = 11, НЕ 16!
     
-    // With parentheses - force your order
+    // Со скобками - принудительный порядок
     int forced = (5 + 3) * 2;  // (8)*2 = 16
     
     std::cout << "5 + 3 * 2 = " << result << std::endl;
     std::cout << "(5 + 3) * 2 = " << forced << std::endl;
     
-    // Complex example
+    // Сложный пример
     bool condition = (10 > 5) && (3 < 4) || (2 == 3);
-    // Step by step:
+    // По шагам:
     // (10 > 5) = true
     // (3 < 4) = true
     // (2 == 3) = false
     // (true && true) = true
     // (true || false) = true
     
-    // WHEN IN DOUBT, USE PARENTHESES!
-    bool clear = ((10 > 5) && (3 < 4)) || (2 == 3);  // Much clearer
+    // В СЛУЧАЕ СОМНЕНИЙ, ИСПОЛЬЗУЙТЕ СКОБКИ!
+    bool clear = ((10 > 5) && (3 < 4)) || (2 == 3);  // Намного понятнее
     
     return 0;
 }
 ```
 
-**Golden Rule:** Use parentheses liberally. They cost nothing, make code clearer, and prevent bugs.
+**Золотое правило:** Используйте скобки щедро. Они ничего не стоят, делают код понятнее и предотвращают ошибки.
 
 ---
 
-## Part 7: Real Game Example — Combat System
+## Часть 7: Реальный игровой пример — Система боя
 
-Let's combine everything into a damage calculation system:
+Давайте объединим всё в систему расчёта урона:
 
 ```cpp
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <cstdlib>  // for rand()
-#include <ctime>    // for time()
+#include <cstdlib>  // для rand()
+#include <ctime>    // для time()
 
 int main() {
-    // Seed random number generator
+    // Инициализация генератора случайных чисел
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     
-    // Player stats
+    // Характеристики игрока
     std::string playerName;
     int playerHealth = 100;
     int playerMaxHealth = 100;
@@ -406,100 +406,100 @@ int main() {
     int playerDefense = 8;
     float playerCritChance = 0.20f;  // 20%
     
-    // Enemy stats
-    std::string enemyName = "Goblin";
+    // Характеристики врага
+    std::string enemyName = "Гоблин";
     int enemyHealth = 45;
     int enemyStrength = 10;
     int enemyDefense = 5;
     
-    std::cout << "=== BATTLE SIMULATOR ===" << std::endl;
-    std::cout << "Enter your name: ";
+    std::cout << "=== СИМУЛЯТОР БОЯ ===" << std::endl;
+    std::cout << "Введите ваше имя: ";
     std::getline(std::cin, playerName);
     
-    std::cout << "\nA wild " << enemyName << " appears!\n" << std::endl;
+    std::cout << "\nДикий " << enemyName << " появляется!\n" << std::endl;
     
-    // Combat loop
+    // Боевой цикл
     bool battleOngoing = true;
     int turn = 1;
     
     while (battleOngoing) {
-        std::cout << "\n--- Turn " << turn << " ---" << std::endl;
-        std::cout << playerName << " Health: " << playerHealth << "/" << playerMaxHealth << std::endl;
-        std::cout << enemyName << " Health: " << enemyHealth << std::endl;
+        std::cout << "\n--- Ход " << turn << " ---" << std::endl;
+        std::cout << playerName << " Здоровье: " << playerHealth << "/" << playerMaxHealth << std::endl;
+        std::cout << enemyName << " Здоровье: " << enemyHealth << std::endl;
         
-        // Player turn
-        std::cout << "\nChoose action: [1] Attack [2] Defend: ";
+        // Ход игрока
+        std::cout << "\nВыберите действие: [1] Атаковать [2] Защищаться: ";
         int choice;
         std::cin >> choice;
         
         int damageDealt = 0;
         bool isCritical = false;
         
-        if (choice == 1) {  // Attack
-            // Base damage calculation
+        if (choice == 1) {  // Атака
+            // Расчёт базового урона
             int baseDamage = playerStrength + (std::rand() % 10);  // 15 + 0-9
             float randomFactor = 0.85f + (static_cast<float>(std::rand()) / RAND_MAX) * 0.3f;  // 0.85 - 1.15
             
             damageDealt = static_cast<int>(baseDamage * randomFactor) - enemyDefense;
             
-            // Ensure minimum damage
+            // Минимальный урон
             if (damageDealt < 5) damageDealt = 5;
             
-            // Critical hit check
+            // Проверка критического удара
             float critRoll = static_cast<float>(std::rand()) / RAND_MAX;
             isCritical = (critRoll < playerCritChance);
             
             if (isCritical) {
                 damageDealt = static_cast<int>(damageDealt * 1.5f);
-                std::cout << "⚡ CRITICAL HIT! ⚡" << std::endl;
+                std::cout << "⚡ КРИТИЧЕСКИЙ УДАР! ⚡" << std::endl;
             }
             
             enemyHealth -= damageDealt;
-            std::cout << "You hit the " << enemyName << " for " << damageDealt << " damage!" << std::endl;
+            std::cout << "Вы нанесли " << enemyName << " урон " << damageDealt << "!" << std::endl;
         } 
-        else if (choice == 2) {  // Defend
+        else if (choice == 2) {  // Защита
             int healAmount = 10 + (std::rand() % 15);
             playerHealth += healAmount;
             if (playerHealth > playerMaxHealth) playerHealth = playerMaxHealth;
-            std::cout << "You defend and recover " << healAmount << " health!" << std::endl;
+            std::cout << "Вы защищаетесь и восстанавливаете " << healAmount << " здоровья!" << std::endl;
         }
         
-        // Check if enemy defeated
+        // Проверка, побеждён ли враг
         if (enemyHealth <= 0) {
-            std::cout << "\n✦ " << enemyName << " defeated! Victory! ✦" << std::endl;
+            std::cout << "\n✦ " << enemyName << " побеждён! Победа! ✦" << std::endl;
             break;
         }
         
-        // Enemy turn
-        std::cout << "\n" << enemyName << " attacks!" << std::endl;
+        // Ход врага
+        std::cout << "\n" << enemyName << " атакует!" << std::endl;
         int enemyDamage = enemyStrength + (std::rand() % 8);
-        enemyDamage -= (choice == 2 ? (playerDefense / 2) : (playerDefense / 4));  // Defending reduces damage
+        enemyDamage -= (choice == 2 ? (playerDefense / 2) : (playerDefense / 4));  // Защита снижает урон
         
         if (enemyDamage < 3) enemyDamage = 3;
         
         playerHealth -= enemyDamage;
-        std::cout << enemyName << " hits you for " << enemyDamage << " damage!" << std::endl;
+        std::cout << enemyName << " наносит вам " << enemyDamage << " урона!" << std::endl;
         
-        // Check if player defeated
+        // Проверка, побеждён ли игрок
         if (playerHealth <= 0) {
-            std::cout << "\n✗ You have been defeated... Game Over ✗" << std::endl;
+            std::cout << "\n✗ Вы были побеждены... Игра окончена ✗" << std::endl;
             battleOngoing = false;
             break;
         }
         
         turn++;
         
-        // Safety limit (50 turns max)
+        // Лимит безопасности (максимум 50 ходов)
         if (turn > 50) {
-            std::cout << "\nBattle ends in a draw!" << std::endl;
+            std::cout << "\nБой заканчивается вничью!" << std::endl;
             break;
         }
     }
     
     if (playerHealth > 0 && enemyHealth <= 0) {
-        std::cout << "\n=== VICTORY! ===" << std::endl;
+        std::cout << "\n=== ПОБЕДА! ===" << std::endl;
         int experienceGained = 50 + (turn * 5);
-        std::cout << "You gained " << experienceGained << " XP!" << std::endl;
+        std::cout << "Вы получили " << experienceGained << " XP!" << std::endl;
     }
     
     return 0;
@@ -508,43 +508,43 @@ int main() {
 
 ---
 
-## Part 8: Bitwise Operators (Bonus)
+## Часть 8: Побитовые операторы (Бонус)
 
-These operate on individual bits. Useful for flags, network protocols, and performance-critical code.
+Работают с отдельными битами. Полезны для флагов, сетевых протоколов и критичного к производительности кода.
 
-| Operator | Name | Example |
+| Оператор | Название | Пример |
 |----------|------|---------|
-| `&` | AND | `flags & MASK` |
-| `|` | OR | `flags | MASK` |
-| `^` | XOR | `flags ^ MASK` |
-| `~` | NOT | `~flags` |
-| `<<` | Left shift | `value << 2` |
-| `>>` | Right shift | `value >> 1` |
+| `&` | И | `flags & MASK` |
+| `|` | ИЛИ | `flags | MASK` |
+| `^` | ИСКЛЮЧАЮЩЕЕ ИЛИ (XOR) | `flags ^ MASK` |
+| `~` | НЕ | `~flags` |
+| `<<` | Сдвиг влево | `value << 2` |
+| `>>` | Сдвиг вправо | `value >> 1` |
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Game flags example
+    // Пример игровых флагов
     const int HAS_SWORD   = 1 << 0;  // 1  (binary 001)
     const int HAS_SHIELD  = 1 << 1;  // 2  (binary 010)
     const int HAS_KEY     = 1 << 2;  // 4  (binary 100)
     
     int inventory = 0;
     
-    // Add items
-    inventory |= HAS_SWORD;    // Add sword
-    inventory |= HAS_SHIELD;   // Add shield
+    // Добавление предметов
+    inventory |= HAS_SWORD;    // Добавить меч
+    inventory |= HAS_SHIELD;   // Добавить щит
     
-    // Check if has sword
+    // Проверка наличия меча
     if (inventory & HAS_SWORD) {
-        std::cout << "Has sword!" << std::endl;
+        std::cout << "Есть меч!" << std::endl;
     }
     
-    // Remove item
-    inventory &= ~HAS_SHIELD;  // Remove shield
+    // Удаление предмета
+    inventory &= ~HAS_SHIELD;  // Убрать щит
     
-    // Check multiple flags
+    // Проверка нескольких флагов
     bool hasBoth = ((inventory & (HAS_SWORD | HAS_KEY)) == (HAS_SWORD | HAS_KEY));
     
     return 0;
@@ -553,139 +553,139 @@ int main() {
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Using `=` instead of `==` in conditions
+### 1. Использование `=` вместо `==` в условиях
 ```cpp
-if (health = 0)  // WRONG: assigns 0 to health, condition is false
-if (health == 0) // CORRECT: compares
+if (health = 0)  // НЕПРАВИЛЬНО: присваивает 0 переменной health, условие false
+if (health == 0) // ПРАВИЛЬНО: сравнение
 ```
 
-### 2. Integer division surprise
+### 2. Сюрприз с целочисленным делением
 ```cpp
-float average = 5 / 2;  // 2.0, not 2.5!
+float average = 5 / 2;  // 2.0, не 2.5!
 float correct = 5.0f / 2;  // 2.5
 ```
 
-### 3. Misunderstanding precedence
+### 3. Неправильное понимание приоритета
 ```cpp
-int x = 5 + 3 * 2;  // 11, not 16
+int x = 5 + 3 * 2;  // 11, не 16
 int y = (5 + 3) * 2; // 16
 ```
 
-### 4. Chaining comparisons incorrectly
+### 4. Неправильное объединение сравнений в цепочку
 ```cpp
-// WRONG (always true because (5 < x) is bool, then compared)
+// НЕПРАВИЛЬНО (всегда true, потому что (5 < x) это bool, затем сравнивается)
 if (5 < x < 10)  
 
-// CORRECT
+// ПРАВИЛЬНО
 if (5 < x && x < 10)
 ```
 
-### 5. Short-circuit surprises
+### 5. Сюрпризы с коротким замыканием
 ```cpp
-// This is safe if ptr is null (second part never runs)
+// Безопасно, если ptr равен null (вторая часть никогда не выполняется)
 if (ptr != nullptr && ptr->value > 10) { }
 
-// This CRASHES if ptr is null (both parts run)
-if (ptr->value > 10 && ptr != nullptr) { }  // DANGER!
+// ПАДАЕТ, если ptr равен null (обе части выполняются)
+if (ptr->value > 10 && ptr != nullptr) { }  // ОПАСНО!
 ```
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Arithmetic
+// Арифметика
 int sum = a + b;
 int diff = a - b;
 int product = a * b;
-int quotient = a / b;  // Integer division!
-int remainder = a % b; // Modulo
+int quotient = a / b;  // Целочисленное деление!
+int remainder = a % b; // Остаток от деления
 
-// Assignment shortcuts
+// Сокращённое присваивание
 a += 5;   // a = a + 5
 a -= 5;   // a = a - 5
 a *= 2;   // a = a * 2
 a /= 2;   // a = a / 2
 a %= 3;   // a = a % 3
 
-// Increment/Decrement
-a++;      // Post-increment (use then add)
-++a;      // Pre-increment (add then use)
+// Инкремент/Декремент
+a++;      // Постфиксный (использовать, затем увеличить)
+++a;      // Префиксный (увеличить, затем использовать)
 
-// Comparisons (result is bool)
-bool b1 = (x == y);  // Equal
-bool b2 = (x != y);  // Not equal
-bool b3 = (x < y);   // Less than
-bool b4 = (x > y);   // Greater than
-bool b5 = (x <= y);  // Less or equal
-bool b6 = (x >= y);  // Greater or equal
+// Сравнения (результат — bool)
+bool b1 = (x == y);  // Равно
+bool b2 = (x != y);  // Не равно
+bool b3 = (x < y);   // Меньше
+bool b4 = (x > y);   // Больше
+bool b5 = (x <= y);  // Меньше или равно
+bool b6 = (x >= y);  // Больше или равно
 
-// Logical
-bool andResult = (cond1 && cond2);  // AND - both true
-bool orResult = (cond1 || cond2);   // OR - at least one true
-bool notResult = !cond1;            // NOT - opposite
+// Логические
+bool andResult = (cond1 && cond2);  // И - оба истинны
+bool orResult = (cond1 || cond2);   // ИЛИ - хотя бы одно истинно
+bool notResult = !cond1;            // НЕ - противоположность
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Write a program that takes two numbers and prints:
-- Their sum, difference, product, quotient, and remainder
-- Whether they are equal
-- Which one is larger
+**Упражнение 1 (Лёгкое):** Напишите программу, которая принимает два числа и выводит:
+- Их сумму, разность, произведение, частное и остаток
+- Равны ли они
+- Какое из них больше
 
-**Exercise 2 (Medium):** Create a "Level Up" system. Given current level and experience points:
-- Each level requires `100 * level` XP
-- Calculate XP needed for next level
-- Determine how many levels the player gains (use integer division)
-- Calculate remaining XP after leveling
+**Упражнение 2 (Среднее):** Создайте систему "Повышение уровня". По заданным текущему уровню и опыту:
+- Каждый уровень требует `100 * уровень` XP
+- Рассчитайте XP, необходимое для следующего уровня
+- Определите, сколько уровней получает игрок (используйте целочисленное деление)
+- Рассчитайте остаток XP после повышения
 
-**Exercise 3 (Medium):** Build a "Damage Calculator" where the user inputs:
-- Base damage (int)
-- Damage multiplier (float, 1.0-3.0)
-- Enemy defense (int)
-- Critical hit? (bool)
-Calculate final damage = (base × multiplier - defense) × (2 if critical else 1). Ensure damage never goes below 5.
+**Упражнение 3 (Среднее):** Постройте "Калькулятор урона", где пользователь вводит:
+- Базовый урон (int)
+- Множитель урона (float, 1.0-3.0)
+- Защиту врага (int)
+- Критический удар? (bool)
+Рассчитайте финальный урон = (база × множитель - защита) × (2 если критический иначе 1). Убедитесь, что урон никогда не опускается ниже 5.
 
-**Exercise 4 (Hard):** Create an "Eligibility Checker" for a guild. Requirements:
-- Level >= 10
-- Has completed at least 3 quests (int)
-- Has at least 500 gold
-- Is not banned
-- (Bonus) Has either completed "Dragon Slayer" quest OR has a recommendation letter
+**Упражнение 4 (Сложное):** Создайте "Проверку соответствия" для гильдии. Требования:
+- Уровень >= 10
+- Выполнено как минимум 3 квеста (int)
+- Есть как минимум 500 золота
+- Не забанен
+- (Бонус) Имеет выполненный квест "Убийца драконов" ИЛИ рекомендательное письмо
 
-Ask the user for all values and print whether they can join.
+Спросите у пользователя все значения и выведите, может ли он вступить.
 
-**Exercise 5 (Challenge):** Write a "Binary to Decimal" converter using bitwise operators. Convert a 4-bit binary number (user enters 0s and 1s as separate bits) to decimal.
-
----
-
-## Summary
-
-You now know:
-
-✅ All arithmetic operators and the integer division trap  
-✅ Assignment shortcuts (`+=`, `-=`, etc.)  
-✅ Pre vs post increment/decrement  
-✅ Comparison operators for conditions  
-✅ Logical operators for complex game logic  
-✅ Operator precedence (and the importance of parentheses)  
-✅ Real game examples (combat system with random numbers)
-
-## What's Next?
-
-Next lesson: **Control Flow (if, else, switch)** — we'll learn how to make decisions in code, creating branching paths and multiple outcomes!
+**Упражнение 5 (Вызов):** Напишите конвертер "Двоичное в десятичное" с использованием побитовых операторов. Преобразуйте 4-битное двоичное число (пользователь вводит 0 и 1 как отдельные биты) в десятичное.
 
 ---
 
-## Resources
+## Резюме
 
-- [C++ Operator Precedence (cppreference)](https://en.cppreference.com/w/cpp/language/operator_precedence)
-- [Bitwise Operators Tutorial](https://www.learncpp.com/cpp-tutorial/bitwise-operators/)
+Теперь вы знаете:
+
+✅ Все арифметические операторы и ловушку целочисленного деления  
+✅ Сокращённое присваивание (`+=`, `-=` и т.д.)  
+✅ Префиксный vs постфиксный инкремент/декремент  
+✅ Операторы сравнения для условий  
+✅ Логические операторы для сложной игровой логики  
+✅ Приоритет операторов (и важность скобок)  
+✅ Реальные игровые примеры (система боя со случайными числами)
+
+## Что дальше?
+
+Следующий урок: **Управление потоком (if, else, switch)** — мы научимся принимать решения в коде, создавая ветвления и множество исходов!
 
 ---
 
-**Practice Task:** Enhance the combat system from this lesson. Add new actions (special attack that costs mana, potion use, flee attempt). Add status effects (poison, stun, burn) that apply damage over time using the modulo operator for turn counting. Use logical operators for complex status combinations (e.g., "burning AND wet" = no damage).
+## Ресурсы
+
+- [Приоритет операторов C++ (cppreference)](https://en.cppreference.com/w/cpp/language/operator_precedence)
+- [Руководство по побитовым операторам](https://www.learncpp.com/cpp-tutorial/bitwise-operators/)
+
+---
+
+**Практическое задание:** Улучшите систему боя из этого урока. Добавьте новые действия (специальная атака, расходующая ману, использование зелья, попытка побега). Добавьте статусные эффекты (отравление, оглушение, ожог), которые наносят урон с течением времени, используя оператор остатка от деления для подсчёта ходов. Используйте логические операторы для сложных комбинаций статусов (например, "горение И мокрый" = без урона).

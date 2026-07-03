@@ -20,18 +20,26 @@ const lessonsBySubcategory = {
 };
 
 const subcategoryNames = {
-  algorithms: '✨ Алгоритмы',
-  standards: '⚖️ Стандарты',
-  beginner: '📘 Начальный',
-  intermediate: '📙 Средний', 
-  advanced: '📕 Продвинутый',
+  algorithms: 'Алгоритмы',
+  standards: 'Стандарты',
+  beginner: 'Начальный',
+  intermediate: 'Средний', 
+  advanced: 'Продвинутый',
+};
+
+const subcategoryIcons = {
+  algorithms: '/images/cpp/algo.webp',
+  standards: '/images/cpp/standards.webp',
+  beginner: '/images/cpp/level_1.webp',
+  intermediate: '/images/cpp/level_2.webp',
+  advanced: '/images/cpp/level_3.webp',
 };
 ---
 
 <BaseLayout title="C++ материалы — от OldScripter" lang="ru">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">C++</h1>
-    <p style="color: #a1a1aa; margin-bottom: 2rem;">
+    <h1>C++</h1>
+    <p style="font-size: 1.25rem; color: #a1a1aa;">
       Материалы для изучения и подготовки к собесам
     </p>
 
@@ -60,8 +68,11 @@ const subcategoryNames = {
             onmouseover="this.style.background='#1a1a1a'"
             onmouseout="this.style.background='transparent'"
           >
-            <span>{subcategoryNames[key]}</span>
-            <span class="arrow" style="transition: transform 0.3s ease; transform: rotate(0deg);">
+          <div style="align-items: center; display: flex;  max-height: 50px; gap: 1rem;">
+            <img src={subcategoryIcons[key]} style="max-width: 50px;"/>
+            <span style = "font-family: 'JetBrains Mono', monospace ;">{subcategoryNames[key]}</span>
+          </div>
+          <span class="arrow" style="transition: transform 0.3s ease; transform: rotate(0deg);">
               ▼
             </span>
           </button>

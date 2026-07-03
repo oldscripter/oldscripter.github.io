@@ -16,9 +16,9 @@ function getSlugFromId(id: string) {
 ---
 
 <BaseLayout title="Home" lang="ru">
-  <section style="margin-top: 2rem; margin-bottom: 4rem;">
+  <section>
     <div style="margin-bottom: 3rem;">
-      <h1 style="font-size: 3rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem;">
+      <h1>
         Блог
       </h1>
       <p style="font-size: 1.25rem; color: #a1a1aa;">
@@ -26,23 +26,14 @@ function getSlugFromId(id: string) {
       </p>
     </div>
     
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <div>
       {sortedPosts.map(post => {
         // ✅ Правильно извлекаем slug
         const slug = getSlugFromId(post.id);
         return (
-          <article style="
-            border-bottom: 1px solid #27272a;
-            padding-bottom: 2rem;
-          ">
+          <article>
             <a href={`/ru/posts/${slug}`} style="display: block;">
-              <h2 style="
-                font-size: 1.5rem;
-                font-weight: 600;
-                margin-bottom: 0.5rem;
-                margin-top: 0;
-                transition: color 0.2s ease;
-              " 
+              <h2
               onMouseOver="this.style.color='#6366f1'"
               onMouseOut="this.style.color='inherit'"
               >
@@ -53,7 +44,7 @@ function getSlugFromId(id: string) {
               display: flex;
               gap: 1rem;
               font-size: 0.875rem;
-              color: #71717a;
+              color: #606060ff;
               margin-bottom: 0.75rem;
             ">
               <span>📅 {post.data.pubDate.toLocaleDateString('ru-RU', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
@@ -62,7 +53,7 @@ function getSlugFromId(id: string) {
               ))}
             </div>
             {post.data.description && (
-              <p style="color: #a1a1aa;">
+              <p style="color: #646464ff;">
                 {post.data.description}
               </p>
             )}

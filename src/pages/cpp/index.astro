@@ -46,7 +46,7 @@ const subcategoryIcons = {
     {Object.entries(lessonsBySubcategory).map(([key, lessons]) => {
       if (lessons.length === 0) return null;
       return (
-        <section style="margin-top: 2.5rem; margin-bottom: 1.5rem;" data-category={key}>
+        <section style="margin-top: 1.5rem;" data-category={key}>
           <button 
             class="category-toggle"
             data-target={key}
@@ -68,7 +68,7 @@ const subcategoryIcons = {
             onmouseover="this.style.background='#1a1a1a'"
             onmouseout="this.style.background='transparent'"
           >
-          <div style="align-items: center; display: flex; gap: 1rem;">
+          <div style="align-items: center; display: flex; max-height: 50px; gap: 1rem;">
             <img src={subcategoryIcons[key]} style="max-width: 50px;"/>
             <span style = "font-family: 'JetBrains Mono', monospace ;">{subcategoryNames[key]}</span>
           </div>

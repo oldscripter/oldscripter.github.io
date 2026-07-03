@@ -1,79 +1,78 @@
 ---
-title: "Сборка a Local Voice Assistant with llama.cpp and whisper.cpp"
+title: "Распознавание речи с whisper.cpp"
+description: "Создание локального голосового ассистента с llama.cpp и whisper.cpp"
 pubDate: 2026-06-17
 tags: ["whisper.cpp", "llama.cpp", "AI", "LLM"]
 lang: "ru"
 author: "Stanislav Talanov"
 image:
   url: "/images/blog/announcement.jpg"
-  alt: "Building a Local Voice Assistant with llama.cpp and whisper.cpp"
+  alt: "Создание локального голосового ассистента с llama.cpp и whisper.cpp"
 ---
 
-## 🎙️ Сборка a Local Voice Assistant with llama.cpp and whisper.cpp
+Я строю свой собственный движок. Вот что я узнал, интегрируя `llama.cpp` с `whisper.cpp` для локального, приватного голосового ассистента.
 
-I'm building my own engine. Here's what I've learned integrating `llama.cpp` with `whisper.cpp` for a local, private voice assistant.
+### Стек технологий
 
-### The Stack
+Архитектура проста, но мощна: `whisper.cpp` для распознавания речи (STT), `llama.cpp` для инференса LLM с моделями в формате GGUF и опциональный TTS для голосового вывода. Всё работает локально, без вызовов API и доступа к интернету после начальной настройки.
 
-The architecture is simple but powerful: `whisper.cpp` for speech-to-text (STT), `llama.cpp` for LLM inference with GGUF models, and optional TTS for voice output . Everything runs locally, with no API calls or internet access required after initial setup .
-
-### The Pipeline
+### Конвейер
 
 ```
-Mic → whisper.cpp (STT) → llama.cpp (LLM) → TTS → Speaker
+Микрофон → whisper.cpp (STT) → llama.cpp (LLM) → TTS → Динамик
 ```
 
-**1. Recording & STT with whisper.cpp**
+**1. Запись и STT с whisper.cpp**
 
-The flow starts with audio input. Record from the microphone, save as WAV, then pipe to `whisper-cli` for transcription .
+Поток начинается с аудиовхода. Запись с микрофона, сохранение в WAV, затем передача в `whisper-cli` для транскрипции.
 
 ```bash
 ./stt/bin/whisper-cli ../audio/speech.wav --model ../stt/models/ggml-tiny.bin
 ```
 
-The transcribed text becomes the prompt for the LLM .
+Транскрибированный текст становится промптом для LLM.
 
-**2. LLM Inference with llama.cpp**
+**2. Инференс LLM с llama.cpp**
 
-`llama.cpp` loads a quantized GGUF model. The TinyLlama-1.1B Q4_K_M is a solid starting point , but you can use any GGUF model:
+`llama.cpp` загружает квантованную модель в формате GGUF. TinyLlama-1.1B Q4_K_M — отличная отправная точка, но вы можете использовать любую модель GGUF:
 
 ```bash
-# Run inference with llama.cpp
+# Запуск инференса с llama.cpp
 ./llama-cli -m ./models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf \
-    -p "User: {transcribed_text}\nAssistant:" -n 50
+    -p "Пользователь: {транскрибированный_текст}\nАссистент:" -n 50
 ```
 
-For production, consider the `llama-server` approach—spawn it once, then send HTTP requests .
+Для продакшена рассмотрите подход с `llama-server` — запустите его один раз, затем отправляйте HTTP-запросы.
 
 ```bash
-# Start server once
+# Запуск сервера один раз
 ./llama-server -m models/tinyllama.gguf --port 8000
 
-# Then query via HTTP
-curl http://localhost:8000/completion -d '{"prompt": "User: Hello\nAssistant:"}'
+# Затем запрос через HTTP
+curl http://localhost:8000/completion -d '{"prompt": "Пользователь: Привет\nАссистент:"}'
 ```
 
-**3. Text-to-Speech (Optional)**
+**3. Преобразование текста в речь (Опционально)**
 
-For full voice output, Piper TTS offers fast, lightweight synthesis .
+Для полноценного голосового вывода Piper TTS предлагает быстрый и лёгкий синтез.
 
 ```bash
 ./tts/piper/piper --model tts/voice/libritts_r/en_US-libritts_r-medium.onnx \
     --output_file output.wav
 ```
 
-### Key Integration Notes
+### Ключевые заметки по интеграции
 
-**Build Dependencies:** Both `whisper.cpp` and `llama.cpp` are pure C++ and compile cleanly. I use CMake with submodules .
+**Зависимости сборки:** И `whisper.cpp`, и `llama.cpp` написаны на чистом C++ и компилируются без проблем. Я использую CMake с подмодулями.
 
-**Model Selection:** Quantization matters. `Q4_K_M` offers the best quality-size tradeoff for most use cases . On a Raspberry Pi 4 with 4GB RAM, TinyLlama-1.1B runs, but 7B+ models need a capable GPU .
+**Выбор модели:** Квантование имеет значение. `Q4_K_M` предлагает наилучший баланс качества и размера для большинства сценариев использования. На Raspberry Pi 4 с 4 ГБ ОЗУ TinyLlama-1.1B работает, но моделям 7B+ требуется мощная видеокарта.
 
-**GPU Acceleration:** For NVIDIA, `-DLLAMA_CUBLAS=on` or `LLAMA_CUDA=1` enables GPU offloading . For Mac, Metal support is baked in . Vulkan works for cross-platform .
+**Ускорение на GPU:** Для NVIDIA используйте `-DLLAMA_CUBLAS=on` или `LLAMA_CUDA=1` для выгрузки на GPU. Для Mac поддержка Metal встроена. Vulkan работает для кроссплатформенности.
 
-**Cross-platform:** This works on Windows, macOS, Linux, and even Android/iOS .
+**Кроссплатформенность:** Это работает на Windows, macOS, Linux и даже Android/iOS.
 
-### Next Steps
+### Следующие шаги
 
-Building the engine is the first step. True conversation requires context management—sliding windows and summaries. I'm also exploring RAG for document Q&A and batching audio chunks for lower latency .
+Создание движка — это первый шаг. Настоящий диалог требует управления контекстом — скользящие окна и суммаризация. Я также исследую RAG для Q&A по документам и пакетную обработку аудио-чанков для снижения задержки.
 
-The tools are mature. The hardware is ready. Let's build.
+Инструменты зрелые. Железо готово. Давайте строить.

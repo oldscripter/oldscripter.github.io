@@ -34,14 +34,4 @@ const ruPost = await getRelatedContent('posts', post, 'ru');
     <Content />
   </article>
   
-  {ruPost && (
-    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
-      <p style="color: #71717a; font-size: 0.9rem;">
-        📖 Read this post in 
-        <a href={`/ru/posts/${slug}`} style="color: #6366f1; font-weight: 600;">
-          Russian
-        </a>
-      </p>
-    </div>
-  )}
 </BlogPostLayout>

@@ -1,32 +1,30 @@
 ---
 title: "LLM в Unity"
-description: "From LLMUnity to Deep C++ Integration"
+description: "От LLMUnity к глубокой интеграции на C++"
 pubDate: 2026-05-31
 tags: ["Unity3D", "CLLM", "GameAI", Cpp, IL2CPP]
 lang: "ru"
 author: "Stanislav Talanov"
 image:
     url: "/images/my-first-post.jpg"
-    alt: "My first post"
+    alt: "Мой первый пост"
 ---
 
-# LLM в Unity: От LLMUnity до C++ Integration
+Я провёл время с последним пакетом `LLMUnity` (v3.0.3) — и впечатляет, как далеко зашла локальная интеграция **LLM** в Unity.
 
-I've been spending time with the latest `LLMUnity` package (v3.0.3) — and it's impressive how far local **LLM integration** in Unity has come.
+Что отлично работает из коробки:
+- RAG с ANN-поиском
+- Поддержка мобильных платформ (`Android IL2CPP` / `ARM64`, `iOS`)
+- Управление выводом на основе грамматик (JSON, вызов функций)
+- Совместимость с Unity 6
 
-What works great out of the box:
-- RAG with ANN search
-- Mobile support (`Android IL2CPP` / `ARM64`, `iOS`)
-- Grammar-based output control (JSON, function calling)
-- Unity 6 compatibility
+Я протестировал обновлённые методы чанкинга (разбиение по предложениям/токенам/словам) и групповой семантический поиск — надёжно для большинства сценариев использования, особенно для диалогов персонажей и NPC с дополненными знаниями.
 
-I tested the updated chunking methods (sentence/token/word splitting) and the group-based semantic search — solid for the most of use cases, especially character dialogue and knowledge-augmented NPCs.
+Но `LLMUnity` скрывает `llama.cpp` за C#-абстракцией. Это хорошо для скорости разработки. Но когда вам нужно:
+- Кастомизированная работа с потоками и пулами памяти
+- Полный контроль над выгрузкой на GPU (за пределами numGPULayers)
+- Инференс с низкой задержкой на нестандартном оборудовании
+- Или пользовательский семантический кеш, не привязанный к usearch
+…то абстракция становится узким местом.
 
-But `LLMUnity` hides `llama.cpp` behind a C# abstraction. That's good for speed of development. But when you need:
-- Custom threading & memory pooling
-- Full control over GPU offloading (beyond numGPULayers)
-- Low-latency inference on unconventional hardware
-- Or a custom semantic cache not tied to usearch
-…then the abstraction becomes a bottleneck.
-
-I'm currently exploring hybrid approaches — `LLMUnity` for prototyping, then replacing the backend with a custom `llama.cpp` plugin for production.
+Сейчас я исследую гибридные подходы — `LLMUnity` для прототипирования, а затем замена бэкенда на пользовательский плагин на `llama.cpp` для продакшена.

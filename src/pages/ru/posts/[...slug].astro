@@ -43,14 +43,4 @@ const enPost = await getRelatedContent('posts', post, 'en');
     <Content />
   </article>
   
-  {enPost && (
-    <div style="margin-top: 2rem; padding: 1rem; background: #1a1a1a; border-radius: 8px; text-align: center;">
-      <p style="color: #71717a; font-size: 0.9rem;">
-        📖 Читать этот пост на 
-        <a href={`/posts/${slug}`} style="color: #6366f1; font-weight: 600;">
-          Английском
-        </a>
-      </p>
-    </div>
-  )}
 </BlogPostLayout>

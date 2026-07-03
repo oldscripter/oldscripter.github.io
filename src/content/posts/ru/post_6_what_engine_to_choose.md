@@ -1,62 +1,62 @@
 ---
-title: "LLM Engines in 2026"
-description: "How to Supercharge Local LLMs on Average Hardware."
+title: "LLM-движки в 2026"
+description: "Как ускорить локальные LLM на среднем железе"
 pubDate: 2026-06-14
 tags: ["llama.cpp", "BitNet.cpp", "Lucebox", "LLM", "AI"]
 lang: "ru"
 author: "Stanislav Talanov"
 image:
   url: "/images/blog/announcement.jpg"
-  alt: "Engine Wars 2026: How to Supercharge Local LLMs on Average Hardware"
+  alt: "Битва движков 2026: Как ускорить локальные LLM на среднем железе"
 ---
 
-The era when running a "smart" neural network at home required a server with a pair of NVIDIA A100s is long gone. Today, on an average gaming PC or a powerful laptop, you can run models that seemed like science fiction just a couple of years ago. But the main question of 2026 is no longer "will it run?" — it's **"how do I squeeze out maximum tokens per second on my hardware?"**
+Эпоха, когда для запуска «умной» нейросети дома требовался сервер с парой NVIDIA A100, давно прошла. Сегодня на среднестатистическом игровом ПК или мощном ноутбуке можно запускать модели, которые ещё пару лет назад казались научной фантастикой. Но главный вопрос 2026 года — уже не «запустится ли?», а **«как выжать максимум токенов в секунду на моём железе?»**
 
-If you have 16-32 GB of RAM, a modest 6-8 GB GPU, or just a good CPU — here are three key tools for maximum optimization.
+Если у вас 16–32 ГБ ОЗУ, скромная видеокарта на 6–8 ГБ или просто хороший процессор — вот три ключевых инструмента для максимальной оптимизации.
 
-### 1. llama.cpp: The Veteran Who Refuses to Fade
+### 1. llama.cpp: Ветеран, который не сдаётся
 
-If you've read articles about local AI a few years ago, you already know **llama.cpp**. It's the "gold standard" of the industry. Most wrappers (including Ollama and LM Studio) are built on top of it. Its main trump card in 2026 is **expert memory management**.
+Если вы читали статьи о локальном AI пару лет назад, вы уже знаете **llama.cpp**. Это «золотой стандарт» индустрии. Большинство обёрток (включая Ollama и LM Studio) построены на его основе. Его главный козырь в 2026 — **экспертное управление памятью**.
 
-On an average PC, the bottleneck is often not the processor, but the slow PCIe bus when you have to split the model between the GPU and RAM.
+На среднем ПК узким местом часто является не процессор, а медленная шина PCIe, когда приходится разделять модель между видеокартой и ОЗУ.
 
-**How to squeeze the most out of it:**
-Modern llama.cpp can smartly distribute the load on Mixture-of-Experts (MoE) models (like DeepSeek or Qwen MoE). The key trick is to load **always-active** layers (Attention, Dense FFN) into the fast GPU VRAM, while leaving the "lazy" experts in slower system memory.
-The `-ot "exps=CPU"` flag lets you literally "feed" the heaviest part of the model to the CPU, leaving the GPU for critical computations. On an average PC, this allows you to run a 30-40 billion parameter model at a tolerable speed.
+**Как выжать максимум:**
+Современный llama.cpp умеет умно распределять нагрузку на модели с архитектурой Mixture-of-Experts (MoE) (например, DeepSeek или Qwen MoE). Ключевой трюк — загружать **всегда активные** слои (Attention, Dense FFN) в быструю VRAM видеокарты, оставляя «ленивых» экспертов в медленной системной памяти.
+Флаг `-ot "exps=CPU"` позволяет буквально «скормить» самую тяжёлую часть модели процессору, оставляя видеокарту для критических вычислений. На среднем ПК это позволяет запускать модель на 30–40 миллиардов параметров с терпимой скоростью.
 
-**Verdict:** Choose `llama.cpp` if you want full control and are willing to dig into launch parameters to save VRAM.
+**Вердикт:** Выбирайте `llama.cpp`, если хотите полный контроль и готовы копаться в параметрах запуска ради экономии VRAM.
 
-### 2. BitNet.cpp: The 1-Bit Revolution (CPU Salvation)
+### 2. BitNet.cpp: 1-битная революция (спасение для CPU)
 
-The most interesting trend of 2025-2026 is **1-bit models** from Microsoft. Forget 4-bit quantization. BitNet b1.58 uses weights that take values of -1, 0, or +1.
+Самый интересный тренд 2025–2026 — **1-битные модели** от Microsoft. Забудьте о 4-битном квантовании. BitNet b1.58 использует веса, которые принимают значения -1, 0 или +1.
 
-**Why is this a game-changer?** Regular models operate with floating-point numbers (requiring complex FP16/INT4 calculations). 1-bit models use bitwise operations (XOR, addition). This is dramatically faster on a **central processor**.
+**Почему это меняет правила игры?** Обычные модели оперируют числами с плавающей точкой (требуя сложных вычислений FP16/INT4). 1-битные модели используют побитовые операции (XOR, сложение). Это кардинально быстрее на **центральном процессоре**.
 
-The `bitnet.cpp` technology allows you to run **on a single CPU** (even without a GPU) and accelerate inference to 5-7 tokens per second for 100-billion parameter architectures. On ARM processors (Apple Silicon M-series or Snapdragon X Elite), the improvement compared to regular models reaches **5 times**, while power consumption drops by 70%.
+Технология `bitnet.cpp` позволяет запускать **на одном CPU** (даже без видеокарты) и ускорять инференс до 5–7 токенов в секунду для архитектур со 100 миллиардов параметров. На ARM-процессорах (Apple Silicon M-серии или Snapdragon X Elite) улучшение по сравнению с обычными моделями достигает **5 раз**, при этом энергопотребление падает на 70%.
 
-**Verdict:** The ideal choice for laptops on the go or servers without GPUs. If you just need it to work on a CPU and save battery — go with BitNet.
+**Вердикт:** Идеальный выбор для ноутбуков в дороге или серверов без GPU. Если вам нужно просто чтобы работало на процессоре и экономило батарею — выбирайте BitNet.
 
-### 3. Lucebox (MLX & Speculation): Thought Speed for Apple and NVIDIA
+### 3. Lucebox (MLX & Speculation): Скорость мысли для Apple и NVIDIA
 
-We're used to generation speed being limited by memory bandwidth. But in 2026, the technique of **Speculative Inference** is gaining traction.
+Мы привыкли, что скорость генерации упирается в пропускную способность памяти. Но в 2026 набирает обороты техника **Спекулятивного инференса (Speculative Inference)**.
 
-**Lucebox** (and its analogs, like Apple's MLX) uses a small "drafter" model. While you're writing your prompt, the small model quickly drafts a few potential continuations, and the large model only verifies them. In practice, this yields a speedup of **x2 ... x5.6** without any loss of quality.
+**Lucebox** (и его аналоги, например Apple MLX) использует маленькую модель-«черновик» (drafter). Пока вы пишете свой промпт, маленькая модель быстро набрасывает несколько вариантов продолжения, а большая модель только проверяет их. На практике это даёт ускорение в **x2 ... x5.6** без потери качества.
 
-For example, on an **RTX 3090 + Lucebox** setup, the Qwen 3.6-27B model outputs not 50 tokens/s, but nearly 280. On a MacBook with **MLX** (Apple's specialized framework), the M4 Max can output over 500 tokens/s on smaller models.
+Например, на связке **RTX 3090 + Lucebox** модель Qwen 3.6-27B выдаёт не 50 токенов/с, а почти 280. На MacBook с **MLX** (специализированный фреймворк от Apple) M4 Max может выдавать более 500 токенов/с на небольших моделях.
 
-**Verdict:** If you have a Mac (M1-M4) — your choice is **MLX** (the native framework). If you have a powerful NVIDIA GPU (RTX 30/40 series) and you're chasing record tokens — go with **Lucebox**.
+**Вердикт:** Если у вас Mac (M1–M4) — ваш выбор **MLX** (родной фреймворк). Если у вас мощная NVIDIA (серии RTX 30/40) и вы гонитесь за рекордными токенами — берите **Lucebox**.
 
-### Summary: Which Engine to Choose?
+### Резюме: Какой движок выбрать?
 
-| Your "Average" Hardware | Best Engine | Key Feature |
+| Ваше «среднее» железо | Лучший движок | Ключевая особенность |
 | :--- | :--- | :--- |
-| **Old gaming PC** (6-8 GB VRAM, lots of DDR4) | `llama.cpp` | Flexible CPU/GPU expert offloading |
-| **Office PC / Intel Laptop** (CPU only) | `BitNet.cpp` | 1-bit math for maximum CPU speed |
-| **MacBook Air / Pro** (M1-M4) | `MLX` (via Lucebox) | Direct access to Unified Memory, huge bandwidth |
-| **Modern PC with powerful NVIDIA** | `Lucebox` / `vLLM` | Speculative generation (peak performance) |
+| **Старый игровой ПК** (6–8 ГБ VRAM, много DDR4) | `llama.cpp` | Гибкое разделение экспертов CPU/GPU |
+| **Офисный ПК / Ноутбук на Intel** (только CPU) | `BitNet.cpp` | 1-битная математика для максимальной скорости на CPU |
+| **MacBook Air / Pro** (M1–M4) | `MLX` (через Lucebox) | Прямой доступ к Unified Memory, огромная пропускная способность |
+| **Современный ПК с мощной NVIDIA** | `Lucebox` / `vLLM` | Спекулятивная генерация (пиковая производительность) |
 
-### The Main Advice
+### Главный совет
 
-Don't chase the number of parameters. A 30B model with 8B active (MoE) or a 1-bit 100B model on a **CPU** via BitNet will often give you faster responses than a dense 70B model that you're trying to squeeze into your video card with memory overflow.
+Не гонитесь за количеством параметров. Модель на 30B с 8B активных (MoE) или 1-битная 100B модель на **CPU** через BitNet часто выдаст вам более быстрый ответ, чем плотная 70B модель, которую вы пытаетесь втиснуть в видеокарту с переполнением памяти.
 
-In 2026, local AI is not about "just getting it to run" — it's about **choosing the right hammer for the type of nail you have**.
+В 2026 локальный AI — это уже не «просто заставить работать», это **выбор правильного молотка под ваш тип гвоздя**.

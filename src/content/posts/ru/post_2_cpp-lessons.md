@@ -1,109 +1,107 @@
 ---
-title: "New on the Blog: C++ Lessons & Game Projects"
-description: "I'm launching two new sections — structured C++ tutorials for game developers and deep dives into my projects"
+title: "Новое в блоге: уроки C++ и игровые проекты"
+description: "Я запускаю два новых раздела — структурированные уроки C++ для разработчиков игр и детальный разбор моих проектов"
 pubDate: 2026-06-01
-tags: ["announcement", "C++", "projects", "blog-update"]
+tags: ["анонс", "C++", "проекты", "обновление блога"]
 lang: "ru"
 author: "Stanislav Talanov"
 image:
   url: "/images/blog/announcement.jpg"
-  alt: "C++ code and game development concept"
+  alt: "Код C++ и концепция разработки игр"
 ---
 
-# New on the Blog: C++ Lessons & Game Projects
+Всем привет! 👋
 
-Hey everyone! 👋
+Я немного молчал, но не без дела. Я работал над тем, что, надеюсь, будет полезно для всех, кто следит за этим блогом — особенно если вы увлекаетесь разработкой игр и C++.
 
-I've been quiet for a bit, but for a good reason. I've been working on something I hope will be valuable for anyone following this blog — especially if you're into game development and C++.
+## 🎯 Что нового?
 
-## 🎯 What's New?
+Я рад анонсировать **два новых раздела** на блоге:
 
-I'm excited to announce **two new sections** on the blog:
+### 1. 📚 Уроки C++ для разработчиков игр
 
-### 1. 📚 C++ Lessons for Game Developers
+Полный структурированный курс по C++ — от абсолютного новичка до продвинутых тем. Но вот в чём фишка: каждый урок написан с прицелом на **разработку игр**.
 
-A complete, structured course on C++ — from absolute beginner to advanced topics. But here's the catch: every lesson is written with **game development in mind**.
+**Что уже доступно:**
+- Урок 1: Настройка и Hello World
+- Урок 2: Переменные и типы данных
+- Урок 3: Ввод/вывод (`cin`, `cout`, форматирование)
+- Урок 4: Операторы и выражения
+- Урок 5: Управление потоком (`if`, `else`, `switch`)
+- Урок 6: Циклы (`while`, `for`, `do-while`)
+- Урок 7: Массивы и векторы
+- Урок 8: Функции
+- Урок 9: Структуры и перечисления
+- Урок 10: Работа с файлами (сохранение/загрузка игр)
+- Урок 11: Указатели и динамическая память
+- Урок 12: Продвинутые строки
+- Урок 13: Обработка исключений
+- Урок 14: Шаблоны (обобщённое программирование)
+- Урок 15: Контейнеры STL (vector, map, set)
+- Урок 16: Алгоритмы STL (sort, find, transform)
+- Урок 17: Умные указатели (unique_ptr, shared_ptr)
 
-**What's covered so far:**
-- Lesson 1: Setup & Hello World
-- Lesson 2: Variables and Data Types
-- Lesson 3: Input/Output (`cin`, `cout`, formatting)
-- Lesson 4: Operators and Expressions
-- Lesson 5: Control Flow (`if`, `else`, `switch`)
-- Lesson 6: Loops (`while`, `for`, `do-while`)
-- Lesson 7: Arrays and Vectors
-- Lesson 8: Functions
-- Lesson 9: Structs and Enums
-- Lesson 10: File I/O (saving/loading games)
-- Lesson 11: Pointers and Dynamic Memory
-- Lesson 12: Advanced Strings
-- Lesson 13: Exception Handling
-- Lesson 14: Templates (generic programming)
-- Lesson 15: STL Containers (vector, map, set)
-- Lesson 16: STL Algorithms (sort, find, transform)
-- Lesson 17: Smart Pointers (unique_ptr, shared_ptr)
+*Новые уроки будут выходить регулярно!*
 
-*More lessons coming regularly!*
+Каждый урок включает:
+- Понятные объяснения с примерами из игровой разработки
+- Полный готовый код
+- Частые ошибки и как их избежать
+- Практические упражнения
+- Ссылки на официальную документацию
 
-Each lesson includes:
-- Clear explanations with game-related examples
-- Complete, runnable code
-- Common mistakes to avoid
-- Practice exercises
-- Links to official documentation
+### 2. 🎮 Детальный разбор проектов
 
-### 2. 🎮 Project Deep Dives
+Когда-нибудь задумывались, как работают определённые игровые системы? В этом разделе я буду документировать свои проекты — решения, код, ошибки и их исправления.
 
-Ever wondered how certain game systems actually work? In this section, I'll document my own projects — the decisions, the code, the failures, and the solutions.
+## 🎯 Почему я это делаю
 
-## 🎯 Why I'm Doing This
+Три причины:
 
-Three reasons:
+**1. Отдать долг сообществу** — я столько лет учился у сообщества разработчиков игр. Пришло время внести свой вклад.
 
-**1. To give back** — I've learned so much from the game dev community over the years. It's time to contribute back.
+**2. Документировать свой путь** — каждый проект учит меня чему-то новому. Записи об этом помогают мне (и, надеюсь, вам) учиться лучше.
 
-**2. To document my journey** — Every project teaches me something. Writing about it helps me (and hopefully you) learn better.
+**3. Разрабатывать публично** — возможно, вы заметите то, что я упустил. Или что-то из моего опыта поможет вам избежать бага, на поиск которого я потратил три дня.
 
-**3. To build in public** — Maybe you'll spot something I missed. Or maybe something I write will help you avoid a bug I spent three days hunting.
+## 📚 Для кого это
 
-## 📚 Who Is This For?
+- **Абсолютным новичкам** — начните с Урока 1. Вам не нужен никакой опыт программирования.
+- **Разработчикам среднего уровня** — переходите к Урокам 7-10 для изучения векторов, функций и работы с файлами.
+- **Продвинутым разработчикам** — посмотрите Уроки 11-17 про указатели, умные указатели и STL.
+- **Гейм-дизайнерам/художникам** — даже если вы не пишете код, понимание C++ помогает лучше общаться с программистами.
 
-- **Absolute beginners** — Start from Lesson 1. You don't need any programming experience.
-- **Intermediate devs** — Jump to Lessons 7-10 for vectors, functions, and file I/O.
-- **Advanced devs** — Check out Lessons 11-17 for pointers, smart pointers, and STL.
-- **Game designers/artists** — Even if you don't code, understanding C++ helps you communicate better with programmers.
+## 🔗 Где всё найти
 
-## 🔗 Where to Find Everything
-
-| Section | URL | What You'll Find |
+| Раздел | URL | Что вы найдёте |
 |---------|-----|------------------|
-| **C++ Lessons** | [/cpp](/cpp) | All lessons organized by topic |
-| **Projects** | [/projects](/projects) | Deep dives into my game dev projects |
-| **Blog Posts** | [/](/posts) | Random thoughts and updates (like this one!) |
+| **Уроки C++** | [/cpp](/cpp) | Все уроки, сгруппированные по темам |
+| **Проекты** | [/projects](/projects) | Детальный разбор моих игровых проектов |
+| **Записи в блоге** | [/](/posts) | Разные мысли и обновления (как это!) |
 
-## 📅 What's Coming Next
+## 📅 Что дальше
 
-I'm actively working on:
-- **More C++ lessons** (pointers deep dive, move semantics, multithreading)
-- **Project LastArgument deep dives** (first article coming this week!)
-- **Code reviews** of real game systems
-- **Performance comparisons** (Unreal vs Unity - what to choose and when?)
+Я активно работаю над:
+- **Новыми уроками C++** (углублённо про указатели, семантику перемещения, многопоточность)
+- **Детальным разбором проекта LastArgument** (первая статья уже на этой неделе!)
+- **Обзорами кода** реальных игровых систем
+- **Сравнением производительности** (Unreal vs Unity — что выбрать и когда?)
 
-## 💬 Let's Connect
+## 💬 Давайте общаться
 
-If you find something unclear, have a suggestion, or just want to chat about game dev:
+Если что-то непонятно, есть предложения или просто хотите поболтать о разработке игр:
 
 - **GitHub**: [github.com/oldscripter](https://github.com/oldscripter)
 - **Email**: [oldscripter@gmail.com](mailto:oldscripter@gmail.com)
 - **Telegram**: [@Oldscripter](https://t.me/Oldscripter)
 
-I read everything. If I made a mistake, tell me. If something could be explained better, tell me. This blog is for you.
+Я читаю всё. Если я ошибся — скажите. Если что-то можно объяснить лучше — скажите. Этот блог для вас.
 
-## 🙏 Thank You
+## 🙏 Спасибо
 
-To everyone who's been reading, commenting, and supporting — thank you. Building in public is scary sometimes, but conversations with readers make it all worth it.
+Всем, кто читал, комментировал и поддерживал — спасибо. Разрабатывать публично иногда страшно, но разговоры с читателями делают это worthwhile.
 
-Now go check out the **[C++ Lessons](/cpp)** and **[Projects](/projects)** sections!
+А теперь идите смотрите разделы **[Уроки C++](/cpp)** и **[Проекты](/projects)**!
 
-Happy coding,
+Счастливого кодинга,
 — OldScripter

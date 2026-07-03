@@ -1,6 +1,6 @@
 ---
-title: "Variables and Data Types in C++"
-description: "Store numbers, text, and true/false values — the building blocks of every program"
+title: "Переменные и типы данных в C++"
+description: "Храните числа, текст и логические значения — строительные блоки любой программы"
 pubDate: 2026-05-31
 tags: ["C++", "beginner", "variables", "data-types"]
 lang: "ru"
@@ -9,58 +9,58 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 2: Variables and Data Types
+# Урок 2: Переменные и типы данных
 
-Welcome back! Last lesson we set up our environment and wrote "Hello, World!". Now it's time to learn how to **store and manipulate data** — the foundation of every game.
+Добро пожаловать обратно! На прошлом уроке мы настроили окружение и написали "Hello, World!". Теперь пришло время узнать, как **хранить и управлять данными** — основа любой игры.
 
-## What You'll Learn
+## Что вы изучите
 
-- What variables are and why we need them
-- C++'s basic data types (integers, floats, booleans, characters, strings)
-- How to declare, initialize, and modify variables
-- Variable naming rules and best practices
-- Constants: values that never change
+- Что такое переменные и зачем они нужны
+- Базовые типы данных C++ (целые числа, числа с плавающей точкой, логические значения, символы, строки)
+- Как объявлять, инициализировать и изменять переменные
+- Правила именования переменных и лучшие практики
+- Константы: значения, которые никогда не меняются
 
 ---
 
-## What Are Variables?
+## Что такое переменные?
 
-Imagine variables as **labeled boxes** that hold values:
+Представьте переменные как **подписанные коробки**, в которых хранятся значения:
 
 ```
 ┌────────────────┐
-   playerHealth    ← variable name
+   playerHealth    ← имя переменной
                  
-       100         ← stored value
+       100         ← сохранённое значение
 └────────────────┘
 ```
 
-- The **name** (`playerHealth`) is how we refer to the box
-- The **type** (`int`) determines what kind of data can go inside
-- The **value** (100) is what's currently stored
+- **Имя** (`playerHealth`) — как мы обращаемся к коробке
+- **Тип** (`int`) — определяет, какие данные могут быть внутри
+- **Значение** (100) — то, что сейчас хранится
 
 ---
 
-## Basic Data Types
+## Базовые типы данных
 
-C++ has several built-in types. Here are the ones you'll use 99% of the time:
+В C++ есть несколько встроенных типов. Вот те, которые вы будете использовать в 99% случаев:
 
-| Type | Keyword | Size | Range / Example |
+| Тип | Ключевое слово | Размер | Диапазон / Пример |
 |------|---------|------|-----------------|
-| **Integer** | `int` | 4 bytes | -2B to +2B (`42`, `-7`, `0`) |
-| **Floating-point** | `float` | 4 bytes | ~7 decimal digits (`3.14f`) |
-| **Double** | `double` | 8 bytes | ~15 decimal digits (`3.1415926535`) |
-| **Character** | `char` | 1 byte | Single character (`'A'`, `'9'`, `'?'`) |
-| **Boolean** | `bool` | 1 byte | `true` or `false` |
-| **String** | `std::string` | Varies | Text (`"Hello!"`) |
+| **Целое число** | `int` | 4 байта | -2 млрд до +2 млрд (`42`, `-7`, `0`) |
+| **Число с плавающей точкой** | `float` | 4 байта | ~7 десятичных знаков (`3.14f`) |
+| **Двойная точность** | `double` | 8 байт | ~15 десятичных знаков (`3.1415926535`) |
+| **Символ** | `char` | 1 байт | Одиночный символ (`'A'`, `'9'`, `'?'`) |
+| **Логический** | `bool` | 1 байт | `true` или `false` |
+| **Строка** | `std::string` | Разный | Текст (`"Привет!"`) |
 
-> **Note:** `std::string` requires `#include <string>` — more on this later.
+> **Примечание:** `std::string` требует `#include <string>` — подробнее об этом позже.
 
 ---
 
-## Integers (`int`)
+## Целые числа (`int`)
 
-Whole numbers without decimals.
+Целые числа без десятичной части.
 
 ```cpp
 #include <iostream>
@@ -71,70 +71,70 @@ int main() {
     int enemyCount = 10;
     int temperature = -15;
     
-    std::cout << "Score: " << score << std::endl;
-    std::cout << "Level: " << playerLevel << std::endl;
-    std::cout << "Enemies: " << enemyCount << std::endl;
-    std::cout << "Temperature: " << temperature << "°C" << std::endl;
+    std::cout << "Очки: " << score << std::endl;
+    std::cout << "Уровень: " << playerLevel << std::endl;
+    std::cout << "Врагов: " << enemyCount << std::endl;
+    std::cout << "Температура: " << temperature << "°C" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Score: 0
-Level: 5
-Enemies: 10
-Temperature: -15°C
+Очки: 0
+Уровень: 5
+Врагов: 10
+Температура: -15°C
 ```
 
-### Integer Variations (For When You Care About Memory)
+### Вариации целых чисел (когда важна память)
 
-| Type | Range | Use Case |
+| Тип | Диапазон | Применение |
 |------|-------|----------|
-| `short` | -32,768 to 32,767 | Tiny counters |
-| `int` | -2B to 2B | Most cases |
-| `long` | -9 quintillion to +9 quintillion | Very large numbers |
-| `unsigned int` | 0 to 4B | Health, ammo (never negative) |
+| `short` | от -32 768 до 32 767 | Маленькие счётчики |
+| `int` | от -2 млрд до 2 млрд | Большинство случаев |
+| `long` | от -9 квинтиллионов до +9 квинтиллионов | Очень большие числа |
+| `unsigned int` | от 0 до 4 млрд | Здоровье, патроны (никогда не отрицательные) |
 
 ```cpp
-unsigned int health = 100;  // Can't be negative
+unsigned int health = 100;  // Не может быть отрицательным
 long galaxyStars = 100000000000;
 ```
 
 ---
 
-## Floating-Point Numbers (`float` and `double`)
+## Числа с плавающей точкой (`float` и `double`)
 
-Numbers with decimals. Perfect for positions, speeds, health percentages.
+Числа с десятичной частью. Идеально подходят для позиций, скоростей, процентов здоровья.
 
 ```cpp
 #include <iostream>
 
 int main() {
-    float playerSpeed = 5.75f;      // Note the 'f' suffix
+    float playerSpeed = 5.75f;      // Обратите внимание на суффикс 'f'
     double pi = 3.141592653589793;
     float gravity = -9.81f;
     
-    std::cout << "Speed: " << playerSpeed << std::endl;
-    std::cout << "Pi: " << pi << std::endl;
-    std::cout << "Gravity: " << gravity << std::endl;
+    std::cout << "Скорость: " << playerSpeed << std::endl;
+    std::cout << "Число Пи: " << pi << std::endl;
+    std::cout << "Гравитация: " << gravity << std::endl;
     
     return 0;
 }
 ```
 
-**Why `float` vs `double`?**
-- `float` uses less memory (good for thousands of objects)
-- `double` is more precise (good for calculations that accumulate error)
+**Почему `float` vs `double`?**
+- `float` использует меньше памяти (хорошо для тысяч объектов)
+- `double` более точен (хорошо для вычислений, где накапливается ошибка)
 
-> **Game Dev Tip:** Use `float` for positions, velocities, and timers. Use `double` only when you need extreme precision (like orbital mechanics).
+> **Совет для разработки игр:** Используйте `float` для позиций, скоростей и таймеров. Используйте `double` только когда вам нужна экстремальная точность (например, орбитальная механика).
 
 ---
 
-## Boolean (`bool`)
+## Логический тип (`bool`)
 
-True or false. Every condition in your game eventually becomes a boolean.
+Правда или ложь. Любое условие в вашей игре в итоге становится логическим значением.
 
 ```cpp
 #include <iostream>
@@ -144,33 +144,33 @@ int main() {
     bool hasKey = true;
     bool isPlayerAlive = true;
     
-    std::cout << "Game over? " << isGameOver << std::endl;   // Prints 0
-    std::cout << "Has key? " << hasKey << std::endl;         // Prints 1
+    std::cout << "Игра окончена? " << isGameOver << std::endl;   // Выводит 0
+    std::cout << "Есть ключ? " << hasKey << std::endl;           // Выводит 1
     
-    // Better output for booleans
+    // Более красивый вывод для логических значений
     std::cout << std::boolalpha;
-    std::cout << "Game over? " << isGameOver << std::endl;   // Prints false
-    std::cout << "Has key? " << hasKey << std::endl;         // Prints true
+    std::cout << "Игра окончена? " << isGameOver << std::endl;   // Выводит false
+    std::cout << "Есть ключ? " << hasKey << std::endl;           // Выводит true
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Game over? 0
-Has key? 1
-Game over? false
-Has key? true
+Игра окончена? 0
+Есть ключ? 1
+Игра окончена? false
+Есть ключ? true
 ```
 
-> `std::boolalpha` makes booleans print as `true`/`false` instead of `1`/`0`.
+> `std::boolalpha` заставляет логические значения выводиться как `true`/`false` вместо `1`/`0`.
 
 ---
 
-## Characters (`char`)
+## Символы (`char`)
 
-Single characters — letters, digits, symbols.
+Одиночные символы — буквы, цифры, знаки.
 
 ```cpp
 #include <iostream>
@@ -178,115 +178,115 @@ Single characters — letters, digits, symbols.
 int main() {
     char grade = 'A';
     char initial = 'S';
-    char newline = '\n';      // Escape sequence
+    char newline = '\n';      // Управляющая последовательность
     char percentSymbol = '%';
     
-    std::cout << "Grade: " << grade << std::endl;
-    std::cout << "Initial: " << initial << std::endl;
-    std::cout << "Symbol: " << percentSymbol << std::endl;
+    std::cout << "Оценка: " << grade << std::endl;
+    std::cout << "Инициал: " << initial << std::endl;
+    std::cout << "Символ: " << percentSymbol << std::endl;
     
     return 0;
 }
 ```
 
-### Common Escape Sequences
+### Часто используемые управляющие последовательности
 
-| Escape | Meaning |
+| Последовательность | Значение |
 |--------|---------|
-| `\n` | New line |
-| `\t` | Tab |
-| `\'` | Single quote |
-| `\"` | Double quote |
-| `\\` | Backslash |
+| `\n` | Новая строка |
+| `\t` | Табуляция |
+| `\'` | Одинарная кавычка |
+| `\"` | Двойная кавычка |
+| `\\` | Обратный слеш |
 
 ---
 
-## Strings (`std::string`)
+## Строки (`std::string`)
 
-Text — multiple characters together. **Requires `#include <string>`**.
+Текст — несколько символов вместе. **Требует `#include <string>`**.
 
 ```cpp
 #include <iostream>
-#include <string>    // Don't forget this!
+#include <string>    // Не забудьте это!
 
 int main() {
-    std::string playerName = "Stanislav";
-    std::string gameTitle = "Project Dragonheart";
+    std::string playerName = "Станислав";
+    std::string gameTitle = "Проект Драконье сердце";
     std::string emptyString = "";
     
-    std::cout << "Player: " << playerName << std::endl;
-    std::cout << "Game: " << gameTitle << std::endl;
+    std::cout << "Игрок: " << playerName << std::endl;
+    std::cout << "Игра: " << gameTitle << std::endl;
     
-    // Combine strings (concatenation)
-    std::string message = "Welcome, " + playerName + "!";
+    // Объединение строк (конкатенация)
+    std::string message = "Добро пожаловать, " + playerName + "!";
     std::cout << message << std::endl;
     
-    // Get string length
-    std::cout << "Your name has " << playerName.length() << " letters" << std::endl;
+    // Получение длины строки
+    std::cout << "В вашем имени " << playerName.length() << " букв" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Player: Stanislav
-Game: Project Dragonheart
-Welcome, Stanislav!
-Your name has 9 letters
+Игрок: Станислав
+Игра: Проект Драконье сердце
+Добро пожаловать, Станислав!
+В вашем имени 9 букв
 ```
 
 ---
 
-## Declaring vs. Initializing Variables
+## Объявление vs инициализация переменных
 
 ```cpp
-int health;           // Declaration (no value yet — contains garbage!)
-health = 100;         // Assignment
+int health;           // Объявление (пока нет значения — содержит мусор!)
+health = 100;         // Присваивание
 
-int mana = 50;        // Declaration + initialization (recommended)
+int mana = 50;        // Объявление + инициализация (рекомендуется)
 
-int a = 5, b = 10, c; // Multiple declarations
-c = a + b;            // c becomes 15
+int a = 5, b = 10, c; // Множественное объявление
+c = a + b;            // c становится 15
 ```
 
-> **Always initialize your variables!** Uninitialized variables contain random "garbage" values and cause hard-to-find bugs.
+> **Всегда инициализируйте переменные!** Неинициализированные переменные содержат случайные "мусорные" значения и вызывают трудноуловимые ошибки.
 
 ---
 
-## Variable Naming Rules
+## Правила именования переменных
 
-**Must follow:**
-- Letters, digits, underscores only (no spaces!)
-- Cannot start with a digit
-- Case-sensitive (`health` ≠ `Health`)
-- Cannot use C++ keywords (`int`, `return`, `if`, etc.)
+**Обязательные правила:**
+- Только буквы, цифры и символ подчёркивания (без пробелов!)
+- Не могут начинаться с цифры
+- Чувствительны к регистру (`health` ≠ `Health`)
+- Нельзя использовать ключевые слова C++ (`int`, `return`, `if` и т.д.)
 
-**Best practices (follow these for clean code):**
+**Лучшие практики (следуйте им для чистого кода):**
 
 ```cpp
-// ✅ Good examples
+// ✅ Хорошие примеры
 int playerHealth = 100;
 float moveSpeed = 5.5f;
 bool isJumping = false;
 std::string playerName = "Hero";
 int totalEnemiesKilled = 42;
 
-// ❌ Bad examples
-int a = 100;                    // What is 'a'?
-float speeds = 5.5f;           // Ambiguous
-int PlayerHealth = 100;         // Inconsistent capitalization (use camelCase)
-int player_health = 100;        // snake_case is okay but less common in C++
-int p = 42;                     // Too short, meaningless
+// ❌ Плохие примеры
+int a = 100;                    // Что такое 'a'?
+float speeds = 5.5f;           // Неоднозначно
+int PlayerHealth = 100;         // Непоследовательный регистр (используйте camelCase)
+int player_health = 100;        // snake_case допустим, но реже в C++
+int p = 42;                     // Слишком коротко, бессмысленно
 ```
 
-**C++ convention:** Use **camelCase** for variables — lowercase first letter, capitalize each subsequent word.
+**Соглашение C++:** Используйте **camelCase** для переменных — первая буква строчная, каждое следующее слово с заглавной.
 
 ---
 
-## Constants: Values That Never Change
+## Константы: значения, которые никогда не меняются
 
-Use `const` or `constexpr` for values that should remain fixed.
+Используйте `const` или `constexpr` для значений, которые должны оставаться фиксированными.
 
 ```cpp
 #include <iostream>
@@ -296,143 +296,143 @@ int main() {
     const float GRAVITY = -9.81f;
     const std::string GAME_TITLE = "Dragonheart";
     
-    // MAX_PLAYERS = 8;  // ❌ ERROR! Can't modify a const
+    // MAX_PLAYERS = 8;  // ❌ ОШИБКА! Нельзя изменять const
     
-    std::cout << "Max players: " << MAX_PLAYERS << std::endl;
-    std::cout << "Gravity: " << GRAVITY << std::endl;
+    std::cout << "Макс. игроков: " << MAX_PLAYERS << std::endl;
+    std::cout << "Гравитация: " << GRAVITY << std::endl;
     
     return 0;
 }
 ```
 
-**Why use constants?**
-- Code self-documentation (GRAVITY is clearly meant to be fixed)
-- Prevent accidental changes
-- Easy to update in one place
+**Зачем использовать константы?**
+- Самодокументируемый код (GRAVITY явно предназначена быть фиксированной)
+- Предотвращение случайных изменений
+- Легко обновить в одном месте
 
-> **Game Dev Tip:** Use constants for magic numbers like `MAX_AMMO`, `PLAYER_START_HEALTH`, `FRAME_RATE`.
+> **Совет для разработки игр:** Используйте константы для магических чисел, таких как `MAX_AMMO`, `PLAYER_START_HEALTH`, `FRAME_RATE`.
 
 ---
 
-## Practice: Putting It All Together
+## Практика: Собираем всё вместе
 
-Let's make a simple character stats system:
+Давайте создадим простую систему статистики персонажа:
 
 ```cpp
 #include <iostream>
 #include <string>
 
 int main() {
-    // Character stats
-    std::string characterName = "Kaelen";
+    // Статистика персонажа
+    std::string characterName = "Каэлен";
     int health = 100;
     int mana = 50;
     float movementSpeed = 5.75f;
     int level = 1;
     bool isAlive = true;
     
-    // Constants
+    // Константы
     const int MAX_HEALTH = 100;
     const int MAX_MANA = 100;
     
-    // Display stats
-    std::cout << "=== Character Sheet ===" << std::endl;
-    std::cout << "Name: " << characterName << std::endl;
-    std::cout << "Health: " << health << "/" << MAX_HEALTH << std::endl;
-    std::cout << "Mana: " << mana << "/" << MAX_MANA << std::endl;
-    std::cout << "Speed: " << movementSpeed << std::endl;
-    std::cout << "Level: " << level << std::endl;
-    std::cout << "Alive: " << std::boolalpha << isAlive << std::endl;
+    // Отображение статистики
+    std::cout << "=== Лист персонажа ===" << std::endl;
+    std::cout << "Имя: " << characterName << std::endl;
+    std::cout << "Здоровье: " << health << "/" << MAX_HEALTH << std::endl;
+    std::cout << "Мана: " << mana << "/" << MAX_MANA << std::endl;
+    std::cout << "Скорость: " << movementSpeed << std::endl;
+    std::cout << "Уровень: " << level << std::endl;
+    std::cout << "Жив: " << std::boolalpha << isAlive << std::endl;
     
-    // Modify some values
-    health = 75;  // Took damage
-    mana = 30;    // Cast a spell
-    level = 2;    // Leveled up!
+    // Изменяем некоторые значения
+    health = 75;  // Получил урон
+    mana = 30;    // Применил заклинание
+    level = 2;    // Повысил уровень!
     
-    std::cout << "\n=== After Combat ===" << std::endl;
-    std::cout << "Health: " << health << "/" << MAX_HEALTH << std::endl;
-    std::cout << "Mana: " << mana << "/" << MAX_MANA << std::endl;
-    std::cout << "Level: " << level << std::endl;
+    std::cout << "\n=== После боя ===" << std::endl;
+    std::cout << "Здоровье: " << health << "/" << MAX_HEALTH << std::endl;
+    std::cout << "Мана: " << mana << "/" << MAX_MANA << std::endl;
+    std::cout << "Уровень: " << level << std::endl;
     
     return 0;
 }
 ```
 
-**Try running this code!** Modify the values and see what happens.
+**Попробуйте запустить этот код!** Измените значения и посмотрите, что произойдёт.
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Using uninitialized variables
+### 1. Использование неинициализированных переменных
 ```cpp
-int x;                    // x has garbage value
-std::cout << x;           // Undefined behavior!
+int x;                    // x содержит мусорное значение
+std::cout << x;           // Неопределённое поведение!
 ```
 
-### 2. Wrong type assignment
+### 2. Присваивание значения неверного типа
 ```cpp
-int health = 100.5f;      // 100.5 becomes 100 (truncated)
-float percent = 50;       // 50 becomes 50.0 (safe)
+int health = 100.5f;      // 100.5 становится 100 (усекается)
+float percent = 50;       // 50 становится 50.0 (безопасно)
 ```
 
-### 3. Forgetting `#include <string>`
+### 3. Забыли `#include <string>`
 ```cpp
-std::string name = "Hero"; // ERROR without #include <string>
+std::string name = "Hero"; // ОШИБКА без #include <string>
 ```
 
-### 4. Mixing up `=` and `==`
+### 4. Путаница между `=` и `==`
 ```cpp
-if (health = 0)      // WRONG: assigns 0, then checks if 0 is true
-if (health == 0)     // CORRECT: checks if health equals 0
+if (health = 0)      // НЕПРАВИЛЬНО: присваивает 0, затем проверяет, является ли 0 истиной
+if (health == 0)     // ПРАВИЛЬНО: проверяет, равно ли health нулю
 ```
 
-### 5. Integer division surprise
+### 5. Сюрприз с делением целых чисел
 ```cpp
-float result = 5 / 2;    // result = 2.0 (not 2.5!)
+float result = 5 / 2;    // result = 2.0 (не 2.5!)
 float correct = 5.0f / 2; // correct = 2.5
 ```
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Declaration
+// Объявление
 int score;
 float speed;
 bool isGameOver;
 char grade;
 std::string name;
 
-// Initialization
+// Инициализация
 int score = 0;
 float speed = 5.5f;
 bool isGameOver = false;
 char grade = 'A';
 std::string name = "Player";
 
-// Constants
+// Константы
 const int MAX_LIVES = 3;
 const float PI = 3.14159f;
 
-// Output
-std::cout << "Value: " << variable << std::endl;
+// Вывод
+std::cout << "Значение: " << variable << std::endl;
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-Try these on your own:
+Попробуйте выполнить их самостоятельно:
 
-**Exercise 1:** Create variables for a spaceship: name, hull integrity (0-100), shield power (float), ammo count, and whether engines are online. Print them all.
+**Упражнение 1:** Создайте переменные для космического корабля: имя, целостность корпуса (0-100), мощность щитов (float), количество патронов и статус двигателей (включены/выключены). Выведите их все.
 
-**Exercise 2:** Write a program that calculates the area of a rectangle. Store width and height as integers, area as integer. (Area = width × height)
+**Упражнение 2:** Напишите программу для вычисления площади прямоугольника. Храните ширину и высоту как целые числа, площадь как целое число. (Площадь = ширина × высота)
 
-**Exercise 3:** Create a temperature converter. Store Celsius as a float, calculate and store Fahrenheit. (F = C × 9/5 + 32)
+**Упражнение 3:** Создайте конвертер температуры. Храните температуру в Цельсиях как float, вычислите и сохраните в Фаренгейтах. (F = C × 9/5 + 32)
 
-**Exercise 4:** What's wrong with this code? Fix it:
+**Упражнение 4:** Что не так в этом коде? Исправьте его:
 ```cpp
 #include <iostream>
 int main() {
@@ -447,29 +447,29 @@ int main() {
 
 ---
 
-## Summary
+## Резюме
 
-You now understand:
+Теперь вы понимаете:
 
-✅ What variables are and how to use them  
-✅ The core data types: `int`, `float`, `double`, `bool`, `char`, `std::string`  
-✅ How to declare, initialize, and modify variables  
-✅ Naming conventions and best practices  
-✅ Using `const` for values that shouldn't change  
+✅ Что такое переменные и как их использовать  
+✅ Основные типы данных: `int`, `float`, `double`, `bool`, `char`, `std::string`  
+✅ Как объявлять, инициализировать и изменять переменные  
+✅ Соглашения об именовании и лучшие практики  
+✅ Использование `const` для значений, которые не должны меняться  
 
-## What's Next?
+## Что дальше?
 
-Next lesson: **Basic Input/Output** — we'll learn how to read user input with `std::cin` and build interactive programs!
-
----
-
-## Resources
-
-- [C++ Data Types (cppreference)](https://en.cppreference.com/w/cpp/language/types)
-- [std::string documentation](https://en.cppreference.com/w/cpp/string/basic_string)
+Следующий урок: **Базовый ввод/вывод** — мы научимся читать пользовательский ввод с помощью `std::cin` и создавать интерактивные программы!
 
 ---
 
-**Practice Task:** Create a simple character creator program. Store name (string), class (string), health (int), mana (int), strength (int), and agility (int). Initialize them with starting values and print a beautiful character sheet to the console.
+## Ресурсы
 
-*Next lesson: Making programs interactive with `std::cin`!*
+- [Типы данных C++ (cppreference)](https://en.cppreference.com/w/cpp/language/types)
+- [Документация std::string](https://en.cppreference.com/w/cpp/string/basic_string)
+
+---
+
+**Практическое задание:** Создайте простую программу для создания персонажа. Храните имя (string), класс (string), здоровье (int), ману (int), силу (int) и ловкость (int). Инициализируйте их начальными значениями и выведите красивый лист персонажа в консоль.
+
+*Следующий урок: Делаем программы интерактивными с помощью `std::cin`!*

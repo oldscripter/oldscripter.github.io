@@ -66,43 +66,31 @@ for (const post of allProjects) {
               "
             />
           )}
-          
-          <h2 style="margin-top: 0; margin-bottom: 0.5rem;">
-            <a href={`/projects/${projectSlug}`} 
-               style="color: inherit; text-decoration: none;">
-              {projectName}
-            </a>
-          </h2>
-          
-          {techStack.length > 0 && (
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              {techStack.map(tech => (
-                <span style="
-                  font-size: 0.7rem;
-                  padding: 0.2rem 0.6rem;
-                  background-color: #1a1a1a;
-                  border-radius: 9999px;
-                  color: #c084fc;
-                ">{tech}</span>
-              ))}
-            </div>
-          )}
-          
-          <p style="color: #a1a1aa; margin-bottom: 1rem;">
-            {mainPost?.data.description || "About this project"}
-          </p>
-          
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            {posts.map(post => {
-              const slug = getSlugFromId(post.id);
-              // Пропускаем index.md, так как это главная страница проекта
-              if (slug === 'index') return null;
-              return (
-                <a href={`/projects/${projectSlug}/${slug}`} style="font-size: 0.875rem; color: #6366f1;">
-                  📄 {post.data.title}
-                </a>
-              );
-            })}
+          <div>
+            <h3>
+              <a href={`/projects/${projectSlug}`} 
+                style="color: inherit; text-decoration: none;">
+                {projectName}
+              </a>
+            </h3>
+            
+            {techStack.length > 0 && (
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                {techStack.map(tech => (
+                  <span style="
+                    font-size: 0.7rem;
+                    padding: 0.2rem 0.6rem;
+                    background-color: #1a1a1a;
+                    border-radius: 9999px;
+                    color: #c084fc;
+                  ">{tech}</span>
+                ))}
+              </div>
+            )}
+            
+            <p style="color: #a1a1aa; margin-bottom: 1rem;">
+              {mainPost?.data.description || "About this project"}
+            </p>
           </div>
         </div>
       );

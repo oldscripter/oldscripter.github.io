@@ -1,8 +1,8 @@
 ---
-title: "Nanobot: Your Own AI Agent, No Browser Needed"
-description: "Recently, I started exploring Nanobot. One idea really caught my attention: what if I wrote my own client for it?"
+title: "Nanobot: Свой AI-агент без браузера"
+description: "Недавно я начал изучать Nanobot. Одна идея особенно зацепила: а что, если написать для него свой клиент?"
 pubDate: 2026-06-03
-tags: ["nanobot", "AI-assistant", "C++", "Qt", "Qml"]
+tags: ["nanobot", "AI-ассистент", "C++", "Qt", "Qml"]
 lang: "ru"
 author: "Stanislav Talanov"
 image:
@@ -10,42 +10,40 @@ image:
   alt: ""
 ---
 
-# 🎯 Nanobot: Your Own AI Agent, No Browser Needed
+Недавно я начал изучать **Nanobot** — лёгкого open-source AI-агента от команды HKUDS. Одна идея особенно зацепила: а что, если написать для него свой клиент? Не браузерный WebUI, а нативное приложение на Qt/QML. Почему? Браузеры хороши для всего, но для общения с AI хочется чего-то более личного: удобного, быстрого и без лишних вкладок.
 
-Recently, I started exploring **Nanobot** — a lightweight open-source AI agent from the HKUDS team. One idea really caught my attention: what if I wrote my own client for it? Not a browser-based WebUI, but a native Qt/QML application. Why? Because browsers are great for everything, but for chatting with an AI, I want something more personal: convenient, fast, and without extra tabs.
+## 🤖 Что такое Nanobot?
 
-## 🤖 What is Nanobot?
+Nanobot — это агент, который работает с LLM как локально, так и через API. Он поддерживает инструменты, память, многозадачность и — что для меня важнее всего — WebSocket-шлюз. Написан на Python, легко настраивается и не требует мощного сервера.
 
-Nanobot is an agent that works with LLMs either locally or via API. It supports tools, memory, multitasking, and — most importantly for me — a WebSocket gateway. It's written in Python, easy to configure, and doesn't require a powerful server.
+## 🔌 WebSocket: точка входа для кастомных приложений
 
-## 🔌 WebSocket: The Entry Point for Custom Apps
+Nanobot поставляется со встроенным WebSocket-сервером. Это значит, что с ним может общаться не только веб-интерфейс, но и любое приложение, поддерживающее WebSocket.
 
-Nanobot comes with a built-in WebSocket server. This means that not only the web interface can communicate with it, but any application that supports WebSocket.
+Вот я и подумал: давайте сделаем клиент на Qt.
 
-So I thought: let's build a client with Qt.
+## ⚙️ Технические детали
 
-## ⚙️ Technical Details
+WebSocket в Qt 5.15 — это не совсем гладкое плавание. Стандартный `QWebSocket` падал при рукопожатии, поэтому пришлось реализовывать RFC 6455 вручную: HTTP-рукопожатие, маскировка кадров, ping/pong. Но оно того стоило.
 
-WebSocket in Qt 5.15 isn't exactly smooth sailing. The standard `QWebSocket` failed during the handshake, so I had to implement RFC 6455 manually: HTTP handshake, frame masking, ping/pong. But it was worth it.
+Основной workflow:
+1. Подключение к `ws://127.0.0.1:8765`
+2. Получение `chat_id`
+3. Отправка сообщения
+4. Агент отвечает потоком событий `delta`, которые клиент собирает в целое сообщение.
 
-The main workflow is:
-1. Connect to `ws://127.0.0.1:8765`
-2. Receive a `chat_id`
-3. Send a message
-4. The agent responds with a stream of `delta` events, which the client assembles into a complete message.
+QML-интерфейс получился простым, но симпатичным: тёмная тема, пузырьки сообщений, индикатор статуса.
 
-The QML interface turned out simple yet nice: dark theme, message bubbles, status indicator.
+## 🚀 Что получилось
 
-## 🚀 What I Got
+В итоге я получил:
+- Нативное приложение для общения с AI
+- Полный контроль над интерфейсом
+- Удобную отладку
+- Удовольствие от процесса
 
-I ended up with:
-- A native application for chatting with AI
-- Full control over the interface
-- Easy debugging
-- Enjoyment of the process
+Код на GitHub, есть README.
 
-The code is on GitHub, with a README included.
+## 💡 Заключение
 
-## 💡 Conclusion
-
-You don't always have to use what comes out of the box. Nanobot is a great example of a system that can be extended and integrated however you like. Building your own client for an AI agent isn't hard — but it's a lot of fun.
+Не всегда нужно использовать то, что идёт в коробке. Nanobot — отличный пример системы, которую можно расширять и интегрировать как угодно. Сделать своего клиента для AI-агента — несложно, но очень увлекательно.

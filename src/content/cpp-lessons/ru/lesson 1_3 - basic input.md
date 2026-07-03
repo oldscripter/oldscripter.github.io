@@ -1,6 +1,6 @@
 ---
-title: "Basic Input/Output in C++"
-description: "Make your programs interactive — read user input and format beautiful output"
+title: "Базовый ввод/вывод в C++"
+description: "Сделайте ваши программы интерактивными — читайте пользовательский ввод и форматируйте красивый вывод"
 pubDate: 2026-06-01
 tags: ["C++", "beginner", "io", "cin", "cout"]
 lang: "ru"
@@ -9,97 +9,97 @@ subcategory: "beginner"
 author: "Stanislav Talanov"
 ---
 
-# Lesson 3: Basic Input/Output
+# Урок 3: Базовый ввод/вывод
 
-Welcome back! So far, our programs have been one-way conversations — we print, you read. Today, we'll make them **interactive** by reading user input and formatting output like a pro.
+Добро пожаловать обратно! До сих пор наши программы были односторонними — мы выводим, вы читаете. Сегодня мы сделаем их **интерактивными**, научившись читать пользовательский ввод и форматировать вывод как профессионалы.
 
-## What You'll Learn
+## Что вы изучите
 
-- Output with `std::cout` (refresher + advanced formatting)
-- Input with `std::cin`
-- Handling strings with spaces (`std::getline`)
-- Input validation basics
-- Formatting output (width, precision, alignment)
+- Вывод с `std::cout` (повторение + продвинутое форматирование)
+- Ввод с `std::cin`
+- Работа со строками, содержащими пробелы (`std::getline`)
+- Основы валидации ввода
+- Форматирование вывода (ширина, точность, выравнивание)
 
 ---
 
-## The I/O Streams Concept
+## Концепция потоков ввода/вывода
 
-C++ treats input and output as **streams** of data:
+C++ обрабатывает ввод и вывод как **потоки** данных:
 
 ```
-Keyboard → std::cin  → Program
-Program  → std::cout → Console
-Program  → std::cerr → Console (errors)
+Клавиатура → std::cin  → Программа
+Программа  → std::cout → Консоль
+Программа  → std::cerr → Консоль (ошибки)
 ```
 
-Think of them as pipes — data flows in one direction.
+Представьте их как трубы — данные текут в одном направлении.
 
-| Stream | Purpose | Direction |
+| Поток | Назначение | Направление |
 |--------|---------|-----------|
-| `std::cin` | Read user input | Into program |
-| `std::cout` | Normal output | Out of program |
-| `std::cerr` | Error messages | Out of program |
-| `std::clog` | Logging messages | Out of program |
+| `std::cin` | Чтение пользовательского ввода | В программу |
+| `std::cout` | Обычный вывод | Из программы |
+| `std::cerr` | Сообщения об ошибках | Из программы |
+| `std::clog` | Логирование | Из программы |
 
-> You've already seen `std::cout`. Now let's master `std::cin`.
+> Вы уже видели `std::cout`. Теперь давайте освоим `std::cin`.
 
 ---
 
-## Basic Output with `std::cout`
+## Базовый вывод с `std::cout`
 
-Refresher with new tricks:
+Повторение с новыми трюками:
 
 ```cpp
 #include <iostream>
 
 int main() {
-    // Basic output
-    std::cout << "Hello!" << std::endl;
+    // Базовый вывод
+    std::cout << "Привет!" << std::endl;
     
-    // Multiple items
-    std::cout << "Player " << "has " << 100 << " health" << std::endl;
+    // Несколько элементов
+    std::cout << "Игрок " << "имеет " << 100 << " здоровья" << std::endl;
     
-    // No new line
-    std::cout << "Loading";
+    // Без перевода строки
+    std::cout << "Загрузка";
     std::cout << ".";
     std::cout << ".";
-    std::cout << " Done!" << std::endl;
+    std::cout << " Готово!" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Hello!
-Player has 100 health
-Loading... Done!
+Привет!
+Игрок имеет 100 здоровья
+Загрузка... Готово!
 ```
 
 ### `endl` vs `\n`
 
-Both create new lines, but they're different:
+Оба создают новые строки, но они разные:
 
 | | `std::endl` | `\n` |
 |--|-------------|-----|
-| Flushes buffer | ✅ Yes | ❌ No |
-| Speed | Slower | Faster |
-| When to use | Progress bars, logs | Most cases |
+| Сбрасывает буфер | ✅ Да | ❌ Нет |
+| Скорость | Медленнее | Быстрее |
+| Когда использовать | Прогресс-бары, логи | В большинстве случаев |
 
 ```cpp
-std::cout << "Hello\n";     // Faster — use this normally
-std::cout << "Error!\n";    // Also fine
-std::cout << "Loading..." << std::endl;  // Force immediate output
+std::cout << "Привет\n";     // Быстрее — используйте обычно
+std::cout << "Ошибка!\n";    // Тоже нормально
+std::cout << "Загрузка..." << std::endl;  // Принудительный немедленный вывод
 ```
 
-> **Game Dev Tip:** Use `\n` in tight loops (thousands of prints). Use `std::endl` when you need output immediately (error messages, loading screens).
+> **Совет для разработки игр:** Используйте `\n` в плотных циклах (тысячи выводов). Используйте `std::endl`, когда вывод нужен немедленно (сообщения об ошибках, экраны загрузки).
 
 ---
 
-## Basic Input with `std::cin`
+## Базовый ввод с `std::cin`
 
-`std::cin` reads what the user types and stores it in variables.
+`std::cin` читает то, что вводит пользователь, и сохраняет это в переменные.
 
 ```cpp
 #include <iostream>
@@ -108,51 +108,51 @@ int main() {
     int age;
     std::string name;
     
-    std::cout << "Enter your name: ";
+    std::cout << "Введите ваше имя: ";
     std::cin >> name;
     
-    std::cout << "Enter your age: ";
+    std::cout << "Введите ваш возраст: ";
     std::cin >> age;
     
-    std::cout << "Hello " << name << ", you are " << age << " years old!" << std::endl;
+    std::cout << "Привет " << name << ", тебе " << age << " лет!" << std::endl;
     
     return 0;
 }
 ```
 
-**Example run:**
+**Пример выполнения:**
 ```
-Enter your name: Stanislav
-Enter your age: 28
-Hello Stanislav, you are 28 years old!
+Введите ваше имя: Станислав
+Введите ваш возраст: 28
+Привет Станислав, тебе 28 лет!
 ```
 
-### How `std::cin >>` Works
+### Как работает `std::cin >>`
 
-1. Program pauses and waits for input
-2. User types and presses Enter
-3. `>>` extracts the next **word** (stops at space/tab/newline)
-4. Value is stored in the variable
+1. Программа приостанавливается и ждёт ввода
+2. Пользователь вводит и нажимает Enter
+3. `>>` извлекает следующее **слово** (останавливается на пробеле/табуляции/переводе строки)
+4. Значение сохраняется в переменную
 
 ```cpp
 int x, y;
-std::cin >> x >> y;  // User can type "10 20" or press Enter between
+std::cin >> x >> y;  // Пользователь может ввести "10 20" или нажать Enter между ними
 ```
 
 ---
 
-## The String Problem: `std::cin` Stops at Spaces
+## Проблема со строками: `std::cin` останавливается на пробелах
 
-`std::cin >>` only reads until the first space. This fails for full names:
+`std::cin >>` читает только до первого пробела. Это не работает для полных имён:
 
 ```cpp
 std::string fullName;
-std::cout << "Enter your full name: ";
-std::cin >> fullName;  // User types "John Doe"
-std::cout << fullName; // Only prints "John"!
+std::cout << "Введите ваше полное имя: ";
+std::cin >> fullName;  // Пользователь вводит "Иван Иванов"
+std::cout << fullName; // Выводит только "Иван"!
 ```
 
-**Solution:** Use `std::getline()` to read entire lines.
+**Решение:** Используйте `std::getline()` для чтения целых строк.
 
 ```cpp
 #include <iostream>
@@ -161,66 +161,66 @@ std::cout << fullName; // Only prints "John"!
 int main() {
     std::string fullName;
     
-    std::cout << "Enter your full name: ";
-    std::getline(std::cin, fullName);  // Reads until Enter
+    std::cout << "Введите ваше полное имя: ";
+    std::getline(std::cin, fullName);  // Читает до Enter
     
-    std::cout << "Hello, " << fullName << "!" << std::endl;
+    std::cout << "Привет, " << fullName << "!" << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Enter your full name: John Doe
-Hello, John Doe!
+Введите ваше полное имя: Иван Иванов
+Привет, Иван Иванов!
 ```
 
-### The `std::cin` + `std::getline` Gotcha
+### Подводный камень: `std::cin` + `std::getline`
 
-After using `std::cin >>`, the newline character stays in the buffer. Then `std::getline` immediately reads that newline and skips your input!
+После использования `std::cin >>` символ новой строки остаётся в буфере. Затем `std::getline` немедленно читает этот перевод строки и пропускает ваш ввод!
 
 ```cpp
-// ❌ This doesn't work as expected
+// ❌ Это работает не так, как ожидается
 int age;
 std::string name;
 
-std::cout << "Enter age: ";
-std::cin >> age;                    // User presses Enter after typing
-std::cout << "Enter name: ";
-std::getline(std::cin, name);       // Reads the leftover newline! Skips input.
+std::cout << "Введите возраст: ";
+std::cin >> age;                    // Пользователь нажимает Enter после ввода
+std::cout << "Введите имя: ";
+std::getline(std::cin, name);       // Читает оставшийся перевод строки! Пропускает ввод.
 ```
 
-**Fix:** Call `std::cin.ignore()` to discard the newline.
+**Исправление:** Вызовите `std::cin.ignore()`, чтобы отбросить перевод строки.
 
 ```cpp
-// ✅ Correct way
+// ✅ Правильный способ
 int age;
 std::string name;
 
-std::cout << "Enter age: ";
+std::cout << "Введите возраст: ";
 std::cin >> age;
-std::cin.ignore();                   // Discard the newline
-std::cout << "Enter name: ";
-std::getline(std::cin, name);        // Now works correctly
+std::cin.ignore();                   // Отбрасываем перевод строки
+std::cout << "Введите имя: ";
+std::getline(std::cin, name);        // Теперь работает правильно
 
-std::cout << name << " is " << age << " years old" << std::endl;
+std::cout << name << " " << age << " лет" << std::endl;
 ```
 
-Or use `std::getline` for everything and convert:
+Или используйте `std::getline` для всего и конвертируйте:
 
 ```cpp
 std::string ageInput;
-std::cout << "Enter age: ";
+std::cout << "Введите возраст: ";
 std::getline(std::cin, ageInput);
-int age = std::stoi(ageInput);  // Convert string to int
+int age = std::stoi(ageInput);  // Преобразуем строку в число
 ```
 
 ---
 
-## Multiple Inputs: One Line vs Multiple Lines
+## Множественный ввод: одна строка vs несколько строк
 
-Users can input multiple values in one line OR across multiple lines — both work!
+Пользователи могут вводить несколько значений в одной строке ИЛИ в нескольких строках — оба варианта работают!
 
 ```cpp
 #include <iostream>
@@ -228,34 +228,34 @@ Users can input multiple values in one line OR across multiple lines — both wo
 int main() {
     int health, mana, stamina;
     
-    std::cout << "Enter health, mana, stamina: ";
+    std::cout << "Введите здоровье, ману, выносливость: ";
     std::cin >> health >> mana >> stamina;
     
-    std::cout << "Health: " << health << std::endl;
-    std::cout << "Mana: " << mana << std::endl;
-    std::cout << "Stamina: " << stamina << std::endl;
+    std::cout << "Здоровье: " << health << std::endl;
+    std::cout << "Мана: " << mana << std::endl;
+    std::cout << "Выносливость: " << stamina << std::endl;
     
     return 0;
 }
 ```
 
-**User can type:**
+**Пользователь может ввести:**
 ```
 100 50 75
 ```
-**OR:**
+**ИЛИ:**
 ```
 100
 50
 75
 ```
-Both work identically!
+Оба варианта работают одинаково!
 
 ---
 
-## Error Output: `std::cerr`
+## Вывод ошибок: `std::cerr`
 
-Use `std::cerr` for error messages. It's separate from normal output and often appears immediately (no buffering).
+Используйте `std::cerr` для сообщений об ошибках. Он отделён от обычного вывода и часто появляется немедленно (без буферизации).
 
 ```cpp
 #include <iostream>
@@ -263,54 +263,54 @@ Use `std::cerr` for error messages. It's separate from normal output and often a
 int main() {
     int age;
     
-    std::cout << "Enter your age: ";
+    std::cout << "Введите ваш возраст: ";
     std::cin >> age;
     
     if (age < 0) {
-        std::cerr << "Error: Age cannot be negative!" << std::endl;
-        return 1;  // Non-zero return indicates error
+        std::cerr << "Ошибка: Возраст не может быть отрицательным!" << std::endl;
+        return 1;  // Ненулевой возврат означает ошибку
     }
     
-    std::cout << "Age accepted: " << age << std::endl;
+    std::cout << "Возраст принят: " << age << std::endl;
     return 0;
 }
 ```
 
-**Why `std::cerr`?**
-- Redirectable independently (`program.exe 2> errors.txt`)
-- Unbuffered (appears immediately, even if the program crashes)
-- Standard practice for professional code
+**Зачем `std::cerr`?**
+- Можно перенаправить независимо (`program.exe 2> errors.txt`)
+- Без буферизации (появляется немедленно, даже если программа упадёт)
+- Стандартная практика для профессионального кода
 
 ---
 
-## Formatting Output
+## Форматирование вывода
 
-### Setting Width
+### Установка ширины
 
 ```cpp
 #include <iostream>
-#include <iomanip>  // Required for manipulators
+#include <iomanip>  // Требуется для манипуляторов
 
 int main() {
-    std::cout << "=== Character Stats ===" << std::endl;
+    std::cout << "=== Статистика персонажа ===" << std::endl;
     
-    std::cout << std::setw(15) << "Health" << ": " << 100 << std::endl;
-    std::cout << std::setw(15) << "Mana" << ": " << 50 << std::endl;
-    std::cout << std::setw(15) << "Armor Rating" << ": " << 25 << std::endl;
+    std::cout << std::setw(15) << "Здоровье" << ": " << 100 << std::endl;
+    std::cout << std::setw(15) << "Мана" << ": " << 50 << std::endl;
+    std::cout << std::setw(15) << "Класс брони" << ": " << 25 << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-=== Character Stats ===
-         Health: 100
-           Mana: 50
-   Armor Rating: 25
+=== Статистика персонажа ===
+       Здоровье: 100
+           Мана: 50
+   Класс брони: 25
 ```
 
-### Setting Precision for Floats
+### Установка точности для чисел с плавающей точкой
 
 ```cpp
 #include <iostream>
@@ -319,51 +319,51 @@ int main() {
 int main() {
     float pi = 3.14159265359f;
     
-    std::cout << "Default: " << pi << std::endl;
-    std::cout << "2 decimals: " << std::fixed << std::setprecision(2) << pi << std::endl;
-    std::cout << "5 decimals: " << std::fixed << std::setprecision(5) << pi << std::endl;
+    std::cout << "По умолчанию: " << pi << std::endl;
+    std::cout << "2 знака: " << std::fixed << std::setprecision(2) << pi << std::endl;
+    std::cout << "5 знаков: " << std::fixed << std::setprecision(5) << pi << std::endl;
     
-    // Scientific notation
-    std::cout << "Scientific: " << std::scientific << pi << std::endl;
+    // Научная нотация
+    std::cout << "Научная: " << std::scientific << pi << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Default: 3.14159
-2 decimals: 3.14
-5 decimals: 3.14159
-Scientific: 3.14159e+00
+По умолчанию: 3.14159
+2 знака: 3.14
+5 знаков: 3.14159
+Научная: 3.14159e+00
 ```
 
-### Alignment (Left/Right)
+### Выравнивание (Влево/Вправо)
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 
 int main() {
-    std::cout << std::left << std::setw(15) << "Name"
-              << std::right << std::setw(10) << "Health" << std::endl;
-    std::cout << std::left << std::setw(15) << "Warrior"
+    std::cout << std::left << std::setw(15) << "Имя"
+              << std::right << std::setw(10) << "Здоровье" << std::endl;
+    std::cout << std::left << std::setw(15) << "Воин"
               << std::right << std::setw(10) << 100 << std::endl;
-    std::cout << std::left << std::setw(15) << "Mage"
+    std::cout << std::left << std::setw(15) << "Маг"
               << std::right << std::setw(10) << 80 << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Name                    Health
-Warrior                    100
-Mage                        80
+Имя                    Здоровье
+Воин                       100
+Маг                         80
 ```
 
-### Boolean Formatting
+### Форматирование логических значений
 
 ```cpp
 #include <iostream>
@@ -372,25 +372,25 @@ int main() {
     bool isAlive = true;
     bool hasKey = false;
     
-    std::cout << "Default: " << isAlive << " " << hasKey << std::endl;
+    std::cout << "По умолчанию: " << isAlive << " " << hasKey << std::endl;
     std::cout << std::boolalpha;
-    std::cout << "With boolalpha: " << isAlive << " " << hasKey << std::endl;
+    std::cout << "С boolalpha: " << isAlive << " " << hasKey << std::endl;
     
     return 0;
 }
 ```
 
-**Output:**
+**Вывод:**
 ```
-Default: 1 0
-With boolalpha: true false
+По умолчанию: 1 0
+С boolalpha: true false
 ```
 
 ---
 
-## Complete Example: Character Creator
+## Полный пример: Создание персонажа
 
-Let's combine everything we've learned:
+Давайте объединим всё, что мы изучили:
 
 ```cpp
 #include <iostream>
@@ -402,218 +402,218 @@ int main() {
     int health, strength, agility;
     float critChance;
     
-    // Welcome
+    // Приветствие
     std::cout << "========================================" << std::endl;
-    std::cout << "       CHARACTER CREATOR v1.0" << std::endl;
+    std::cout << "       СОЗДАНИЕ ПЕРСОНАЖА v1.0" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    // Input with proper handling
-    std::cout << "\nEnter character name: ";
+    // Ввод с правильной обработкой
+    std::cout << "\nВведите имя персонажа: ";
     std::getline(std::cin, name);
     
-    std::cout << "Enter class (Warrior/Mage/Rogue): ";
+    std::cout << "Введите класс (Воин/Маг/Разбойник): ";
     std::getline(std::cin, className);
     
-    std::cout << "Enter health (1-100): ";
+    std::cout << "Введите здоровье (1-100): ";
     std::cin >> health;
     
-    std::cout << "Enter strength (1-20): ";
+    std::cout << "Введите силу (1-20): ";
     std::cin >> strength;
     
-    std::cout << "Enter agility (1-20): ";
+    std::cout << "Введите ловкость (1-20): ";
     std::cin >> agility;
     
-    std::cout << "Enter critical hit chance (0.0-50.0): ";
+    std::cout << "Введите шанс критического удара (0.0-50.0): ";
     std::cin >> critChance;
     
-    // Clear input buffer for any future getline
+    // Очищаем буфер ввода для будущих вызовов getline
     std::cin.ignore();
     
-    // Validation check
+    // Проверка валидности
     if (health < 1 || health > 100) {
-        std::cerr << "Error: Health must be between 1 and 100!" << std::endl;
+        std::cerr << "Ошибка: Здоровье должно быть между 1 и 100!" << std::endl;
         return 1;
     }
     
-    // Output character sheet with formatting
+    // Вывод листа персонажа с форматированием
     std::cout << "\n========================================" << std::endl;
-    std::cout << "         CHARACTER SHEET" << std::endl;
+    std::cout << "         ЛИСТ ПЕРСОНАЖА" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    std::cout << std::left << std::setw(15) << "Name" << ": " << name << std::endl;
-    std::cout << std::left << std::setw(15) << "Class" << ": " << className << std::endl;
-    std::cout << std::left << std::setw(15) << "Health" << ": " << health << std::endl;
-    std::cout << std::left << std::setw(15) << "Strength" << ": " << strength << std::endl;
-    std::cout << std::left << std::setw(15) << "Agility" << ": " << agility << std::endl;
+    std::cout << std::left << std::setw(15) << "Имя" << ": " << name << std::endl;
+    std::cout << std::left << std::setw(15) << "Класс" << ": " << className << std::endl;
+    std::cout << std::left << std::setw(15) << "Здоровье" << ": " << health << std::endl;
+    std::cout << std::left << std::setw(15) << "Сила" << ": " << strength << std::endl;
+    std::cout << std::left << std::setw(15) << "Ловкость" << ": " << agility << std::endl;
     
-    std::cout << std::left << std::setw(15) << "Crit Chance" << ": ";
+    std::cout << std::left << std::setw(15) << "Крит. шанс" << ": ";
     std::cout << std::fixed << std::setprecision(1) << critChance << "%" << std::endl;
     
-    // Stat calculation
+    // Расчёт производных характеристик
     int damage = strength * 2;
     int dodgeChance = agility * 2;
     
-    std::cout << "\n=== Derived Stats ===" << std::endl;
-    std::cout << "Base Damage: " << damage << std::endl;
-    std::cout << "Dodge Chance: " << dodgeChance << "%" << std::endl;
+    std::cout << "\n=== Производные характеристики ===" << std::endl;
+    std::cout << "Базовый урон: " << damage << std::endl;
+    std::cout << "Шанс уклонения: " << dodgeChance << "%" << std::endl;
     
-    std::cout << "\nWelcome to the adventure, " << name << "!" << std::endl;
+    std::cout << "\nДобро пожаловать в приключение, " << name << "!" << std::endl;
     
     return 0;
 }
 ```
 
-**Example run:**
+**Пример выполнения:**
 ```
 ========================================
-       CHARACTER CREATOR v1.0
+       СОЗДАНИЕ ПЕРСОНАЖА v1.0
 ========================================
 
-Enter character name: Kaelen
-Enter class (Warrior/Mage/Rogue): Warrior
-Enter health (1-100): 95
-Enter strength (1-20): 18
-Enter agility (1-20): 12
-Enter critical hit chance (0.0-50.0): 15.5
+Введите имя персонажа: Каэлен
+Введите класс (Воин/Маг/Разбойник): Воин
+Введите здоровье (1-100): 95
+Введите силу (1-20): 18
+Введите ловкость (1-20): 12
+Введите шанс критического удара (0.0-50.0): 15.5
 
 ========================================
-         CHARACTER SHEET
+         ЛИСТ ПЕРСОНАЖА
 ========================================
-Name           : Kaelen
-Class          : Warrior
-Health         : 95
-Strength       : 18
-Agility        : 12
-Crit Chance    : 15.5%
+Имя            : Каэлен
+Класс          : Воин
+Здоровье       : 95
+Сила           : 18
+Ловкость       : 12
+Крит. шанс     : 15.5%
 
-=== Derived Stats ===
-Base Damage: 36
-Dodge Chance: 24%
+=== Производные характеристики ===
+Базовый урон: 36
+Шанс уклонения: 24%
 
-Welcome to the adventure, Kaelen!
+Добро пожаловать в приключение, Каэлен!
 ```
 
 ---
 
-## Common Mistakes
+## Частые ошибки
 
-### 1. Forgetting `#include <iomanip>`
+### 1. Забыли `#include <iomanip>`
 ```cpp
-std::cout << std::setw(10);  // ERROR without #include <iomanip>
+std::cout << std::setw(10);  // ОШИБКА без #include <iomanip>
 ```
 
-### 2. Mixing `cin` and `getline` without `ignore()`
+### 2. Смешивание `cin` и `getline` без `ignore()`
 ```cpp
 std::cin >> age;
-std::getline(std::cin, name);  // Reads leftover newline — silent bug!
+std::getline(std::cin, name);  // Читает оставшийся перевод строки — тихая ошибка!
 ```
 
-### 3. Not checking for invalid input
+### 3. Отсутствие проверки на некорректный ввод
 ```cpp
 int age;
-std::cin >> age;  // User types "abc" — age becomes 0 and cin enters error state
+std::cin >> age;  // Пользователь вводит "abc" — age становится 0, cin переходит в состояние ошибки
 ```
 
-### 4. Using `endl` too often in loops
+### 4. Слишком частое использование `endl` в циклах
 ```cpp
 for (int i = 0; i < 10000; i++) {
-    std::cout << i << std::endl;  // SLOW — flushes every iteration
+    std::cout << i << std::endl;  // МЕДЛЕННО — сбрасывает буфер на каждой итерации
 }
-// Better:
+// Лучше:
 for (int i = 0; i < 10000; i++) {
-    std::cout << i << '\n';  // Fast
+    std::cout << i << '\n';  // Быстро
 }
 ```
 
 ---
 
-## Quick Reference Card
+## Шпаргалка
 
 ```cpp
-// Output
-std::cout << "Text" << std::endl;   // With newline + flush
-std::cout << "Text\n";              // Just newline (faster)
-std::cout << "Text";                // No newline
+// Вывод
+std::cout << "Текст" << std::endl;   // С переводом строки + сброс
+std::cout << "Текст\n";              // Только перевод строки (быстрее)
+std::cout << "Текст";                // Без перевода строки
 
-// Error output
-std::cerr << "Error message" << std::endl;
+// Вывод ошибок
+std::cerr << "Сообщение об ошибке" << std::endl;
 
-// Basic input
+// Базовый ввод
 int x;
-std::cin >> x;                      // Reads one value
+std::cin >> x;                      // Читает одно значение
 
-// Multiple inputs
-std::cin >> a >> b >> c;            // Space or Enter separated
+// Множественный ввод
+std::cin >> a >> b >> c;            // Разделители — пробел или Enter
 
-// String with spaces
+// Строка с пробелами
 std::string line;
-std::getline(std::cin, line);       // Reads entire line
+std::getline(std::cin, line);       // Читает всю строку до Enter
 
-// Clear buffer
-std::cin.ignore();                  // Discard one character
-std::cin.ignore(1000, '\n');        // Discard up to 1000 chars or until newline
+// Очистка буфера
+std::cin.ignore();                  // Отбрасывает один символ
+std::cin.ignore(1000, '\n');        // Отбрасывает до 1000 символов или до перевода строки
 
-// Formatting (requires <iomanip>)
-std::cout << std::setw(10);         // Set field width
-std::cout << std::left;             // Left align
-std::cout << std::right;            // Right align
-std::cout << std::fixed;            // Fixed decimal notation
-std::cout << std::setprecision(2);  // 2 decimal places
-std::cout << std::boolalpha;        // Print true/false instead of 1/0
+// Форматирование (требует <iomanip>)
+std::cout << std::setw(10);         // Установка ширины поля
+std::cout << std::left;             // Выравнивание влево
+std::cout << std::right;            // Выравнивание вправо
+std::cout << std::fixed;            // Фиксированная десятичная нотация
+std::cout << std::setprecision(2);  // 2 знака после запятой
+std::cout << std::boolalpha;        // Вывод true/false вместо 1/0
 ```
 
 ---
 
-## Practice Exercises
+## Практические упражнения
 
-**Exercise 1 (Easy):** Ask the user for their favorite game and how many hours they've played. Print a summary.
+**Упражнение 1 (Лёгкое):** Спросите пользователя о его любимой игре и сколько часов он в неё играл. Выведите сводку.
 
-**Exercise 2 (Medium):** Create a simple login system. Ask for username and password (just strings). If username is "admin" and password is "1234", print "Access granted!" otherwise print "Access denied!"
+**Упражнение 2 (Среднее):** Создайте простую систему входа. Спросите имя пользователя и пароль (просто строки). Если имя пользователя "admin" и пароль "1234", выведите "Доступ разрешён!", иначе "Доступ запрещён!"
 
-**Exercise 3 (Medium):** Build a tip calculator. Ask for bill amount (float) and tip percentage (int). Calculate and display the tip amount and total with 2 decimal places.
+**Упражнение 3 (Среднее):** Создайте калькулятор чаевых. Спросите сумму счёта (float) и процент чаевых (int). Рассчитайте и выведите сумму чаевых и итоговую сумму с 2 знаками после запятой.
 
-**Exercise 4 (Hard):** Create an interactive "Guess My Number" game. Generate a random number between 1-100 (use `rand()` for now). Let the user guess repeatedly until they get it right, telling them "too high" or "too low" each time.
+**Упражнение 4 (Сложное):** Создайте интерактивную игру "Угадай число". Сгенерируйте случайное число от 1 до 100 (используйте `rand()` пока). Позвольте пользователю угадывать, пока он не угадает, подсказывая "слишком много" или "слишком мало" каждый раз.
 
-**Exercise 5 (Challenge):** Fix this buggy code:
+**Упражнение 5 (Вызов):** Исправьте этот код с ошибками:
 ```cpp
 #include <iostream>
 #include <string>
 int main() {
     int year;
     std::string game;
-    std::cout << "Enter release year: ";
+    std::cout << "Введите год выпуска: ";
     std::cin >> year;
-    std::cout << "Enter game name: ";
+    std::cout << "Введите название игры: ";
     std::getline(std::cin, game);
-    std::cout << game << " was released in " << year;
+    std::cout << game << " была выпущена в " << year;
     return 0;
 }
 ```
 
 ---
 
-## Summary
+## Резюме
 
-You now know:
+Теперь вы знаете:
 
-✅ How to read user input with `std::cin`  
-✅ The difference between `std::cin >>` and `std::getline()`  
-✅ How to fix the `cin`/`getline` buffer issue with `ignore()`  
-✅ Professional output formatting (width, precision, alignment)  
-✅ When to use `std::endl` vs `\n`  
-✅ Error output with `std::cerr`  
+✅ Как читать пользовательский ввод с помощью `std::cin`  
+✅ Разницу между `std::cin >>` и `std::getline()`  
+✅ Как исправить проблему с буфером `cin`/`getline` с помощью `ignore()`  
+✅ Профессиональное форматирование вывода (ширина, точность, выравнивание)  
+✅ Когда использовать `std::endl` vs `\n`  
+✅ Вывод ошибок с `std::cerr`  
 
-## What's Next?
+## Что дальше?
 
-Next lesson: **Operators and Expressions** — we'll learn arithmetic, comparison, and logical operators to build game logic (damage calculation, stat checks, conditions)!
-
----
-
-## Resources
-
-- [C++ I/O Manipulators (cppreference)](https://en.cppreference.com/w/cpp/io/manip)
-- [std::cin, std::cout documentation](https://en.cppreference.com/w/cpp/io/cin)
+Следующий урок: **Операторы и выражения** — мы изучим арифметические, операторы сравнения и логические операторы для построения игровой логики (расчёт урона, проверки характеристик, условия)!
 
 ---
 
-**Practice Task:** Build a "Dice Roller" program. Ask the user how many dice to roll and how many sides each die has (e.g., 2 dice, 6 sides each). Calculate and display the total. Bonus: Show each individual roll result.
+## Ресурсы
+
+- [Манипуляторы ввода/вывода C++ (cppreference)](https://en.cppreference.com/w/cpp/io/manip)
+- [Документация std::cin, std::cout](https://en.cppreference.com/w/cpp/io/cin)
+
+---
+
+**Практическое задание:** Создайте программу "Бросальщик кубиков". Спросите пользователя, сколько кубиков бросить и сколько граней у каждого кубика (например, 2 кубика по 6 граней). Рассчитайте и выведите сумму. Бонус: Покажите результат каждого отдельного броска.
